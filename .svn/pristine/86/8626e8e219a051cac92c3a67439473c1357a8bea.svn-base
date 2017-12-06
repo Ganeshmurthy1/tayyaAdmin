@@ -1,0 +1,396 @@
+##################ENABLE FOR LINAS############################################
+# global.Appname = Lintas Admin
+# global.ImagePath = images/logo.png
+# global.KPPPno = KKKP Number
+# global.Appcss = css/admin-lintas.css 
+# global.Wholesaler = Wholesaler
+# global.indexlogo = images/lintus-logo-admin.png  
+# global.indexCss = css/styles.css  
+#global.FlightNewOrder = Flight New Order(s)
+# global.HotelNewOrder = Hotel New Order(s)
+# global.FlightConfirmedOrdercount = Flight Confirmed Order(s)
+# global.HotelConfirmedOrdercount = Hotel Confirmed Order(s)
+# global.welcome = Welcome
+# global.Prepaid = Prepaid
+# global.Postpaid = Postpaid
+# global.Designation = Designation
+# global.Registration = Employee Registration
+# global.Employees = Employees
+# global.Incentive = Incentive
+#global.companyName = Lintas
+#global.phone = 808-789945890723
+#global.companyMail =lintas@gmail.com
+#global.website =https://www.lintas.com
+#global.tabIcon=favicon.ico
+#	
+ 
+#
+#
+#####################ENABLE FOR TAYYARAH############################################
+####################for tayyarah live###########################
+global.ishotelcreditnotetestmode = true
+global.isvisacreditnotetestmode = true
+global.upload_download_file_path =/home/
+global.expense_upload_download_file_path=/home/expensesFile/
+global.Payment_KnockOff_file_path=/home/PaymentKnockOff/
+#global.upload_download_file_path =C:/
+####LIVE   properties  START##############
+#global.ibeurl = https://tayyarah.com/SearchFlightHotel
+#global.ibeOnlineHotelQuoteBooking=https://tayyarah.com/hotelquote/search/fast?
+#global.ibeconnecturl = https://tayyarah.com/IBELogin
+#global.hotelcancellationUrl=https://api.tayyarah.com/tayyarahapi/hotel/cancel
+#global.flightcancellationUrl=https://api.tayyarah.com/tayyarahapi/flight/cancel
+#global.buscancellationUrl=https://api.tayyarah.com/tayyarahapi/bus/cancel
+#global.carcarcancellationUrl=https://api.tayyarah.com/tayyarahapi/car/cancel
+#global.traincancellationUrl=https://api.tayyarah.com/tayyarahapi/train/cancel
+#global.visacancellationUrl=https://api.tayyarah.com/tayyarahapi/visa/cancel
+#global.insurancecancellationUrl=https://api.tayyarah.com/tayyarahapi/insurance/cancel
+#global.miscellaneouscancellationUrl=https://api.tayyarah.com/tayyarahapi/miscellaneous/cancel
+#global.hotelCitiesUrl=https://api.tayyarah.com/tayyarahapi/cities/search?
+#global.flightCitiesUrl=https://api.tayyarah.com/tayyarahapi/Search/bycity/
+#global.flightVoucherPdfUrl=https://api.tayyarah.com/tayyarahapi/getpdf/flight
+#global.busVoucherPdfUrl=https://api.tayyarah.com/tayyarahapi/getpdf/bus
+#global.hotelVoucherPdfUrl=https://api.tayyarah.com/tayyarahapi/getpdf/hotel
+#global.customerOrSupplierTxPdfUrl=https://api.tayyarah.com/tayyarahapi/getpdf/transactionsPdf
+#global.createDynamicFolderUrl=https://api.tayyarah.com/tayyarahapi/folder/createDynamicFolder
+#global.creditnoteDownloadPdfUrl=https://api.tayyarah.com/tayyarahapi/getpdf/creditnote
+#global.invoiceDownloadPdfUrl=https://api.tayyarah.com/tayyarahapi/getpdf/invoice
+####LIVE   properties  END##############
+
+
+####DEV TEAM properties  START##############
+#global.ibeurl = https://dev.tayyarah.com/devtayyarah/SearchFlightHotel
+#global.ibeconnecturl = https://dev.tayyarah.com/devtayyarah/IBELogin
+#global.ibeOnlineHotelQuoteBooking=https://dev.tayyarah.com/devtayyarah/hotelquote/search/fast?
+#global.hotelcancellationUrl=https://dev.tayyarah.com/devtayyarahapidev/hotel/cancel
+#global.flightcancellationUrl=https://dev.tayyarah.com/devtayyarahapidev/flight/cancel
+#global.buscancellationUrl=https://dev.tayyarah.com/devtayyarahapidev/bus/cancel
+#global.carcarcancellationUrl=https://dev.tayyarah.com/devtayyarahapidev/car/cancel
+#global.traincancellationUrl=https://dev.tayyarah.com/devtayyarahapidev/train/cancel
+#global.visacancellationUrl=https://dev.tayyarah.com/devtayyarahapidev/visa/cancel
+#global.insurancecancellationUrl=https://dev.tayyarah.com/devtayyarahapidev/insurance/cancel
+#global.miscellaneouscancellationUrl=https://dev.tayyarah.com/devtayyarahapidev/miscellaneous/cancel
+#global.hotelCitiesUrl=https://dev.tayyarah.com/devtayyarahapidev/cities/search?
+#global.flightCitiesUrl=https://dev.tayyarah.com/devtayyarahapidev/Search/bycity/
+#global.flightVoucherPdfUrl=https://dev.tayyarah.com/devtayyarahapidev/getpdf/flight
+#global.busVoucherPdfUrl=https://dev.tayyarah.com/devtayyarahapidev/getpdf/bus
+#global.hotelVoucherPdfUrl=https://dev.tayyarah.com/devtayyarahapidev/getpdf/hotel
+#global.customerOrSupplierTxPdfUrl=https://dev.tayyarah.com/devtayyarahapidev/getpdf/transactionsPdf
+#global.createDynamicFolderUrl=https://dev.tayyarah.com/devtayyarahapidev/folder/createDynamicFolder
+#global.creditnoteDownloadPdfUrl=https://dev.tayyarah.com/devtayyarahapidev/getpdf/creditnote
+#global.invoiceDownloadPdfUrl=https://dev.tayyarah.com/devtayyarahapidev/getpdf/invoice
+
+
+###MARKETING TEAM properties  START##############
+global.ibeurl = https://dev.tayyarah.com/tayyarah/SearchFlightHotel
+global.ibeconnecturl = https://dev.tayyarah.com/tayyarah/IBELogin
+global.ibeOnlineHotelQuoteBooking=https://dev.tayyarah.com/tayyarah/hotelquote/search/fast?
+global.hotelcancellationUrl=https://dev.tayyarah.com/devtayyarahapi/hotel/cancel
+global.flightcancellationUrl=https://dev.tayyarah.com/devtayyarahapi/flight/cancel
+global.buscancellationUrl=https://dev.tayyarah.com/devtayyarahapi/bus/cancel
+global.carcarcancellationUrl=https://dev.tayyarah.com/devtayyarahapi/car/cancel
+global.traincancellationUrl=https://dev.tayyarah.com/devtayyarahapi/train/cancel
+global.visacancellationUrl=https://dev.tayyarah.com/devtayyarahapi/visa/cancel
+global.insurancecancellationUrl=https://dev.tayyarah.com/devtayyarahapi/insurance/cancel
+global.miscellaneouscancellationUrl=https://dev.tayyarah.com/devtayyarahapi/miscellaneous/cancel
+global.hotelCitiesUrl=https://dev.tayyarah.com/devtayyarahapi/cities/search?
+global.flightCitiesUrl=https://dev.tayyarah.com/devtayyarahapi/Search/bycity/
+global.flightVoucherPdfUrl=https://dev.tayyarah.com/devtayyarahapi/getpdf/flight
+global.busVoucherPdfUrl=https://dev.tayyarah.com/tayyarahapi/getpdf/bus
+global.hotelVoucherPdfUrl=https://dev.tayyarah.com/devtayyarahapi/getpdf/hotel
+global.customerOrSupplierTxPdfUrl=https://dev.tayyarah.com/devtayyarahapi/getpdf/transactionsPdf
+global.createDynamicFolderUrl=https://dev.tayyarah.com/devtayyarahapi/folder/createDynamicFolder
+global.creditnoteDownloadPdfUrl=https://dev.tayyarah.com/devtayyarahapi/getpdf/creditnote
+global.invoiceDownloadPdfUrl=https://dev.tayyarah.com/devtayyarahapi/getpdf/invoice
+
+###MARKETING TEAM properties  END##############
+
+#global.ibeurl = https://dev.tayyarah.com/tayyarah/SearchFlightHotel
+#global.ibeconnecturl = https://dev.tayyarah.com/tayyarah/IBELogin
+#global.ibeOnlineHotelQuoteBooking=https://dev.tayyarah.com/tayyarah/hotelquote/search/fast?
+#global.hotelcancellationUrl=http://localhost:8090/LintasTravelAPI/hotel/cancel
+#global.flightcancellationUrl=http://localhost:8090/LintasTravelAPI/flight/cancel
+#global.carcarcancellationUrl=http://localhost:8090/LintasTravelAPI/car/cancel
+#global.buscancellationUrl=http://localhost:8090/LintasTravelAPI/bus/cancel
+#global.traincancellationUrl=http://localhost:8090/LintasTravelAPI/train/cancel
+#global.visacancellationUrl=http://localhost:8090/LintasTravelAPI/visa/cancel
+#global.insurancecancellationUrl=http://localhost:8090/LintasTravelAPI/insurance/cancel
+#global.hotelCitiesUrl=http://localhost:8090/LintasTravelAPI/cities/search?
+#global.flightCitiesUrl=http://localhost:8090/LintasTravelAPI/Search/bycity/
+#global.flightVoucherPdfUrl=http://localhost:8090/LintasTravelAPI/getpdf/flight
+#global.hotelVoucherPdfUrl=http://localhost:8090/LintasTravelAPI/getpdf/hotel
+#global.customerOrSupplierTxPdfUrl=http://localhost:8090/LintasTravelAPI/getpdf/transactionsPdf
+#global.createDynamicFolderUrl=http://localhost:8090/LintasTravelAPI/folder/createDynamicFolder
+#global.carInvoiceDownloadPdfUrl=http://localhost:8090/LintasTravelAPI/getpdf/carinvoice
+#global.busInvoiceDownloadPdfUrl=http://localhost:8090/LintasTravelAPI/getpdf/businvoice
+#global.trainInvoiceDownloadPdfUrl=http://localhost:8090/LintasTravelAPI/getpdf/traininvoice
+#global.visaInvoiceDownloadPdfUrl=http://localhost:8090/LintasTravelAPI/getpdf/visainvoice
+#global.insuranceInvoiceDownloadPdfUrl=http://localhost:8090/LintasTravelAPI/getpdf/insuranceinvoice
+#global.flightInvoiceDownloadPdfUrl=http://localhost:8090/LintasTravelAPI/getpdf/flightinvoice
+#global.hotelInvoiceDownloadPdfUrl=http://localhost:8090/LintasTravelAPI/getpdf/hotelinvoice
+
+
+########----------Invoices URLs for local host-----------------------
+
+
+#global.carInvoiceDownloadPdfUrl=http://localhost:8081/LintasTravelAPI/getpdf/carinvoice
+#global.busInvoiceDownloadPdfUrl=http://localhost:8081/LintasTravelAPI/getpdf/businvoice
+#global.trainInvoiceDownloadPdfUrl=http://localhost:8081/LintasTravelAPI/getpdf/traininvoice
+#global.visaInvoiceDownloadPdfUrl=http://localhost:8081/LintasTravelAPI/getpdf/visainvoice
+#global.miscellaneousInvoiceDownloadPdfUrl=http://localhost:8081/LintasTravelAPI/getpdf/miscellaneousinvoice
+#global.insuranceInvoiceDownloadPdfUrl=http://localhost:8081/LintasTravelAPI/getpdf/insuranceinvoice
+#global.flightInvoiceDownloadPdfUrl=http://localhost:8081/LintasTravelAPI/getpdf/flightinvoice
+#global.hotelInvoiceDownloadPdfUrl=http://localhost:8081/LintasTravelAPI/getpdf/hotelinvoice
+
+
+
+########----------Invoices URLs for dev host-----------------------
+ 
+
+
+
+
+
+
+
+
+
+
+#global.hotelQuotationPdfUrl=https://dev.tayyarah.com/devtayyarahapi/getpdf/
+#global.cancellationUrl=https://dev.tayyarah.com/devtayyarahapi/hotel/cancel
+#global.ibeurl = https://dev.tayyarah.com/livebeta/SearchFlightHotel
+#global.cancellationUrl=https://dev.tayyarah.com/apibeta/hotel/cancel
+
+#{"ApiURL":"https://dev.tayyarah.com/apibeta/"}
+
+########----------Tayyarah Live-----------------------
+
+#global.cancellationUrl=https://api.tayyarah.com/lintasapi/hotel/cancel 
+########----------Tayyarah devTest-----------------------
+#global.cancellationUrl=https://dev.tayyarah.com/devtayyarahapi/hotel/cancel
+#global.cancellationUrl=https://dev.tayyarah.com/devlintasapi/hotel/cancel
+###########DASHBOARD IBE SEARCH URL FOR DEVTAYYARAH.ONLY THIS IS FOR REFERENCE TO COPY IN Apicredential.properties
+#{"ApiURL":"https://dev.tayyarah.com/devtayyarahapi/"}
+###########DASHBOARD IBE SEARCH URL FOR  TAYYARAH LIVE.ONLY THIS IS FOR REFERENCE TO COPY IN Apicredential.properties
+#{"ApiURL":"https://api.tayyarah.com/tayyarahapi/"}
+##
+global.Appname = Tayyarah Admin
+global.ImagePath = images/tayyarah.png
+global.KPPPno = PAN Number
+global.Appcss = css/Tayyarahadmin-lintas.css 
+global.Wholesaler = Distributor
+global.Corporate=Corporate
+global.indexlogo = images/tayarrah-admin.png
+global.indexCss = css/ad-css.css
+global.FlightNewOrder = Flight New Order(s)
+global.HotelNewOrder = Hotel New Order(s)
+global.FlightConfirmedOrdercount = Flight Confirmed Order(s)
+global.HotelConfirmedOrdercount = Hotel Confirmed Order(s)
+global.Prepaid = DEPOSIT
+global.Postpaid = CREDIT
+global.Designation = Description
+global.Registration = Agent Registration
+global.Employees = Agents
+global.Incentive = Commission
+global.companyName = Tayyarah
+global.phone = 91-080-42855555
+global.companyMail =care@tayyarah.com
+global.website =https://www.tayyarah.com
+global.welcome = Welcome
+global.tabIcon=images/favicon.ico
+global.cutandpay=true
+
+################## Tayyarah End ! ###################
+
+
+
+global.add=Successfully Added.
+global.error=OOPs! We found Error.
+global.update=Successfully Updated.
+
+
+global.insertAirportsuccess=Airport successfully added.
+global.insertAirporterror=Sorry, your request can not be processed.
+global.updateAirportsuccess=Airport successfully updated.
+global.updateairporterror=Sorry, your request can not be processed.
+global.child_ParentCompanyRegsuccess=Company registration is successful .
+global.child_ParentCompanyRegOops=Sorry, your request can not be processed. Please try again.
+global.child_ParentCompanyRegalready=Company email already exist, please login or try with other email.
+global.updateCompanyConfigDetailssuccess=Company config successfully updated.
+global.updatecompanyerror=Sorry, your request can not be processed. Please try again.
+global.insertCompanyConfigDetailssuccess=Company config successfully created.
+global.insertCompanyConfigDetailsserverdown=Sorry, your request can not be processed. Please try again.
+global.addcompanyempolyeesdesignationempsuccess=Employee designation added successfully.
+global.addcompanyempolyeesdesignationerror=Sorry, your request can not be processed. Please try again..
+global.addcompanyempolyeesdesignationuploadsuccess=File uploaded successfully.
+global.addcompanyempolyeesdesignationuploaderror=Sorry, your request can not be processed. Please try again.
+global.validatechecksuccess=Registration successful, please check your email.
+global.validatecheckooops=Sorry, your request can not be processed. Please try again.
+global.validatecheckcompanyexist=Company Or Email-Id already exist.
+global.validatechecknoinputdata=No Input Data , Please check.
+global.validatecheckerror=Sorry, your request can not be processed. Please try again.
+global.companyUpdateprofilesuccessfully=Profile successfully updated.
+global.companyUpdateprofileerror=Sorry, your request can not be processed. Please try again.
+global.superUserCompanyProfileUpdatesuccessfully=Profile successfully updated.
+global.superUserCompanyProfileUpdateerror=Sorry, your request can not be processed. Please try again.
+global.resetCompanyPasswordsuccess=Password successfully updated.
+global.resetCompanyPassworderror=Sorry, your request can not be processed. Please try again.
+global.RegisterwithoutLoginerror=Your account temporarily disabled or locked.Please contact your company.
+global.RegisterwithoutLoginregistererror=Register Id is needed.
+global.setComapanyApprovalaccount=Account approved successfully, please check your email.
+global.setComapanyApprovalfailed=Account approved successfully. but we could send email currently, please contact admin.
+global.setComapanyApprovaldis=Account disapproved successfully.
+global.setComapanyApprovalfail=Sorry, your request can not be processed. Please try again..
+global.insertOrderModifiedInfosuccess=Order is successfully updated.
+global.insertOrderModifiedInfodown=Sorry, your request can not be processed. Please try again.
+global.insertOrderModifiedInfogstamount=Sorry, your request can not be processed. Please try again.
+global.insertOrderModifiedInfogetConvenienceFees=Sorry, your request can not be processed. Please try again.
+global.insertOrderModifiedInfoidsuccess=Order successfully updated.
+global.insertOrderModifiedInfogetGstAmountsuccess=Sorry, your request can not be processed. Please try again.
+global.insertOrderModifiedInfouniqIdsuccess=Sorry, your request can not be processed. Please try again.
+global.insertOrderModifiedInfogetFlightOrderRowIdsuccess=Sorry, your request can not be processed. Please try again.
+global.insertOrderModifiedInfocreditnote.getId=Successfully Updated.
+global.insertOrderModifiedInfocreditnotenull=Sorry, your request can not be processed. Please try again.
+global.insertOrderModifiedInfosessCompanyObjnull=Sorry, your request can not be processed. Please try again.
+global.addMarkupDetailsresult=Successfully added.
+global.addMarkupDetailserror=Sorry, your request can not be processed. Please try again.
+global.addMarkupDetailparseexception="Sorry, your request can not be processed. Please try again.
+global.addMarkupDetailExceptionexception=Sorry, your request can not be processed. Please try again.
+global.updateHotelMarkupsuccess=Successfully Updated.
+global.updateHotelmarkuperror=Sorry, your request can not be processed. Please try again.
+global.updateHotelMarkupparseexception=Sorry, your request can not be processed. Please try again.
+global.updateHotelMarkupexception=Sorry, your request can not be processed. Please try again.
+global.insertHotelOrderModifiedInfosuccess=Order is successfully updated.
+global.insertHotelordermodifiedinfocreditNotegetGstAmount=Sorry, your request can not be processed. Please try again.
+global.insertHotelordermodifiedinfocreditNotegetConvenienceFeessuccess=Sorry, your request can not be processed. Please try again.
+global.insertHotelOrderModifiedInfocreditNotegetGstAmountsuccess=Sorry, your request can not be processed. Please try again.
+global.insertHotelOrderModifiedInfocreditNotegetConvenienceFeessuccess=Sorry, your request can not be processed. Please try again.
+global.insertHotelOrderModifiedInfocreditNotegetCancellationFeessuccess=Sorry, your request can not be processed. Please try again.
+global.insertHotelordermodifiedinfocreditnotegetIdsuccess=Order is successfully updated.
+global.creditnotesuccess=Credit note successfully issued.
+global.creditnoteserverdown=Sorry, your request can not be processed. Please try again.
+global.creditnotegetid=Order is successfully updated.
+global.creditnotegetCompanyRole=Sorry, your request can not be processed. Please try again.
+global.creditnoteexceptionsuccess=Sorry, your request can not be processed. Please try again.
+global.authenticateerror=Your account temporarily disabled or locked, please contact your company.
+global.authenticateerrorinvalidnameerror=Invalid Email/Password/company id. Please try again.
+global.authenticateerroraccountlocked=Your account temporarily disabled or locked, please contact your company.
+global.authenticatewrongcredential=If u enter wrong credentials more than 3 times,Account will be locked"+"..."+loginAttempt+"time.
+global.authenticateaccountlockederror=Account locked.
+global.authenticateinvalidaccountsuccess=Invalid Email/Password/company id. Please try again.
+global.loginfromibeerror=Your account temporarily disabled or locked.Please contact your company.
+global.loginfromibeinvalidemailerror=Invalid Email/Password/company id. Please try again
+global.loginfromibeaccountdisablederror=Your account temporarily disabled or locked.Please contact your company.
+global.loginfromibewrongcredential=If u enter wrong credentials more than 3 times,Account will be locked"+"..."+loginAttempt+"time.
+global.loginfromibeaccountlockederror=Account locked.
+global.loginfromibinvalidemail=Invalid Email/Password/company id. Please try again.
+global.loginfromibealredyaccountlockederror=Already account locked.please contact company.
+global.loginfromibeinvalidemailsuccess=Invalid Email/Password/company id. Please try again.
+global.loginfromibesessionexpirederror=Your Session Expired.
+global.requestPassword=Password has been sent to your email.
+global.requestPasswordsuccess=Invalid request, please enter your registered email.
+global.setCompanyMarkup=Markup successfully added.
+global.setCompanyMarkupfailed=Sorry, your request can not be processed. Please try again.
+global.setCompanyMarkupfailederror=Sorry, your request can not be processed. Please try again.
+global.Uservalidate=Registration failed. Please try again.
+global.Uservalidateexceptionerror=OOPs! Sorry, your request can not be processed. Please try again.
+global.doExcelUploadsuccess=File uploaded successfully.
+global.doExcelUploaderror=UploadAction failed.
+global.superUser_UserProfileUpdate=Profile successfully updated.
+global.superUser_UserProfileUpdateerror=Sorry, your request can not be processed. Please try again.
+global.updateUserPassword=Password successfully updated.
+global.updateUserPassworderror=Sorry, your request can not be processed. Please try again.
+global.updateCompanyUserPassworderror=Sorry, your request can not be processed. Please try again.
+global.userProfileUpdatesuccess=Profile successfully updated.
+global.userProfileUpdateerror=Sorry, your request can not be processed. Please try again.
+global.setSuperUserComapanyStatussuccess=Account successfully activated.
+global.setSuperUserComapanyStatuserror=Account successfully  deactivated.
+global.setSuperUserCompanyLock=Account successfully locked.
+global.setSuperUserCompanyLockerror=Account successfully  unlocked.
+global.setSuperUser_UserStatus=Account activated.Login credentials sent to employee email-id.
+global.setSuperUser_UserStatussuccess=Account deactivated successfully.
+global.error.emulate.mising.companyid=CompanyId missing. Please raise incident to company administrator.
+global.setSuperUser_UserLocksuccess=Account successfully locked.
+global.setSuperUser_UserLockerror=Account successfully unlocked.
+global.addMyWalletsuccess=Wrong password, please try again.
+global.addmywalletbalanceupdate=Balance updated successfully.
+global.addmywalletbalancefailed=Sorry, your request can not be processed. Please try again.
+global.addAgentWalletsuccess=Wrong password, Please try again.
+global.addAgentWallettransferId=Balance updated successfully.
+global.addAgentWallettransferIdfailed=Sorry, your request can not be processed. Please try again.
+global.addAgentWalletbalance = Balance out of range.
+global.addAgentWalletsetwalletbalance=Insufficient balance.
+global.addAgentWalletsetwalletbalanceemail=Balance successfully updated.
+global.addAgentWalletsetwalletbalanceemailfailed=Sorry, your request can not be processed. Please try again.
+global.saveOrUpdatesuccess=Successfully added CMS content.
+global.saveOrUpdateerror=Sorry, your request can not be processed. Please try again.
+global.UpdateDealssuccess=Deal successfully updated.
+global.setCmsStatussuccesspublished=Deal published successfully.
+global.setCmsStatussuccessunpublished= Deal unpublished successfully.
+global.sheetandblockStatus=Sheet successfully activated.
+ 
+global.sheetandblockStatusDeactive=Sheet successfully deactivated.
+global.blockDuplicate=Sheet successfully duplicated.
+global.noConfigwithDealsheetError=You don't have any configuration setup for using dealsheet.
+global.commissionBlockNote= Note:Only activated commission blocks will be visible  during  configuration setup.
+global.applicableSheetNote= Note:Only activated commission sheet will be visible  during  configuration setup.
+global.applicableConfig= Note:Only activated  B2C,B2E,B2B,API and Whitelable  configurations will be visible  during  configuration setup.
+
+
+global.From                   = From
+global.To                     = To
+global.Depart                 = Depart
+global.Arrival                = Arrival
+global.Adult(s)               = Adult(s)
+global.Child                  = Child
+global.child                  = Child
+global.Infant(s)              = Infant(s)
+global.Moreoptions            = More options
+global.Bookingclass          = Booking class
+global.Airline                = Airline
+global.Contactus             = Contact us
+global.Login                  = Login
+global.LogIn                  = Log In
+global.Keepmesignedin      = Keep me signed in
+global.Flight                 = Flight
+global.Hotel                  = Hotel
+global.Holidays               = Holidays
+global.Cars                   = Cars
+global.FindHotels            = Find Hotels
+global.CheckIn               = Check In
+global.CheckOut              = Check Out
+global.Rooms                  = Rooms
+global.Room                  = Room
+global.Age                    = Age
+global.Search                 = Search
+global.Find                   = Find
+global.Round                  = Round
+global.One-Way                = One-Way
+global.Multi-Stop             = Multi-Stop
+global.Home                   = Home
+global.About                  = About
+global.Faq                    = Faq
+global.Contact                = Contact
+global.Sitemap                = Sitemap
+global.Addonemore           = Add one more
+global.Stop = Stop
+global.Stops                  = Stop(s)
+global.Airlines               = Airlines
+global.PriceRange            = Price Range
+global.Timings                = Timings
+global.Take-off               = Take-off
+global.Landing                = Landing
+global.BookNow               = Book Now
+global.cityorairport = City or Airport
+
+global.CarNewOrder = Car New Order(s)
+global.TrainNewOrder = Train New Order(s)
+global.CarConfirmedOrdercount =  Car Confirmed Order(s)
+global.TrainConfirmedOrdercount =  Train Confirmed Order(s)
+global.BusNewOrder = Bus New Order(s)
+global.VisaNewOrder = Visa New Order(s)
+global.InsuranceNewOrder = Insurance New Order(s)
+global.BusConfirmedOrdercount =  Bus Confirmed Order(s)
+global.VisaConfirmedOrdercount =  Visa Confirmed Order(s)
+global.InsuranceConfirmedOrdercount =  Insurance Confirmed Order(s)
+global.corporteAgreementTodayExpireMsg= Your contract for travel services expired. Kindly contact our sales person to renewal Your account.

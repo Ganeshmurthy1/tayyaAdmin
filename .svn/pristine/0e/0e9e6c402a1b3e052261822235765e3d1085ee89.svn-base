@@ -1,0 +1,83 @@
+package com.admin.dashboard.analysis.json.vo;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class WeeklySalesDataVO {
+	private String weekDay;
+	private String name;
+	private Integer totalCount;
+	private BigDecimal percentageChangeInTotalCount;
+	private BigDecimal bookingAmount;
+	private Date createdAt;
+	private BigDecimal price;//added by basha
+	private BigDecimal  percentageChangeInBookingAmount;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(Integer totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	public String getWeekDay() {
+		return weekDay;
+	}
+
+	public void setWeekDay(String weekDay) {
+		this.weekDay = weekDay;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public BigDecimal getBookingAmount() {
+		return bookingAmount;
+	}
+
+	public void setBookingAmount(BigDecimal bookingAmount) {
+		this.bookingAmount = bookingAmount;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	 
+
+	public BigDecimal getPercentageChangeInBookingAmount() {
+		return percentageChangeInBookingAmount;
+	}
+
+	public void setPercentageChangeInBookingAmount(BigDecimal percentageChangeInBookingAmount) {
+		this.percentageChangeInBookingAmount = percentageChangeInBookingAmount;
+	}
+
+	public BigDecimal getPercentageChangeInTotalCount() {
+		return percentageChangeInTotalCount;
+	}
+
+	public void setPercentageChangeInTotalCount(BigDecimal percentageChangeInTotalCount) {
+		this.percentageChangeInTotalCount = percentageChangeInTotalCount;
+	}
+
+	
+
+}

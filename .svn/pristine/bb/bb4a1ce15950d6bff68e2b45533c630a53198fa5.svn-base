@@ -1,0 +1,440 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Add Config</title>
+<link rel="stylesheet" href="css/alert.css">
+
+
+<script type="text/javascript">
+	$(function() {
+		var totUrl = $(location).attr('href');
+		var newUrl = totUrl.substr(0, totUrl.lastIndexOf('/') + 1);
+		var finalUrl = newUrl + "c_ConfigList";
+		$('#success').click(function() {
+			window.location.assign(finalUrl);
+			$('#success-alert').hide();
+
+		});
+		$('#cancel').click(function() {
+			$('#error-alert').hide();
+
+		});
+	});
+</script>
+ <script src="js/jquery.validate.min.js"></script> 
+ <script src="js/additional-methods.js"></script>
+</head>
+<body>
+
+	<!-- Content Wrapper. Contains page content -->
+
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>RM Configuration</h1>
+		</section>
+
+		<!-- Main content -->
+		<section class="content">
+
+
+			<div class="col-sm-12">
+				<h4>
+					<a href="javascript:history.back();"><span class="pull-right"><i
+							class="fa fa-angle-left"></i> Back</span></a>
+				</h4>
+			</div>
+			<%-- <!-- Small boxes (Stat box) -->
+			<s:if test="hasActionErrors()">
+				<div class="sccuss-full-updated" id="error-alert">
+					<div class="succfully-updated clearfix">
+
+
+						<div class="col-sm-12">
+							<h4>
+								<a href="javascript:history.back();"><span
+									class="pull-right"><i class="fa fa-angle-left"></i> Back</span></a>
+							</h4>
+						</div>
+					</div>
+				</div>
+			</s:if> --%>
+			<!-- Small boxes (Stat box) -->
+			<s:if test="hasActionErrors()">
+				<div class="succfully-updated clearfix" id="error-alert">
+					<div class="col-sm-2">
+						<i class="fa fa-check fa-3x"></i>
+					</div>
+					<div class="col-sm-10">
+						<p>
+							<s:actionerror />
+						</p>
+						<button type="button" id="cancel" class="btn btn-primary">Ok</button>
+					</div>
+				</div>
+			</s:if>
+
+			<s:if test="hasActionMessages()">
+				<div class="sccuss-full-updated" id="success-alert">
+					<div class="succfully-updated clearfix">
+						<div class="col-sm-2">
+							<i class="fa fa-check fa-3x"></i>
+						</div>
+						<div class="col-sm-10">
+							<s:actionmessage />
+							<button type="button" id="success" class="btn btn-primary">Ok</button>
+						</div>
+					</div>
+				</div>
+			</s:if>
+			<div class="row" id="dash-us-register">
+				<input type="hidden" id="parentid"
+					value="<s:property value="%{#session.Company.companyid}"/>">
+
+				<input type="hidden" id="selectedCompanyUserId"> <input
+					type="hidden" id="selectchildid" value="">
+				<form id="addRmConfigDetailsForm" action="addRmConfigDetails" method="GET"
+					class="form-horizontal">
+
+					<%-- <input type="hidden"
+						value="<s:property value="%{#session.Company.company_userid}"/>"
+						class="form-control input-sm" id="companyUserId"
+						name="companyUserId"> --%> <input type="hidden"
+						value="<s:property value="%{#session.Company.companyRole.isDistributor()}"/>"
+						class="form-control input-sm" id="companyRoleType">
+
+
+
+
+					<div class="form-group">
+						<label class="col-sm-3 control-label">Product Type</label>
+						<div class="col-sm-7">
+							<label class="form-control input-sm">RM - Config</label>
+						</div>
+					</div>
+					<hr>
+ 					<div class="form-group table-responsive dash-table">
+				<table id="mytable" class="table table-striped"
+					data-sort-name="name" data-sort-order="desc">
+					<thead>
+						<tr>
+						 
+								<td><h4><b>Select Corporate Company </b></h4>
+								 <select  class="form-control input-sm"
+								  name="companyUserId"  id="companyUserId"      required="required">
+								  <option value="">Select company </option>
+								<s:iterator value="companyList" status="rowCount">
+								<option value="${companyid}">${Companyname}(${companyid})</option>
+								</s:iterator>
+							 </select></td>
+							 
+							</tr>
+					</thead>
+				</table>
+				</div>
+				
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="empCode">Employee
+							code</label>
+						<div class="col-sm-7">
+							<input type="checkbox" id="empCode" name="empCode" value="true"
+								autocomplete="off">
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control input-sm" name="empCodeType" required="required"
+								>
+								<option value="text">TextBox</option>
+								<option value="select">Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="department">Department</label>
+						<div class="col-sm-7">
+							<input type="checkbox" id="department" name="department"
+								value="true" autocomplete="off">
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control input-sm" name="departmentType" required="required"
+								>
+								<option value="text">TextBox</option>
+								<option value="select">Select</option>
+								
+							</select>
+						</div>
+						
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="costCenter">Cost
+							center</label>
+						<div class="col-sm-7">
+							<input type="checkbox" id="costCenter" name="costCenter"
+								value="true" autocomplete="off">
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control input-sm" name="costCenterType" required="required"
+								>
+								<option value="text">TextBox</option>
+								<option value="select">Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="approverName">Approver
+							name</label>
+						<div class="col-sm-7">
+							<input type="checkbox" id="approverName" name="approverName"
+								value="true" autocomplete="off">
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control input-sm" name="approverNameType" required="required"
+								>
+								<option value="text">TextBox</option>
+								<option value="select">Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="location">Location</label>
+						<div class="col-sm-7">
+							<input type="checkbox" id="location" name="location" value="true"
+								autocomplete="off">
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control input-sm" name="locationType" required="required"
+								>
+								<option value="text">TextBox</option>
+								<option value="select">Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="trNumber">TR
+							Number</label>
+						<div class="col-sm-7">
+							<input type="checkbox" id="trNumber" name="trNumber" value="true"
+								autocomplete="off">
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control input-sm" name="trNumberType" required="required"
+								>
+								<option value="text">TextBox</option>
+								<option value="select">Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="bussinessUnit">Business
+							unit</label>
+						<div class="col-sm-7">
+							<input type="checkbox" id="bussinessUnit" name="bussinessUnit"
+								value="true" autocomplete="off">
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control input-sm" name="bussinessUnitType" required="required"
+								>
+								<option value="text">TextBox</option>
+								<option value="select">Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="projectCode">Project
+							Code</label>
+						<div class="col-sm-7">
+							<input type="checkbox" id="projectCode" name="projectCode"
+								value="true" autocomplete="off">
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control input-sm" name="projectCodeType" required="required"
+								>
+								<option value="text">TextBox</option>
+								<option value="select">Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="reasonForTravel">Reason
+							for travel</label>
+						<div class="col-sm-7">
+							<input type="checkbox" id="reasonForTravel"
+								name="reasonForTravel" value="true" autocomplete="off">
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control input-sm" name="reasonForTravelType" required="required"
+								>
+								<option value="text">TextBox</option>
+								<option value="select">Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="billNonBill">Billable/
+							non billable</label>
+						<div class="col-sm-7">
+							<input type="checkbox" id="billNonBill" name="billNonBill"
+								value="true" autocomplete="off">
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control input-sm" name="billNonBillType" required="required"
+								>
+								<option value="text">TextBox</option>
+								<option value="select">Select</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="schema" id="schema">
+						<div class=" cblist" id="cblist"></div>
+					</div>
+					<div class="form-group ">
+					<div align="left" id="errorAlertDiv" style="color: red; font-weight: bold;"></div>
+					<hr>
+					<div align="left" class=" col-sm-4 " style="display: none;" id="hiddenDiv">
+						
+						<input type="text" id="txtName" autocomplete="off"
+							placeholder="Please enter name" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="button" class="btn-primary "
+							value="ok" onclick="addSchema()" />
+					</div>
+					<div class=" col-sm-1">
+
+						<a class=" btn btn-success btn-sm" id="addConf"><i
+							class="fa fa-plus" aria-hidden="true"> Add More Configs </i></a>
+					</div>
+					</div>
+
+					<div class="form-group text-center">
+						<div class="col-xs-11 submitWrap text-center">
+							<!-- <button type="submit" class="btn btn-primary btn-lg"
+								>Add</button> -->
+								<button id="rmConfigSubmit" type="button" class="btn btn-primary btn-lg"
+								>Add</button>
+						</div>
+					</div>
+				</form>	
+			</div>
+			<!-- /.row -->
+			<!-- Main row -->
+		</section>
+		<!-- /.content -->
+	</div>
+
+
+	<script type="text/javascript" src="js/app.js"></script>
+	<script>
+		$(document).ready(function() {
+			$("#addConf").click(function() {
+				$('#hiddenDiv').toggle(700);
+			});
+		});
+	</script>
+	<script type="text/javascript">
+		var dynamicList = [];
+		$(document).ready(function() {
+			$('#btnSave').click(function() {
+				addCheckbox($('#txtName').val());
+				/* $('#txtName').hide();
+				$('#btnSave').hide(); */
+			});
+		});
+
+		function addCheckbox(name) {
+			var container = $('#cblist');
+			var inputs = container.find('input');
+			var id = inputs.length + 1;
+
+			dynamicList[0] = "John";
+			dynamicList[id] = name;
+			/* alert(dynamicList); */
+
+			$('<label />', {
+				'for' : 'cb' + id,
+				text : name,
+				'class' : 'col-sm-2 control-label'
+			}).appendTo(container);
+			$('<input />', {
+				type : 'checkbox',
+				id : 'cb' + id,
+				name : name,
+				value : true,
+				'class' : 'col-sm-7 '
+			}).appendTo(container);
+		}
+	</script>
+
+	<script>
+	var addQuatation = "";
+		function addSchema() {
+			var name=$('#txtName').val();
+			console.log(name);
+			var noOfQuation = $("#schema").find('.dynamics').length;
+				var index = parseInt(noOfQuation) ;
+				if(index<5 && name!=""){
+					addQuatation += "<div class='form-group dynamics'><label class='col-sm-2 control-label' >"+name+"</label><div class='col-sm-7'><input type='checkbox'  name='rmConfigModelList["+index+"].fieldCheckBox' value='true' autocomplete='off'></div><input type='hidden' name='rmConfigModelList["+index+"].fieldName' value='"+name+"'><div class='col-sm-3'><select class='form-control input-sm' name='rmConfigModelList["+index+"].fieldType' required='required' ><option value='text'>TextBox</option><option value='select'>Select</option></select></div></div>";
+					$('.cblist').html(addQuatation);
+					$("#txtName").val("");
+				}
+				else if(name==""){
+				}
+				else{
+					$("#errorAlertDiv").append(JSON.stringify("LIMIT EXCEEDS ! Only 5 Fields You Create Manually"));
+					$("#hiddenDiv *").attr("disabled", "disabled").off('click');
+				}
+		}
+		/* function remove_field() {
+			var noOfQuation = $("#level1").find('.cblist').length;
+			$('.well:last-child').remove();
+			if (noOfQuation <= 1) {
+				$('.remove_field').attr('disabled', 'disabled');
+			} else {
+				$('.remove_field').removeAttr('disabled');
+			}
+			noOfQuation--;
+		} */
+		
+		$(document).ready(function(){
+			  
+			   $('#rmConfigSubmit').click(function(){
+				   $("#addRmConfigDetailsForm").valid();
+				   if($("#addRmConfigDetailsForm").valid()){
+					   document.getElementById("addRmConfigDetailsForm").submit();
+				   }
+			   });
+			   $("#addRmConfigDetailsForm").validate({
+				   submitHandler: function (form) {  
+			            
+			            return false;
+			        },
+			        highlight: function(element, errorClass, validClass) { 
+			            $(element).nextAll('.form-control-feedback').show().removeClass('glyphicon-ok').addClass('glyphicon-remove');
+			            $(element).addClass(errorClass).removeClass(validClass);
+			            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+			          },
+			          success: function(element) {
+			            $(element).nextAll('.form-control-feedback').show().removeClass('glyphicon-remove').addClass('glyphicon-ok');
+			         element.closest('.form-group').removeClass('has-error').addClass('has-success');
+			            $(element).remove();
+			          }
+			   })
+			   });
+	</script>
+
+	<%@ include file="DashboardFooter.jsp"%>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1928 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<definition name="baseDashBoard" template="dashboardmanager.jsp">
+		<put-attribute name="header" value="/DashHeader.jsp" />
+		<put-attribute name="commonmenu" value="/CommonMenu.jsp" />
+		<put-attribute name="sidemenu" value="/DashBoardSideMenu1.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+
+
+	<!-- dashboard Tiles Integartion -->
+
+	<definition name="addcompanylayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Company Page" />
+		<put-attribute name="body" value="/CompanyReg.jsp" />
+	</definition>
+
+
+	<definition name="companyeditlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Edit Profile" />
+		<put-attribute name="header" value="/DashHeader.jsp" />
+		<put-attribute name="commonmenu" value="/CommonMenu.jsp" />
+		<put-attribute name="sidemenu" value="/DashBoardSideMenu1.jsp" />
+		<put-attribute name="body" value="/CompanyEdit.jsp" />
+
+	</definition>
+
+	<definition name="homebaseDashBoard" template="dashboardmanager.jsp">
+		<put-attribute name="header" value="/DashHomeHeader.jsp" />
+		<put-attribute name="commonmenu" value="/CommonMenu.jsp" />
+		<put-attribute name="sidemenu" value="/DashBoardSideMenu1.jsp" />
+		<put-attribute name="body" value="" />
+	</definition>
+	<definition name="dashboardhomelayout.tiles" extends="homebaseDashBoard">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="header" value="/DashHomeHeader.jsp" />
+		<put-attribute name="commonmenu" value="/CommonMenu.jsp" />
+		<put-attribute name="sidemenu" value="/DashBoardSideMenu1.jsp" />
+		<put-attribute name="body" value="/DashBoardMainContent.jsp" />
+	</definition>
+	<definition name="dashboardlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Home" />
+		<put-attribute name="header" value="/DashHeader.jsp" />
+		<put-attribute name="commonmenu" value="/CommonMenu.jsp" />
+		<put-attribute name="sidemenu" value="/DashBoardSideMenu1.jsp" />
+		<put-attribute name="body" value="/DashBoardMainContent.jsp" />
+	</definition>
+	<definition name="galileoConfigUpdatelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Config Update" />
+		<put-attribute name="body" value="/GalileoConfigUpdate.jsp" />
+	</definition>
+	<definition name="mailConfigUpdatelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Mail Config-Update" />
+		<put-attribute name="body" value="/MailConfigUpdate.jsp" />
+	</definition>
+
+	<definition name="companyConfigUpdatelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Update-Config" />
+		<put-attribute name="body" value="/CompanyConfigUpdate.jsp" />
+	</definition>
+
+	<definition name="companyMarkupUpdatelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Update Flight Markup" />
+		<put-attribute name="body" value="/CompanyMarkupUpdate.jsp" />
+	</definition>
+
+	<definition name="busMarkupUpdatelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Update Bus Markup" />
+		<put-attribute name="body" value="/BusMarkupUpdate.jsp" />
+	</definition>
+	<definition name="insuranceMarkupUpdatelayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Update Insurance Markup" />
+		<put-attribute name="body" value="/InsuranceMarkupUpdate.jsp" />
+	</definition>
+	<definition name="superUserCompanyListlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="CompanyList" />
+		<put-attribute name="body" value="/SuperuserCompanyList.jsp" />
+	</definition>
+	<definition name="AgentSalesLeadCompanyList.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="CompanyList" />
+		<put-attribute name="body" value="/AgentSalesLeadCompanyList.jsp" />
+	</definition>
+
+	<definition name="superUserDisListlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="CompanyList" />
+		<put-attribute name="body" value="/SuperuserDisList.jsp" />
+	</definition>
+
+	<definition name="superUserAgenciesListlayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Agencies" />
+		<put-attribute name="body" value="/SuperUserAgenciesList.jsp" />
+	</definition>
+
+	<definition name="superUserCompanyUpdatelayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Update Company-Profile" />
+		<put-attribute name="body" value="/SuperUserCompanyUpdate.jsp" />
+	</definition>
+	<definition name="superUser_UserUpdatelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Update Company-Profile" />
+		<put-attribute name="body" value="/SuperUser_UserUpdate.jsp" />
+	</definition>
+
+	<definition name="companyUserUpdatelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Update Company-Profile" />
+		<put-attribute name="body" value="/CompanyUserProfileUpdate.jsp" />
+	</definition>
+
+	<definition name="superUser_UserListlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Employees" />
+		<put-attribute name="body" value="/SuperUser_UserList.jsp" />
+	</definition>
+
+
+	<definition name="addSuperUsuer_userlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Employee Registration" />
+		<put-attribute name="body" value="/SuperUser_UserReg.jsp" />
+	</definition>
+
+	<definition name="userslistlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Employees" />
+		<put-attribute name="body" value="/UsersList.jsp" />
+	</definition>
+
+	<definition name="addnewuserlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Employee Registration" />
+		<put-attribute name="body" value="/UserReg.jsp" />
+	</definition>
+	<definition name="markuplistlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="MarkUp List" />
+		<put-attribute name="body" value="/CompanyMarkupList.jsp" />
+	</definition>
+
+	<definition name="addmarkuplayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Company MarkUp" />
+		<put-attribute name="body" value="/AddCompanyMarkup.jsp" />
+	</definition>
+	<definition name="addhotelmarkuplayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel MarkUp" />
+		<put-attribute name="body" value="/AddHotelMarkup1.jsp" />
+	</definition>
+	<definition name="hotelmarkuplistlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel MarkUpList" />
+		<put-attribute name="body" value="/HotelMarkupList.jsp" />
+	</definition>
+
+	<definition name="hotelmarkupprofilelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Edit Hotel MarkUp" />
+		<put-attribute name="body" value="/HotelMarkupEdit.jsp" />
+	</definition>
+
+	<definition name="addbusmarkuplayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus MarkUp" />
+		<put-attribute name="body" value="/AddBusMarkup.jsp" />
+	</definition>
+	<definition name="addinsurancemarkuplayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance MarkUp" />
+		<put-attribute name="body" value="/AddInsuranceMarkup.jsp" />
+	</definition>
+
+	<definition name="busmarkuplistlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus MarkUpList" />
+		<put-attribute name="body" value="/BusMarkupList.jsp" />
+	</definition>
+
+	<definition name="insurancemarkuplistlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance MarkUpList" />
+		<put-attribute name="body" value="/InsuranceMarkupList.jsp" />
+	</definition>
+
+
+
+	<!-- <definition name="agentslistlayout.tiles" extends="baseDashBoard"> 
+		<put-attribute name="title" value="Agent Page" /> <put-attribute name="body" 
+		value="/AgentsList.jsp" /> </definition> -->
+	<!-- <definition name="addnewagentlayout.tiles" extends="baseDashBoard"> 
+		<put-attribute name="title" value="Agent Page" /> <put-attribute name="body" 
+		value="/AgentReg.jsp" /> </definition> -->
+
+	<!-- Whitelabel -->
+	<definition name="redirect_whitelable_page.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="WhiteLabel" />
+		<put-attribute name="body" value="/Whitelabel.jsp" />
+	</definition>
+	<definition name="whitelableConfigUpdateLayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="WhiteLabel" />
+		<put-attribute name="body" value="/UpdateWhitelable.jsp" />
+	</definition>
+
+	<!--END Whitelabel -->
+
+	<definition name="mailConfigslistlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="MailConfig" />
+		<put-attribute name="body" value="/MailConfigsList.jsp" />
+	</definition>
+
+	<definition name="mailconfignewlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Mail-Config" />
+		<put-attribute name="body" value="/MailConfigAdd.jsp" />
+	</definition>
+
+	<definition name="galileoconfigslistlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Galileo-ConfigList" />
+		<put-attribute name="body" value="/GalileoConfigsList.jsp" />
+	</definition>
+
+	<definition name="addnewgalileolayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Galileo-Config" />
+		<put-attribute name="body" value="/GalileoConfigAdd.jsp" />
+	</definition>
+
+	<definition name="companyconfigslistlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Company ConfigList" />
+		<put-attribute name="body" value="/CompanyConfigsList.jsp" />
+	</definition>
+	<definition name="addnewcompanyconfiglayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add CompanyConfig" />
+		<put-attribute name="body" value="/CompanyConfigAdd.jsp" />
+	</definition>
+
+	<definition name="userorcompanyprofilelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Profile" />
+		<put-attribute name="body" value="/UserOrCompanyProfile.jsp" />
+
+	</definition>
+	<definition name="companyprofilelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Profile" />
+		<put-attribute name="body" value="/CompanyProfile.jsp" />
+
+	</definition>
+	<definition name="companyprofileEditlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Profile" />
+		<put-attribute name="body" value="/CompanyProfileEdit.jsp" />
+	</definition>
+	<definition name="frontUsersList_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="front_users" />
+		<put-attribute name="body" value="/FrontUserList.jsp" />
+	</definition>
+	<definition name="frontUsersDetails_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="front_users" />
+		<put-attribute name="body" value="/FrontUserDetails.jsp" />
+	</definition>
+
+
+	<!-- Reports -->
+
+	<definition name="flightReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Report" />
+		<put-attribute name="body" value="/FlightReport.jsp" />
+	</definition>
+	<definition name="knock_off_Report_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="knock_off_Report" />
+		<put-attribute name="body" value="/FlightKnockOffReport.jsp" />
+	</definition>
+	<definition name="carReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Car Report" />
+		<put-attribute name="body" value="/CarReport.jsp" />
+	</definition>
+	<definition name="busReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Report" />
+		<put-attribute name="body" value="/BusReport.jsp" />
+	</definition>
+	<definition name="insuranceReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance Report" />
+		<put-attribute name="body" value="/InsuranceReport.jsp" />
+	</definition>
+	<definition name="trainReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Train Report" />
+		<put-attribute name="body" value="/TrainReport.jsp" />
+	</definition>
+	<definition name="visaReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Visa Report" />
+		<put-attribute name="body" value="/VisaReport.jsp" />
+	</definition>
+
+
+	<definition name="flightOrder_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Order" />
+		<put-attribute name="body" value="/FlightOrders.jsp" />
+	</definition>
+	<definition name="flightCommissionLayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Agent-Commission" />
+		<put-attribute name="body" value="/FlightAgentCommissionReport.jsp" />
+	</definition>
+	<definition name="hotelCommissionLayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Agent-Commission" />
+		<put-attribute name="body" value="/HotelAgentCommissionReport.jsp" />
+	</definition>
+	<definition name="hotelReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Report" />
+		<put-attribute name="body" value="/HotelReport.jsp" />
+	</definition>
+
+	<definition name="hotelOrder_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Order" />
+		<put-attribute name="body" value="/HotelOrders.jsp" />
+	</definition>
+
+	<definition name="userpass_report_listlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight PassengerDetails" />
+		<put-attribute name="body" value="/FlightPassengerDetails.jsp" />
+	</definition>
+
+	<definition name="userpass_report_car_listlayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Car PassengerDetails" />
+		<put-attribute name="body" value="/CarPassengerDetails.jsp" />
+	</definition>
+	<definition name="userpass_report_bus_listlayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Bus PassengerDetails" />
+		<put-attribute name="body" value="/BusPassengerDetails.jsp" />
+	</definition>
+	<definition name="userpass_report_train_listlayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Train PassengerDetails" />
+		<put-attribute name="body" value="/TrainPassengerDetails.jsp" />
+	</definition>
+	<definition name="userpass_report_visa_listlayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Visa PassengerDetails" />
+		<put-attribute name="body" value="/VisaPassengerDetails.jsp" />
+	</definition>
+	<definition name="userpass_report_insurance_listlayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance PassengerDetails" />
+		<put-attribute name="body" value="/InsurancePassengerDetails.jsp" />
+	</definition>
+
+
+
+
+
+	<definition name="userFlightpass_order_listlayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Flight PassengerOrderDetails" />
+		<put-attribute name="body" value="/FlightPassengerOrderDetails.jsp" />
+	</definition>
+
+
+	<definition name="hotel_orderguest_infolayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel GuestOrderDetails" />
+		<put-attribute name="body" value="/HotelGuestOrderDetails.jsp" />
+	</definition>
+
+	<definition name="hotel_reportguest_infolayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel ReportDetails" />
+		<put-attribute name="body" value="/HotelReportDetails.jsp" />
+	</definition>
+
+	<definition name="userProfileUpdatelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="User Profile-Update" />
+		<put-attribute name="body" value="/UserProfileUpdate.jsp" />
+	</definition>
+	<definition name="dashboard_flightweekorder_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Weekly-OrderList" />
+		<put-attribute name="body" value="/FlightWeekOrderList.jsp" />
+	</definition>
+	<definition name="dashboard_hotelweekorder_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Weekly-OrderList" />
+		<put-attribute name="body" value="/HotelWeekOrderList.jsp" />
+	</definition>
+	<definition name="walletallot_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Amount to Wallet" />
+		<put-attribute name="body" value="/WalletAmountAllot.jsp" />
+	</definition>
+	<definition name="add_paymeny_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="add_payment" />
+		<put-attribute name="body" value="/AddPayment.jsp" />
+	</definition>
+	<definition name="add_paymeny_list_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="add_payment_list" />
+		<put-attribute name="body" value="/AddPaymentList.jsp" />
+	</definition>
+	<definition name="edit_paymeny_list_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="edit_payment" />
+		<put-attribute name="body" value="/AddPaymentUpdate.jsp" />
+	</definition>
+
+	<definition name="view_paymeny_list_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="view_payment_details" />
+		<put-attribute name="body" value="/AddPaymentView.jsp" />
+	</definition>
+
+
+
+
+
+	<definition name="orderCustomer_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="OrderCustomer Update" />
+		<put-attribute name="body" value="/OrderCustomerUpdate.jsp" />
+	</definition>
+
+	<definition name="customerInvoice_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Customer-Invoice" />
+		<put-attribute name="body" value="/FlightCustomerInvoice.jsp" />
+	</definition>
+	<definition name="invoiceList_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Customer-InvoiceList" />
+		<put-attribute name="body" value="/FlightCustomerInvoiceList.jsp" />
+	</definition>
+
+	<definition name="agentCommissionInvoice_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Agent commission-Invoice" />
+		<put-attribute name="body" value="/AgentInvoice.jsp" />
+	</definition>
+	<!-- <definition name="agentInvoiceList_layout.tiles" extends="baseDashBoard"> 
+		<put-attribute name="title" value="Agent Invoice List Page" /> <put-attribute 
+		name="body" value="/AgentInvoiceList.jsp"/> </definition> -->
+
+	<definition name="agentCommissionInvoiceList_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Agent commission-InvoiceList" />
+		<put-attribute name="body" value="/AgentCommInvoiceList.jsp" />
+	</definition>
+
+
+
+
+
+
+
+	<definition name="flightAgentCreditNoteList_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Agent-CreditNoteList" />
+		<put-attribute name="body" value="/FlightAgentCreditNoteList.jsp" />
+	</definition>
+	<definition name="flightCustomerCreditNoteList_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Customer-CreditNoteList" />
+		<put-attribute name="body" value="/FlightCustomerCreditNoteList.jsp" />
+	</definition>
+	<definition name="hotelAgentCreditNoteList_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Agent-CreditNoteList" />
+		<put-attribute name="body" value="/HotelAgentCreditNoteList.jsp" />
+	</definition>
+	<definition name="hotelCustomerCreditNoteList_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Customer-CreditNoteList" />
+		<put-attribute name="body" value="/HotelCustomerCreditNoteList.jsp" />
+	</definition>
+	<definition name="flightCreditNotelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight CreditNote" />
+		<put-attribute name="body" value="/FlightCreditNote.jsp" />
+	</definition>
+
+	<definition name="CarCreditNotelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Car CreditNote" />
+		<put-attribute name="body" value="/CarCreditNote.jsp" />
+	</definition>
+	<definition name="TrainCreditNotelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Train CreditNote" />
+		<put-attribute name="body" value="/TrainCreditNote.jsp" />
+	</definition>
+	<definition name="InsuranceCreditNotelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance CreditNote" />
+		<put-attribute name="body" value="/InsuranceCreditNote.jsp" />
+	</definition>
+	<definition name="MiscellaneousCreditNotelayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Miscellaneous CreditNote" />
+		<put-attribute name="body" value="/MiscellaneousCreditNote.jsp" />
+	</definition>
+	<definition name="VisaCreditNotelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Visa CreditNote" />
+		<put-attribute name="body" value="/VisaCreditNote.jsp" />
+	</definition>
+	<definition name="BusCreditNotelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus CreditNote" />
+		<put-attribute name="body" value="/BusCreditNote.jsp" />
+	</definition>
+
+	<definition name="flightCustomerCreditNotelayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Customer CreditNote" />
+		<put-attribute name="body" value="/FlightCustomerCreditNote.jsp" />
+	</definition>
+
+	<definition name="hotelCreditNotelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel CreditNote" />
+		<put-attribute name="body" value="/HotelCreditNote.jsp" />
+	</definition>
+
+	<definition name="hotelCustomerCreditNotelayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Customer-CreditNote" />
+		<put-attribute name="body" value="/HotelCustomerCreditNote.jsp" />
+	</definition>
+	<definition name="hotelCustomerInvoiceList_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="hotel Customer-InvoiceList" />
+		<put-attribute name="body" value="/HotelCustomerInvoiceList.jsp" />
+	</definition>
+
+	<definition name="hotelCustomerInvoice_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Customer Invoice" />
+		<put-attribute name="body" value="/HotelCustomerInvoice.jsp" />
+	</definition>
+	<definition name="hotelAgentCommissionInvoiceList_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Agent-CommissionInvoiceList" />
+		<put-attribute name="body"
+			value="/HotelAgentCommissionInvoiceList.jsp" />
+	</definition>
+
+	<definition name="hotelAgentCommissionInvoice_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Agent-CommissionInvoice" />
+		<put-attribute name="body" value="/HotelAgentCommInvoice.jsp" />
+	</definition>
+
+	<definition name="superMyTx_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Transactions" />
+		<put-attribute name="body" value="/MyTransactions.jsp" />
+	</definition>
+	<definition name="txHistory_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Transactions History" />
+		<put-attribute name="body" value="/TransactionsHistory.jsp" />
+	</definition>
+	<definition name="ledger_report_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Ledger_report" />
+		<put-attribute name="body" value="/MyLedgerReport.jsp" />
+	</definition>
+
+	<definition name="companyWalletUsers_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="WalletList " />
+		<put-attribute name="body" value="/CompanyWalletUsersList.jsp" />
+	</definition>
+	<definition name="superUsercompanyWallet_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="WalletList" />
+		<put-attribute name="body" value="/SuperUserCompanyWalletList.jsp" />
+	</definition>
+	<definition name="addMyWallet_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add To Wallet" />
+		<put-attribute name="body" value="/AddMyWallet.jsp" />
+	</definition>
+
+
+
+	<!-- Corporate Module -->
+
+	<definition name="addChildorParent_Companylayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Agent" />
+		<put-attribute name="body" value="/Child_ParentCompany.jsp" />
+	</definition>
+	<definition name="showLintasCompanyList_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="CompanyList" />
+		<put-attribute name="body" value="/LintasCompanyList.jsp" />
+	</definition>
+	<definition name="showCompanyNewApprovalList_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="CompanyList" />
+		<put-attribute name="body" value="/CompanyNewApprovalList.jsp" />
+	</definition>
+	<definition name="resetPassword_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Reset Password" />
+		<put-attribute name="body" value="/ResetPassword.jsp" />
+	</definition>
+	<definition name="resetCompanyProfilePassword_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Reset Password" />
+		<put-attribute name="body" value="/ResetCompanyProfilePassword.jsp" />
+	</definition>
+	<definition name="resetCompanyUserPassword_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Reset Password" />
+		<put-attribute name="body" value="/ResetCompanyUserPassword.jsp" />
+	</definition>
+	<definition name="resetUserProfilePassword_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Reset Password" />
+		<put-attribute name="body" value="/ResetUserProfilePassword.jsp" />
+	</definition>
+
+
+
+	<definition name="showCompanyDetails_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Company Details" />
+		<put-attribute name="body" value="/ShowComapnyDetails.jsp" />
+	</definition>
+	<definition name="showAgentDetails_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Agent Details" />
+		<put-attribute name="body" value="/ShowAgentDetails.jsp" />
+	</definition>
+
+
+
+
+	<!-- end dashboard -->
+
+	<!-- Corporate Module by Manish -->
+
+	<definition name="adddesignation_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Designation" />
+		<put-attribute name="body" value="/Adddesignation.jsp" />
+	</definition>
+	<definition name="bandlist_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Show Band List" />
+		<put-attribute name="body" value="/ShowBandList.jsp" />
+	</definition>
+	<definition name="designationlistview_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Show Designation List" />
+		<put-attribute name="body" value="/ShowDesignationList.jsp" />
+	</definition>
+
+
+
+	<definition name="addband_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Band" />
+		<put-attribute name="body" value="/AddBand.jsp" />
+	</definition>
+
+	<definition name="designationList_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Employee Designation List" />
+		<put-attribute name="body" value="/EmployeeDesignationList.jsp" />
+	</definition>
+
+
+	<!-- CRM by Vimal -->
+
+
+
+	<definition name="passengerprofile_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Passenger Profile" />
+		<put-attribute name="body" value="/PassengerProfile.jsp" />
+	</definition>
+	<definition name="frequentflyer_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Frequent Flyers" />
+		<put-attribute name="body" value="/FrequentFlyerDetails.jsp" />
+	</definition>
+	<definition name="passport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Photo/PassPort/Visa Details" />
+		<put-attribute name="body" value="/PassportandVisaDetails.jsp" />
+	</definition>
+	<definition name="contact_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Emergency Contact Details" />
+		<put-attribute name="body" value="/EmergencyContactDetails.jsp" />
+	</definition>
+
+	<!-- CMS by Khalid -->
+	<definition name="cms_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="CMS Details" />
+		<put-attribute name="body" value="/ContentManagementSystem.jsp" />
+	</definition>
+	<definition name="cms_List_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Deals List Details" />
+		<put-attribute name="body" value="/ContentManagementSystemList.jsp" />
+	</definition>
+	<definition name="cms_DealsUpdate.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Update Deals" />
+		<put-attribute name="body" value="/ContentManagementSystemUpdate.jsp" />
+	</definition>
+	<definition name="showCmsDetails_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="CMS Details" />
+		<put-attribute name="body" value="/ShowCmsDetails.jsp" />
+	</definition>
+	<definition name="CMS_Listlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="CMS List" />
+		<put-attribute name="body" value="/ContentManagementSystemList.jsp" />
+	</definition>
+	<definition name="addCmslayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add CMS" />
+		<put-attribute name="body" value="/ContentManagementSystem.jsp" />
+	</definition>
+	<definition name="filterDeal_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Reports" />
+		<put-attribute name="body" value="/ContentManagementSystemList.jsp" />
+	</definition>
+	<definition name="cms_hotel_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Hotels" />
+		<put-attribute name="body" value="/addhotel.jsp" />
+	</definition>
+	<definition name="cms_hotel_Listlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel List" />
+		<put-attribute name="body" value="/HotelList.jsp" />
+	</definition>
+
+	<definition name="cms_hotelroom_Listlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Room List" />
+		<put-attribute name="body" value="/HotelRoomList.jsp" />
+	</definition>
+	<definition name="cms_hoteledit_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Edit" />
+		<put-attribute name="body" value="/hoteledit.jsp" />
+	</definition>
+	<definition name="cms_hotelroomedit_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Room Edit" />
+		<put-attribute name="body" value="/hotelroomedit.jsp" />
+	</definition>
+
+	<!-- CMS End -->
+
+	<!-- Airport Tiles -->
+
+	<definition name="addairport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Airport" />
+		<put-attribute name="body" value="/AddAirport.jsp" />
+	</definition>
+	<definition name="editairport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Airport" />
+		<put-attribute name="body" value="/EditAirport.jsp" />
+	</definition>
+
+	<definition name="airportlist_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Airport List" />
+		<put-attribute name="body" value="/ShowAllAirports.jsp" />
+	</definition>
+	<!-- Deal sheet Tiles -->
+
+	<definition name="superuser_dealsheet_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="add superuser deal sheet" />
+		<put-attribute name="body" value="/CreateSuperUserDealSheet.jsp" />
+	</definition>
+	<definition name="superuser_dealsheet_update_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="superuser deal sheet update" />
+		<put-attribute name="body" value="/SuperUserDealSheetUpdate.jsp" />
+	</definition>
+	<definition name="child_blocksheet_update_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="child block update" />
+		<put-attribute name="body" value="/ChildCompanyBlockUpdate.jsp" />
+	</definition>
+
+	<definition name="myCommissionBlockList_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="my commission block list" />
+		<put-attribute name="body" value="/MyCommissionBlockList.jsp" />
+	</definition>
+
+	<definition name="superuser_dealsheet_list_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="superuser deal sheet list" />
+		<put-attribute name="body" value="/SuperUserDealSheetList.jsp" />
+	</definition>
+
+
+
+
+
+
+
+
+
+	<definition name="createChildCommissionBlock_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Child Commission Block" />
+		<put-attribute name="body" value="/CreateChildCommissionBlock.jsp" />
+	</definition>
+
+	<definition name="childCommissionBlockList_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Child Commission Block List" />
+		<put-attribute name="body" value="/ChildCommissionBlockList.jsp" />
+	</definition>
+	<definition name="addApiProviderlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="api provider page" />
+		<put-attribute name="body" value="/AddApiProvider.jsp" />
+	</definition>
+	<definition name="apiProviderListlayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="api provider List" />
+		<put-attribute name="body" value="/ApiProviderList.jsp" />
+	</definition>
+	<definition name="apiProviderUpdatelayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="api provider update" />
+		<put-attribute name="body" value="/ApiProviderUpdate.jsp" />
+	</definition>
+	<definition name="apiProviderDetailslayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="api provider details" />
+		<put-attribute name="body" value="/ApiProviderDetails.jsp" />
+	</definition>
+
+
+	<!-- Airline Deal Sheet Tiles -->
+
+	<definition name="airlineiatalist_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Airline Commission List" />
+		<put-attribute name="body" value="/FlightRemarksVaildation.jsp" />
+	</definition>
+
+	<definition name="airlineiatadislist_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="My Commission List" />
+		<put-attribute name="body" value="/MyCommistionBlockSheet.jsp" />
+	</definition>
+
+	<definition name="airlineiatachildlist_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Airline Commission List" />
+		<put-attribute name="body"
+			value="/FlightRemarkValidationForDistributor.jsp" />
+	</definition>
+
+	<definition name="commonConfigAdd_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="CommonConfigAdd" />
+		<put-attribute name="body" value="/CommonConfigAdd.jsp" />
+	</definition>
+
+	<definition name="commonConfigList_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Company Configs List" />
+		<put-attribute name="body" value="/CommonConfigList.jsp" />
+	</definition>
+
+	<definition name="commonConfigUpdate_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="common Config Update" />
+		<put-attribute name="body" value="/CommonConfigUpdate.jsp" />
+	</definition>
+	<definition name="CommonConfigEmailDetails_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="CommonConfig Email Details" />
+		<put-attribute name="body" value="/CommonConfigEmailDetails.jsp" />
+	</definition>
+	<!-- Bug Tracker Tiles -->
+
+	<definition name="addBugTracker.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Bug Tracker" />
+		<put-attribute name="body" value="/bugTracker_add.jsp" />
+	</definition>
+	<definition name="listBugTrackerByGroup.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bug Tracker List" />
+		<put-attribute name="body" value="/bugTracker_list_by_group.jsp" />
+	</definition>
+	<definition name="listBugTracker.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bug Tracker List" />
+		<put-attribute name="body" value="/bugTracker_list.jsp" />
+	</definition>
+	<definition name="editBugTracker.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bug Tracker List" />
+		<put-attribute name="body" value="/BugTrackerEdit.jsp" />
+	</definition>
+	<definition name="viewBugTracker.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Edit Bug Tracker" />
+		<put-attribute name="body" value="/bugTracker_view.jsp" />
+	</definition>
+
+	<definition name="addBugTrackerHistory.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="addBugTrackerHistory" />
+		<put-attribute name="body" value="/BugTrackerHistoryAdd.jsp" />
+	</definition>
+	<definition name="editBugHistory.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="edit Bug History" />
+		<put-attribute name="body" value="/BugTrackerHistoryEdit.jsp" />
+	</definition>
+
+	<definition name="addHotelTravelRequest.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Travel Request" />
+		<put-attribute name="body" value="/HotelTravelRequest.jsp" />
+	</definition>
+
+
+	<definition name="addMiscellaneousRequest.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Miscellaneous Request" />
+		<put-attribute name="body" value="/Miscellaneous-add.jsp" />
+	</definition>
+	<definition name="generate_miscellaneous_invoice.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value=" Generate Miscellaneous Invoice" />
+		<put-attribute name="body" value="/MiscellaneousInvoice.jsp" />
+	</definition>
+
+	<!-- added by basha -->
+	<definition name="addCarTravelRequest.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Car Travel Request" />
+		<put-attribute name="body" value="/car-travel-request-add.jsp" />
+	</definition>
+	<definition name="addVisaTravelRequest.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Visa Travel Request" />
+		<put-attribute name="body" value="/visa-travel-request-add.jsp" />
+	</definition>
+	<definition name="addInsuranceTravelRequest.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance Travel Request" />
+		<put-attribute name="body" value="/insurance-travel-request-add.jsp" />
+	</definition>
+
+	<definition name="addBusTravelRequest.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Request" />
+		<put-attribute name="body" value="/bus-travel-request-add.jsp" />
+	</definition>
+
+	<definition name="addTrainTravelRequest.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Train Travel Request" />
+		<put-attribute name="body" value="/train-travel-request-add.jsp" />
+	</definition>
+
+	<definition name="generate_Insurance_invoice.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value=" Generate Insurance Invoice" />
+		<put-attribute name="body" value="/insuranceInvoice.jsp" />
+	</definition>
+	<definition name="generate_Car_invoice.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value=" Generate Car Invoice" />
+		<put-attribute name="body" value="/carInvoice.jsp" />
+	</definition>
+	<definition name="generate_Train_invoice.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value=" Generate Train Invoice" />
+		<put-attribute name="body" value="/trainInvoice.jsp" />
+	</definition>
+	<definition name="generate_Visa_invoice.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value=" Generate Visa Invoice" />
+		<put-attribute name="body" value="/visaInvoice.jsp" />
+	</definition>
+
+	<definition name="generate_Miscellaneous_invoice.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value=" Generate Miscellaneous Invoice" />
+		<put-attribute name="body" value="/MiscellaneousInvoice.jsp" />
+	</definition>
+
+	<definition name="generateBusInvoice.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Invoice" />
+		<put-attribute name="body" value="/BusInvoice.jsp" />
+	</definition>
+	<definition name="insuranceTravelRequest.view.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance Travel Request" />
+		<put-attribute name="body" value="/insurance-travel-request-view.jsp" />
+	</definition>
+	<definition name="carTravelRequest.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Car Travel Request" />
+		<put-attribute name="body" value="/car-travel-request-view.jsp" />
+	</definition>
+	<definition name="busTravelRequest.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Request" />
+		<put-attribute name="body" value="/bus-travel-request-view.jsp" />
+	</definition>
+	<definition name="visaTravelRequest.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Visa Travel Request" />
+		<put-attribute name="body" value="/visa-travel-request-view.jsp" />
+	</definition>
+	<definition name="miscellaneousOrderRequest.view.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Miscellaneous Order Request" />
+		<put-attribute name="body"
+			value="/Miscelaneous-order-request-view.jsp" />
+	</definition>
+	<definition name="trainTravelRequest.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Train Travel Request" />
+		<put-attribute name="body" value="/train-travel-request-view.jsp" />
+	</definition>
+	<definition name="create_test_cases.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Create Test Cases" />
+		<put-attribute name="body" value="/BugTestCaseCreate.jsp" />
+	</definition>
+	<definition name="test_cases.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Test Cases" />
+		<put-attribute name="body" value="/BugTestCases.jsp" />
+	</definition>
+	<definition name="edit_test_cases.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Test Cases Edit" />
+		<put-attribute name="body" value="/BugTestCaseEdit.jsp" />
+	</definition>
+
+	<definition name="all_miscellaneousReport_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="All Miscellaneous Reports" />
+		<put-attribute name="body" value="/MiscellaneousReportsListView.jsp" />
+	</definition>
+
+	<!-- bashanew added -->
+	<definition name="all_carReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Car Reports" />
+		<put-attribute name="body" value="/goCarReports.jsp" />
+	</definition>
+	<definition name="all_busReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Bus Reports" />
+		<put-attribute name="body" value="/goBusReports.jsp" />
+	</definition>
+	<definition name="all_trainReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Train Reports" />
+		<put-attribute name="body" value="/goTrainReports.jsp" />
+	</definition>
+	<definition name="all_visaReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Visa Reports" />
+		<put-attribute name="body" value="/goVisaReports.jsp" />
+	</definition>
+	<definition name="all_insuranceReport_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Insurance Reports" />
+		<put-attribute name="body" value="/goInsuranceReports.jsp" />
+	</definition>
+	<definition name="all_carOrder_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Car Orders" />
+		<put-attribute name="body" value="/goCarOrders.jsp" />
+	</definition>
+	<definition name="all_busOrder_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Bus Orders" />
+		<put-attribute name="body" value="/goBusOrders.jsp" />
+	</definition>
+	<definition name="all_trainOrder_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Train Orders" />
+		<put-attribute name="body" value="/goTrainOrders.jsp" />
+	</definition>
+	<definition name="all_visaOrder_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Visa Orders" />
+		<put-attribute name="body" value="/goVisaOrders.jsp" />
+	</definition>
+	<definition name="all_insuranceOrder_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Insurance Orders" />
+		<put-attribute name="body" value="/goInsuranceOrders.jsp" />
+	</definition>
+
+	<definition name="all_miscellaneousOrder_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="All Miscellaneous Orders" />
+		<put-attribute name="body" value="/MiscellaneousOrderListView.jsp" />
+	</definition>
+
+	<definition name="HotelTravelRequestList.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Travel Request List" />
+		<put-attribute name="body" value="/HotelTravelRequestList.jsp" />
+	</definition>
+
+	<definition name="hotelTravelRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Travel Request List" />
+		<put-attribute name="body" value="/HotelTravelRequestEdit.jsp" />
+	</definition>
+	<definition name="HotelTravelRequestView.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Travel Request View" />
+		<put-attribute name="body" value="/HotelTravelRequestView.jsp" />
+	</definition>
+	<definition name="createHotelTravelRequestQuotation.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title"
+			value="Hotel Travel Request Quotation Create" />
+		<put-attribute name="body"
+			value="/HotelTravelRequestQuotationCreate.jsp" />
+	</definition>
+
+	<definition name="showbrowsinghistorylist.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Browsing History" />
+		<put-attribute name="body" value="/BrowsingHistoryList.jsp" />
+	</definition>
+	<definition name="HotelRequestTravelQuotationList.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title"
+			value="Hotel Request Travel Quotation List" />
+		<put-attribute name="body"
+			value="/HotelRequestTravelQuotationList.jsp" />
+	</definition>
+
+	<definition name="HotelRequestTravelQuotationEdit.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title"
+			value="Hotel Request Travel Quotation Edit" />
+		<put-attribute name="body"
+			value="/HotelRequestTravelQuotationEdit.jsp" />
+	</definition>
+
+	<definition name="HotelOfflineBookingPage.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Offline Booking Page" />
+		<put-attribute name="body" value="/HotelOfflineBookingPage.jsp" />
+	</definition>
+	<definition name="HotelOfflineBookingPagequicklink.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Offline Booking Page" />
+		<put-attribute name="body"
+			value="/HotelOfflineBookingPageforquickbook.jsp" />
+	</definition>
+	<!-- <definition name="HotelOfflineVoucher.tiles" extends="baseDashBoard"> 
+		<put-attribute name="title" value="Hotel Offline Voucher" /> <put-attribute 
+		name="body" value="/HotelOfflineVoucher.jsp" /> </definition> -->
+	<definition name="BusOfflineVoucher.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Offline Voucher" />
+		<put-attribute name="body" value="/BusOfflineVoucherFromAPI.jsp" />
+	</definition>
+	<definition name="HotelOfflineVoucher.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Offline Voucher" />
+		<put-attribute name="body" value="/HotelOfflineVoucherFromAPI.jsp" />
+	</definition>
+	<definition name="HotelOfflineInvoice.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Offline Invoice" />
+		<put-attribute name="body" value="/HotelOfflineInvoiceFromAPI.jsp" />
+	</definition>
+
+	<definition name="FlightOfflineVoucherPage.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Offline Voucher" />
+		<put-attribute name="body" value="/FlightOfflineVoucher.jsp" />
+	</definition>
+
+	<definition name="FlightOfflineInvoicePage.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Offline Invoice" />
+		<put-attribute name="body" value="/FlightOfflineInvoice.jsp" />
+	</definition>
+
+	<definition name="rmCompanyConfig.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="RM Config Details" />
+		<put-attribute name="body" value="/RmConfig.jsp" />
+	</definition>
+	<definition name="rmCompanyConfigUpdate.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="RM Config Details Update" />
+		<put-attribute name="body" value="/RmConfigUpdate.jsp" />
+	</definition>
+
+	<definition name="commonDsrReportConfg.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Common Dsr Report Confg" />
+		<put-attribute name="body" value="/CommonDSRConfig.jsp" />
+	</definition>
+
+	<definition name="addCustomerPaymentTransaction.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Add Customer PaymentTx" />
+		<put-attribute name="body" value="/AddHotelCustomerPaymentTx.jsp" />
+	</definition>
+
+	<definition name="addApiProviderPaymentTransaction.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Add ApiProvider PaymentTx" />
+		<put-attribute name="body" value="/AddHotelApiProviderPaymentTx.jsp" />
+	</definition>
+	<definition name="addFlightCustomerPaymentTransaction.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title"
+			value="Flight Customer Payment Transaction" />
+		<put-attribute name="body" value="/AddFlightCustomerPaymentTx.jsp" />
+	</definition>
+	<definition name="addFlightApiProviderPaymentTransaction.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title"
+			value="Flight ApiProvider Payment Transaction" />
+		<put-attribute name="body" value="/AddFlightApiProviderPaymentTx.jsp" />
+	</definition>
+
+
+
+	<definition name="hotelDisReport.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Dis Report" />
+		<put-attribute name="body" value="/HotelDSRReport.jsp" />
+	</definition>
+
+	<definition name="flightDisReport.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Dis Report" />
+		<put-attribute name="body" value="/FlightDSRReport.jsp" />
+	</definition>
+	<definition name="common_dis_report_page.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="common_dis_report_page" />
+		<put-attribute name="body" value="/CommonDSRFilterPage.jsp" />
+	</definition>
+	<definition name="generate_common_dis_report.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="generate_common_dis_report" />
+		<put-attribute name="body" value="/GenerateCommonDSRReport.jsp" />
+	</definition>
+
+
+
+
+
+
+	<!-- ######################################################## -->
+	<definition name="addFlightTravelRequest.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Travel Request" />
+		<put-attribute name="body" value="/FlightTravelRequest.jsp" />
+	</definition>
+	<definition name="FlightTravelRequestView.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Travel Request View" />
+		<put-attribute name="body" value="/FlightTravelRequestView.jsp" />
+	</definition>
+	<definition name="commonDsrReportConfg.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Common Dsr Report Confg" />
+		<put-attribute name="body" value="/CommonDSRConfig.jsp" />
+	</definition>
+	<definition name="FlightTravelRequestList.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Travel Request List" />
+		<put-attribute name="body" value="/FlightTravelRequestList.jsp" />
+	</definition>
+
+	<definition name="carTravelRequestList.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Car Travel Request List" />
+		<put-attribute name="body" value="/CarTravelRequestList.jsp" />
+	</definition>
+
+	<definition name="busTravelRequestList.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Request List" />
+		<put-attribute name="body" value="/BusTravelRequestList.jsp" />
+	</definition>
+
+	<definition name="trainTravelRequestList.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Train Travel Request List" />
+		<put-attribute name="body" value="/TrainTravelRequestList.jsp" />
+	</definition>
+
+	<definition name="visaTravelRequestList.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Visa Travel Request List" />
+		<put-attribute name="body" value="/VisaTravelRequestList.jsp" />
+	</definition>
+	<definition name="miscellaneousTravelRequestList.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Miscellaneous Travel Request List" />
+		<put-attribute name="body"
+			value="/MiscellaneousTravelRequestList.jsp" />
+	</definition>
+
+	<definition name="insuranceTravelRequestList.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance Travel Request List" />
+		<put-attribute name="body" value="/InsuranceTravelRequestList.jsp" />
+	</definition>
+
+	<definition name="FlightTravelRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Travel Request Edit" />
+		<put-attribute name="body" value="/FlightRequestEdit.jsp" />
+	</definition>
+	<definition name="CarTravelRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Car Travel Request Edit" />
+		<put-attribute name="body" value="/CarQuotation-edit.jsp" />
+	</definition>
+
+	<definition name="BusTravelRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Request Edit" />
+		<put-attribute name="body" value="/BusQuotation-edit.jsp" />
+	</definition>
+
+	<definition name="TrainTravelRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Request Edit" />
+		<put-attribute name="body" value="/TrainQuotation-edit.jsp" />
+	</definition>
+	<definition name="VisaTravelRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Request Edit" />
+		<put-attribute name="body" value="/VisaQuotation-edit.jsp" />
+	</definition>
+	<definition name="InsuranceTravelRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Request Edit" />
+		<put-attribute name="body" value="/InsuranceQuotation-edit.jsp" />
+	</definition>
+	<definition name="BusOrderRowEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus order Row Edit" />
+		<put-attribute name="body" value="/BusOrder-edit.jsp" />
+	</definition>
+	<definition name="CarOrderRowEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus order Row Edit" />
+		<put-attribute name="body" value="/CarOrder-edit.jsp" />
+	</definition>
+	<definition name="TrainOrderRowEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus order Row Edit" />
+		<put-attribute name="body" value="/TrainOrder-edit.jsp" />
+	</definition>
+	<definition name="VisaOrderRowEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus order Row Edit" />
+		<put-attribute name="body" value="/VisaOrder-edit.jsp" />
+	</definition>
+	<definition name="MiscellaneousOrderRowEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Miscellaneous Order Row Edit" />
+		<put-attribute name="body" value="/MiscellaneousOrder-edit.jsp" />
+	</definition>
+	<definition name="InsuranceOrderRowEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus order Row Edit" />
+		<put-attribute name="body" value="/InsuranceOrder-edit.jsp" />
+	</definition>
+	<definition name="CarRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Car Travel Edit" />
+		<put-attribute name="body" value="/EditCarTravelRequest.jsp" />
+	</definition>
+	<definition name="BusRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Edit" />
+		<put-attribute name="body" value="/EditBusTravelRequest.jsp" />
+	</definition>
+	<definition name="TrainRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Edit" />
+		<put-attribute name="body" value="/EditTrainTravelRequest.jsp" />
+	</definition>
+	<definition name="InsuranceRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Edit" />
+		<put-attribute name="body" value="/EditInsuranceTravelRequest.jsp" />
+	</definition>
+	<definition name="VisaRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Edit" />
+		<put-attribute name="body" value="/EditVisaTravelRequest.jsp" />
+	</definition>
+	<definition name="MiscellaneousRequestEdit.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Miscellaneous Travel Edit" />
+		<put-attribute name="body"
+			value="/EditMiscellaneousTravelRequest.jsp" />
+	</definition>
+	<definition name="createFlightTravelRequestQuotation.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title"
+			value="Flight Travel Request Quotation Create" />
+		<put-attribute name="body"
+			value="/FlightTravelRequestQuotationCreate.jsp" />
+	</definition>
+
+	<definition name="FlightRequestTravelQuotationList.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title"
+			value="Flight Request Travel QuotationList" />
+		<put-attribute name="body"
+			value="/FlightTravelRequestQuotationList.jsp" />
+	</definition>
+
+	<definition name="FlightOfflineBookingPage.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Offline BookingPage" />
+		<put-attribute name="body" value="/FlightOfflineBookingPage.jsp" />
+	</definition>
+	<definition name="FlightOfflineBookingPagequicklink.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Offline BookingPage" />
+		<put-attribute name="body"
+			value="/FlightOfflineBookingPageforquickbook.jsp" />
+	</definition>
+	<definition name="HotelQuotationSchemaCreatePage.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Quotation Schema Create" />
+		<put-attribute name="body" value="/HotelQuotationSchemaCreate.jsp" />
+	</definition>
+	<definition name="editHotelTravelRequestQuotation.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="HotelQuotationEdit" />
+		<put-attribute name="body"
+			value="/HotelTravelRequestQuotationEdit.jsp" />
+	</definition>
+	<definition name="editFlightTravelRequestQuotation.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Quotation Edit" />
+		<put-attribute name="body"
+			value="/FlightTravelRequestQuotationEdit.jsp" />
+	</definition>
+
+	<!-- ######################################################## -->
+	<!-- Notifcation tiles -->
+	<definition name="create_notification_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="create_notification" />
+		<put-attribute name="body" value="/CreateNotification.jsp" />
+	</definition>
+	<definition name="custom_notification_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="customnotificationedit" />
+		<put-attribute name="body" value="/customNotificationEdit.jsp" />
+	</definition>
+	<definition name="notification_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="notification" />
+		<put-attribute name="body" value="/custnotificationview.jsp" />
+	</definition>
+
+	<definition name="edit_notification_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="edit_notification" />
+		<put-attribute name="body" value="/NotificationEditSetAlarm.jsp" />
+	</definition>
+
+
+	<!--<definition name="expenses_layout.tiles" extends="baseDashBoard"> <put-attribute 
+		name="title" value="allexpenses" /> <put-attribute name="body" value="/TripExpenses.jsp" 
+		/> </definition> <definition name="expensesview_layout.tiles" extends="baseDashBoard"> 
+		<put-attribute name="title" value="expenseview" /> <put-attribute name="body" 
+		value="/expensesview.jsp" /> </definition> -->
+	<!-- <definition name="save_expenses_layout.tiles.tiles" extends="baseDashBoard"> 
+		<put-attribute name="title" value="createexpansesForm" /> <put-attribute 
+		name="body" value="/expenses.jsp" /> </definition> -->
+
+	<definition name="expenses_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/TripExpenses.jsp" />
+	</definition>
+	<definition name="expensesupdate_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/TripExpensesUpdate.jsp" />
+	</definition>
+	<definition name="expensesview_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="expenseview" />
+		<put-attribute name="body" value="/expensesview.jsp" />
+	</definition>
+	<definition name="expenseshotelview_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="expenseview" />
+		<put-attribute name="body" value="/expenseshotelview.jsp" />
+	</definition>
+
+	<definition name="expensescarview_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="expenseview" />
+		<put-attribute name="body" value="/expensescarview.jsp" />
+	</definition>
+
+	<definition name="expensestrainview_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="expenseview" />
+		<put-attribute name="body" value="/expensestrainview.jsp" />
+
+	</definition>
+	<definition name="expensesbusview_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="expenseview" />
+		<put-attribute name="body" value="/expensesbusview.jsp" />
+	</definition>
+	<definition name="expensesmealview_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="expenseview" />
+		<put-attribute name="body" value="/expensesmealview.jsp" />
+	</definition>
+
+	<definition name="expenseslaborview_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="expenseview" />
+		<put-attribute name="body" value="/expenseslaborview.jsp" />
+	</definition>
+	<definition name="expensesvisaview_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="expenseview" />
+		<put-attribute name="body" value="/expensesvisaview.jsp" />
+	</definition>
+	<definition name="expensesinsuranceview_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="expenseview" />
+		<put-attribute name="body" value="/expensesinsuranceview.jsp" />
+	</definition>
+	<definition name="expensesmislaniousview_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="expenseview" />
+		<put-attribute name="body" value="/expensesmislaniousview.jsp" />
+	</definition>
+	<definition name="trip_expense_list_.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="tripexpenseListpage" />
+		<put-attribute name="body" value="/TripExpenseCompleteList.jsp" />
+	</definition>
+	<definition name="flight.expense.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/FlightExpense.jsp" />
+	</definition>
+	<definition name="hotel.expense.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/HotelExpense.jsp" />
+	</definition>
+	<definition name="car.expense.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/CarExpense.jsp" />
+	</definition>
+	<definition name="train.expense.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/TrainExpense.jsp" />
+	</definition>
+	<definition name="bus.expense.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/BusExpense.jsp" />
+	</definition>
+	<definition name="insurance.expense.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/InsuranceExpense.jsp" />
+	</definition>
+	<definition name="visa.expense.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/VisaExpense.jsp" />
+	</definition>
+	<definition name="meal.expense.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/MealExpense.jsp" />
+	</definition>
+	<definition name="labour.expense.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/LabourExpense.jsp" />
+	</definition>
+	<definition name="miscellaneous.expense.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/MiscellaneousExpense.jsp" />
+	</definition>
+
+
+	<definition name="flightExpensesEdit_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/editFlightExpense.jsp" />
+	</definition>
+	<definition name="hotelExpensesEdit_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/editHotelExpense.jsp" />
+	</definition>
+	<definition name="carExpensesEdit_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/editCarExpense.jsp" />
+	</definition>
+	<definition name="trainExpensesEdit_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/editTrainExpense.jsp" />
+	</definition>
+	<definition name="busExpensesEdit_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/editBusExpense.jsp" />
+	</definition>
+	<definition name="insuranceExpensesEdit_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/editInsuranceExpense.jsp" />
+	</definition>
+	<definition name="visaExpensesEdit_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/editVisaExpense.jsp" />
+	</definition>
+	<definition name="mealExpensesEdit_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/editMealExpense.jsp" />
+	</definition>
+	<definition name="laborExpensesEdit_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/editLaborExpense.jsp" />
+	</definition>
+	<definition name="miscellaneousExpensesEdit_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/editMiscellaneousExpense.jsp" />
+	</definition>
+
+
+
+	<definition name="expenses_List_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="allexpenses" />
+		<put-attribute name="body" value="/TripExpensesList.jsp" />
+	</definition>
+	<!-- <definition name="expenses_layout.tiles" extends="baseDashBoard"> <put-attribute 
+		name="title" value="allexpenses" /> <put-attribute name="body" value="/TripExpenses.jsp" 
+		/> </definition> -->
+
+	<definition name="goFlightExpense_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="GoFlightExpenses" />
+		<put-attribute name="body" value="/GoFlightExpenses.jsp" />
+	</definition>
+	<definition name="goHotelExpense_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="GoHotelExpenses" />
+		<put-attribute name="body" value="/GoHotelExpenses.jsp" />
+	</definition>
+	<definition name="goCarExpense_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="GoCarExpenses" />
+		<put-attribute name="body" value="/GoCarExpenses.jsp" />
+	</definition>
+	<definition name="goTrainExpense_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="GoTrainExpenses" />
+		<put-attribute name="body" value="/GoTrainExpenses.jsp" />
+	</definition>
+	<definition name="goBusExpense_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="GoBusExpenses" />
+		<put-attribute name="body" value="/GoBusExpenses.jsp" />
+	</definition>
+	<definition name="goInsuranceExpense_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="GoInsuranceExpenses" />
+		<put-attribute name="body" value="/GoInsuranceExpenses.jsp" />
+	</definition>
+	<definition name="goVisaExpense_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="GoVisaExpenses" />
+		<put-attribute name="body" value="/GoVisaExpenses.jsp" />
+	</definition>
+	<definition name="goMealExpense_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="GoMealExpenses" />
+		<put-attribute name="body" value="/GoMealExpenses.jsp" />
+	</definition>
+	<definition name="goLaborExpense_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="GoLaborExpenses" />
+		<put-attribute name="body" value="/GoLaborExpenses.jsp" />
+	</definition>
+	<definition name="goMiscellaneousExpense_layout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="GoMiscellaneousExpenses" />
+		<put-attribute name="body" value="/GoMiscellaneousExpenses.jsp" />
+	</definition>
+
+
+	<!-- <definition name="save_expenses_layout.tiles.tiles" extends="baseDashBoard"> 
+		<put-attribute name="title" value="createexpansesForm" /> <put-attribute 
+		name="body" value="/expenses.jsp" /> </definition> -->
+
+
+	<!-- create api provider cms files -->
+
+	<definition name="apiprovider.desiya.add.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Desiya ApiProvider" />
+		<put-attribute name="body" value="/apiProvider-desiya-add.jsp" />
+	</definition>
+	<definition name="apiprovider.desiya.list.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="List Desiya ApiProvider" />
+		<put-attribute name="body" value="/apiProvider-desiya-list.jsp" />
+	</definition>
+	<definition name="apiprovider.desiya.update.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Update Desiya ApiProvider " />
+		<put-attribute name="body" value="/apiProvider-desiya-update.jsp" />
+	</definition>
+
+	<definition name="apiprovider.etravelsmart.add.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Add e-Travel Smart ApiProvider" />
+		<put-attribute name="body" value="/apiProvider-etravelsmart-add.jsp" />
+	</definition>
+	<definition name="apiprovider.etravelsmart.list.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="List e-Travel Smart ApiProvider" />
+		<put-attribute name="body" value="/apiProvider-etravelsmart-list.jsp" />
+	</definition>
+	<definition name="apiprovider.etravelsmart.update.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Update e-Travel Smart ApiProvider " />
+		<put-attribute name="body"
+			value="/apiProvider-etravelsmart-update.jsp" />
+	</definition>
+	<definition name="apiprovider.trawelltag.update.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Update Trawell Tag ApiProvider " />
+		<put-attribute name="body" value="/apiProvider-trawellTag-update.jsp" />
+	</definition>
+
+	<definition name="apiprovider.trawellTag.add.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Trawell Tag ApiProvider" />
+		<put-attribute name="body" value="/apiProvider-trawellTag-add.jsp" />
+	</definition>
+	<definition name="apiprovider.trawelltag.list.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="List Trawell Tag ApiProvider" />
+		<put-attribute name="body" value="/apiProvider-trawellTag-list.jsp" />
+	</definition>
+
+
+	<definition name="apiprovider.tbo.add.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Tbo ApiProvider" />
+		<put-attribute name="body" value="/apiProvider-tbo-add.jsp" />
+	</definition>
+	<definition name="apiprovider.tbo.list.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="List Tbo ApiProvider" />
+		<put-attribute name="body" value="/apiProvider-tbo-list.jsp" />
+	</definition>
+	<definition name="apiprovider.tbo.update.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Update Tbo ApiProvider " />
+		<put-attribute name="body" value="/apiProvider-tbo-update.jsp" />
+	</definition>
+
+	<definition name="apiprovider.bluestar.add.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Bluestar ApiProvider" />
+		<put-attribute name="body" value="/apiProvider-bluestar-add.jsp" />
+	</definition>
+	<definition name="apiprovider.bluestar.list.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="List Bluestar ApiProvider" />
+		<put-attribute name="body" value="/apiProvider-bluestar-list.jsp" />
+	</definition>
+	<definition name="apiprovider.bluestar.update.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Update Bluestar ApiProvider " />
+		<put-attribute name="body" value="/apiProvider-bluestar-update.jsp" />
+	</definition>
+
+
+	<definition name="apiprovider.common.add.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add ApiProvider Common Config" />
+		<put-attribute name="body" value="/apiProvider-commonconfig-add.jsp" />
+	</definition>
+	<definition name="apiprovider.common.list.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add ApiProvider Common Config list" />
+		<put-attribute name="body" value="/apiProvider-commonconfig-list.jsp" />
+	</definition>
+	<definition name="apiprovider.common.update.tiles" extends="baseDashBoard">
+		<put-attribute name="title"
+			value="Add ApiProvider Common Config update" />
+		<put-attribute name="body"
+			value="/apiProvider-commonconfig-update.jsp" />
+	</definition>
+
+	<definition name="trips.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trips" />
+		<put-attribute name="body" value="/TripRequestList.jsp" />
+	</definition>
+	<definition name="trip_view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/TripRequestView.jsp" />
+	</definition>
+
+	<definition name="trips.expense.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trips" />
+		<put-attribute name="body" value="/TripExpensesList.jsp" />
+	</definition>
+	<definition name="trip.expense.view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip view" />
+		<put-attribute name="body" value="/TripExpenseCompleteList.jsp" />
+	</definition>
+
+
+
+	<!-- create api provider cms files -->
+	<!-- ######################################################## -->
+
+	<definition name="NotificationList.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Notifications" />
+		<put-attribute name="body" value="/NotificationList.jsp" />
+	</definition>
+
+	<definition name="TransactionDetail.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="WalletTransactionDetail" />
+		<put-attribute name="body" value="/WalletTransactionDetail.jsp" />
+	</definition>
+	<definition name="UserDetail.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="User Detail" />
+		<put-attribute name="body" value="/FrontUserDetails.jsp" />
+	</definition>
+
+	<!-- /////////////////added by basha -->
+	<definition name="CarRequestView.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Car Travel View" />
+		<put-attribute name="body" value="/CarReportView.jsp" />
+	</definition>
+	<definition name="BusRequestView.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel View" />
+		<put-attribute name="body" value="/BusReportView.jsp" />
+	</definition>
+	<definition name="TrainRequestView.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Train Travel View" />
+		<put-attribute name="body" value="/trainReportView.jsp" />
+	</definition>
+	<definition name="VisaRequestView.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Visa Travel View" />
+		<put-attribute name="body" value="/visaReportView.jsp" />
+	</definition>
+	<definition name="InsuranceRequestView.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance Travel View" />
+		<put-attribute name="body" value="/insuranceReportiew.jsp" />
+	</definition>
+	<definition name="MiscellaneousReportRequestView.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Miscellaneous Travel View" />
+		<put-attribute name="body"
+			value="/MiscellaneousReportDetailsView.jsp" />
+	</definition>
+	<definition name="CarRequestViewOrders.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Car Travel Orders View" />
+		<put-attribute name="body" value="/carOrdersView.jsp" />
+	</definition>
+	<definition name="BusRequestViewOrders.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Travel Orders View" />
+		<put-attribute name="body" value="/busOrdersView.jsp" />
+	</definition>
+	<definition name="TrainRequestViewOrders.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Train Travel Orders View" />
+		<put-attribute name="body" value="/trainOrdersView.jsp" />
+	</definition>
+	<definition name="VisaRequestViewOrders.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Visa Travel Orders View" />
+		<put-attribute name="body" value="/visaOrdersView.jsp" />
+	</definition>
+	<definition name="InsuranceRequestViewOrders.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance Travel Orders View" />
+		<put-attribute name="body" value="/insuranceOrdersView.jsp" />
+	</definition>
+	<definition name="MiscellaneousOrderRequestView.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Miscellaneous Travel Orders View" />
+		<put-attribute name="body" value="/MiscellaneousOrderDetailsView.jsp" />
+	</definition>
+	<definition name="create_notification_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="create_notification" />
+		<put-attribute name="body" value="/CreateNotification.jsp" />
+	</definition>
+	<definition name="custom_notification_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="customnotificationedit" />
+		<put-attribute name="body" value="/customNotificationEdit.jsp" />
+	</definition>
+	<definition name="edit_notification_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="edit_notification" />
+		<put-attribute name="body" value="/NotificationEditSetAlarm.jsp" />
+	</definition>
+
+
+	<definition name="addpaymentinfo_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="add payment info" />
+		<put-attribute name="body" value="/AddPaymentInfo.jsp" />
+	</definition>
+
+	<definition name="displaypaymentlist_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Display Payment Card List" />
+		<put-attribute name="body" value="/ShowPaymentCardDetailsList.jsp" />
+	</definition>
+	<definition name="editpaymentinfo_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="edit Payment Card" />
+		<put-attribute name="body" value="/PaymentCardInfoEdit.jsp" />
+	</definition>
+
+	<definition name="addemployeeinfo_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Add Employee Details" />
+		<put-attribute name="body" value="/AddEmployeeDesignation.jsp" />
+	</definition>
+	<definition name="ShowEmployeeBandList.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Bands List With Employees" />
+		<put-attribute name="body" value="/ShowBandListWithEmployees.jsp" />
+	</definition>
+	<definition name="editEmployeeDesignation.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Edit Employee Designation" />
+		<put-attribute name="body" value="/EditEmployeeDesignation.jsp" />
+	</definition>
+	<definition name="editDesignation.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Edit Designation" />
+		<put-attribute name="body" value="/EditDesignation.jsp" />
+	</definition>
+	<definition name="editBand.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Edit Band" />
+		<put-attribute name="body" value="/EditBand.jsp" />
+	</definition>
+	<definition name="company_config_error.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="trip error view" />
+		<put-attribute name="body" value="/companyConfigErrorMasg.jsp" />
+	</definition>
+	<definition name="seeAll_Notifications.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="see all notifications" />
+		<put-attribute name="body" value="/seeallNotifications.jsp" />
+	</definition>
+
+	<definition name="superUserCompanyEntityUpdatelayout.tiles"
+		extends="baseDashBoard">
+		<put-attribute name="title" value="Update Company-Entity-Profile" />
+		<put-attribute name="body" value="/SuperUserCompanyEntityUpdate.jsp" />
+	</definition>
+	<definition name="addCompanyEntitylayout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Update Company-Entity-Profile" />
+		<put-attribute name="body" value="/AddCompanyEntity.jsp" />
+	</definition>
+
+	<definition name="customerorder_layout.tiles" extends="baseDashBoard">
+	<put-attribute name="title" value="customerorder Profile" />
+	<put-attribute name="body" value="/customerorder.jsp" />
+	</definition>
+	
+	 <definition name="CustomerOrderView_Details.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="customerorder view Details" />
+		<put-attribute name="body" value="/customerorderview.jsp" />
+	</definition>
+	
+	
+
+	<!-- Total Search & Booking Dash -->
+	<definition name="fetchflightlookbook_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Look Book List" />
+		<put-attribute name="body" value="/FlightLookBookList.jsp" />
+	</definition>
+	<definition name="fetchhotellookbook_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Look Book List" />
+		<put-attribute name="body" value="/HotelLookBookList.jsp" />
+	</definition>
+	<definition name="fetchbuslookbook_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Look Book List" />
+		<put-attribute name="body" value="/BusLookBookList.jsp" />
+	</definition>
+	
+	<definition name="fetchflightlook_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Look Details" />
+		<put-attribute name="body" value="/LookDetails.jsp" />
+	</definition>
+	<definition name="fetchflightbook_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Book Details" />
+		<put-attribute name="body" value="/BookDetails.jsp" />
+	</definition>
+	<definition name="fetchhotellook_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Look Details" />
+		<put-attribute name="body" value="/HotelLookDetails.jsp" />
+	</definition>
+	<definition name="fetchhotelbook_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Book Details" />
+		<put-attribute name="body" value="/HotelBookDetails.jsp" />
+	</definition>
+	<definition name="fetchbuslook_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Look Details" />
+		<put-attribute name="body" value="/BusLookDetails.jsp" />
+	</definition>
+	<definition name="fetchbusbook_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Book Details" />
+		<put-attribute name="body" value="/BusBookDetails.jsp" />
+	</definition>
+	<!--End Total Search & Booking Dash -->
+	
+	<definition name="fetchcustomeriplist_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Customer IP List" />
+		<put-attribute name="body" value="/CustomerIpList.jsp" />
+	</definition>
+	<definition name="fetchcustomeripdetails_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Customer IP List" />
+		<put-attribute name="body" value="/CustomerIpList.jsp" />
+	</definition>
+	<definition name="fetchcustomeriphistorylist_layout.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Customer IP History List" />
+		<put-attribute name="body" value="/CustomerIpHistoryList.jsp" />
+	</definition>
+	<definition name="uploadinsurancedata.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance Data Upload" />
+		<put-attribute name="body" value="/UploadInsuranceData.jsp" />
+	</definition>
+	<definition name="common_OrdersAnd_Reports_view.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Common Reports And Orders " />
+		<put-attribute name="body" value="/commonOrdersAndReportsview.jsp" />
+	</definition>
+	<definition name="allcustomerrecord.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Orders" />
+		<put-attribute name="body" value="/AllCustomerOrders.jsp" />
+	</definition>
+	
+	<definition name="alldashboardrecord.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="All Dashboard" />
+		<put-attribute name="body" value="/OverAllDashboard.jsp" />
+	</definition>
+	
+	<definition name="listFlightSearchCache.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="List Flight Search Cache" />
+		<put-attribute name="body" value="/FlightSearchCacheList.jsp" />
+	</definition>
+	<definition name="individualdashboardflight.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Flight Dashboard" />
+		<put-attribute name="body" value="/FlightIndividualDashboard.jsp" />
+	</definition>
+	<definition name="individualdashboardhotel.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Hotel Dashboard" />
+		<put-attribute name="body" value="/HotelIndividualDashboard.jsp" />
+	</definition>
+	<definition name="individualdashboardbus.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Bus Dashboard" />
+		<put-attribute name="body" value="/BusIndividualDashboard.jsp" />
+	</definition>
+	<definition name="individualdashboardcar.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Car Dashboard" />
+		<put-attribute name="body" value="/CarIndividualDashboard.jsp" />
+	</definition>
+	<definition name="individualdashboardtrain.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Train Dashboard" />
+		<put-attribute name="body" value="/TrainIndividualDashboard.jsp" />
+	</definition>
+	<definition name="individualdashboardvisa.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Visa Dashboard" />
+		<put-attribute name="body" value="/VisaIndividualDashboard.jsp" />
+	</definition>
+	<definition name="individualdashboardinsurance.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Insurance Dashboard" />
+		<put-attribute name="body" value="/InsuranceIndividualDashboard.jsp" />
+	</definition>
+	<definition name="individualdashboardmiscellaneous.tiles" extends="baseDashBoard">
+		<put-attribute name="title" value="Miscellaneous Dashboard" />
+		<put-attribute name="body" value="/MiscellaneousIndividualDashboard.jsp" />
+	</definition>
+	
+</tiles-definitions> 

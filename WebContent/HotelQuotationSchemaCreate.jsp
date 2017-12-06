@@ -1,0 +1,250 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="dj" uri="/struts-dojo-tags"%>
+<!DOCTYPE html>
+<html data-ng-app="app">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Register</title>
+
+<%-- <link
+	href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+	rel="stylesheet" type="text/css" />
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+	
+</script>
+<script
+	src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js">
+	
+</script>
+ --%>
+<link rel="stylesheet" href="css/alert.css">
+
+<script type="text/javascript">
+	$(function() {
+		var totUrl = $(location).attr('href');
+		var newUrl = totUrl.substr(0, totUrl.lastIndexOf('/') + 1);
+		var finalUrl = newUrl + "FlightTravelRequestList";
+		$('#success').click(function() {
+			//window.location.assign(finalUrl);
+			$('#success-alert').hide();
+
+		});
+		$('#cancel').click(function() {
+			$('#error-alert').hide();
+
+		});
+	});
+</script>
+<style type="text/css">
+.error {
+    color:red;
+}
+.valid {
+    color:green;
+}
+</style>
+<script src="js/jquery.validate.min.js"></script> 
+ <script src="js/additional-methods.js"></script>
+</head>
+<body data-ng-controller="AppCtrl">
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<section class="content-header">
+			<h1>Hotel Quotation Schema Creation</h1>
+		</section>
+		<!-- Main content -->
+		<section class="content">
+			<!-- Small boxes (Stat box) -->
+			<div class="col-sm-12">
+				<h4>
+					<a href="javascript:history.back();"><span class="pull-right"><i
+							class="fa fa-angle-left"></i> Back</span></a>
+				</h4>
+			</div>
+			<s:if test="hasActionErrors()">
+				<div class="succfully-updated clearfix" id="error-alert">
+
+					<div class="col-sm-2">
+						<i class="fa fa-check fa-3x"></i>
+					</div>
+
+					<div class="col-sm-10">
+						<p>
+							<s:actionerror />
+						</p>
+
+						<button type="button" id="cancel" class="btn btn-primary">Ok</button>
+					</div>
+				</div>
+			</s:if>
+			<s:if test="hasActionMessages()">
+				<div class="sccuss-full-updated" id="success-alert">
+					<div class="succfully-updated clearfix">
+						<div class="col-sm-2">
+							<i class="fa fa-check fa-3x"></i>
+						</div>
+						<div class="col-sm-10">
+							<s:actionmessage />
+							<button type="button" id="success" class="btn btn-primary">Ok</button>
+						</div>
+					</div>
+				</div>
+			</s:if>
+			<form action="createHotelQuotationSchema" method="post"
+				class="form-horizontal" name="myForm" id="myform">
+				<div class="form-group">
+					<label class="col-sm-2 control-label"> </label>
+					<div class="col-sm-8">
+						<div class="support">
+							<div class="expand" id="support">
+								<!-- level1 -->
+								<div class="level1">
+									<div id="level1">
+										<div class="well">
+											<p class="h4">Schema:1</p>
+											<div class="form-group" style="width: 100%">
+												<label class="col-sm-2 control-label">Field Name</label>
+												<div class="col-sm-8">
+													<input type="text" class="form-control input-sm"
+														name="hotelQuotationSchemaList[0].fieldName"
+														placeholder="Field Name" autocomplete="off" required>
+												</div>
+											</div>
+											<div class="form-group" style="width: 100%">
+												<label class="col-sm-2 control-label">Input Type</label>
+												<div class="col-sm-8">
+													<select class="form-control input-sm" required="required"
+														name="hotelQuotationSchemaList[0].dataType">
+														<option value="">Select Input Type</option>
+														<option value="text">Text</option>
+														<option value="longText">LongText</option>
+														<option value="int">Number</option>
+														<option value="decimal">Decimal</option>
+														<option value="select">Select Box</option>
+														<option value="multiSelect">Multiple Select</option>
+													</select>
+												</div>
+											</div>
+											<div class="form-group" style="width: 100%">
+												<label class="col-sm-2 control-label">Position
+													Number</label>
+												<div class="col-sm-8">
+													<input type="number" class="form-control input-sm"
+														name="hotelQuotationSchemaList[0].positionNumber"
+														placeholder="Position Number" autocomplete="off" required>
+												</div>
+											</div>
+											<div class="form-group" style="width: 100%">
+												<label class="col-sm-2 control-label">Fixed Position</label>
+												<div class="col-sm-8">
+													<select class="form-control input-sm" required="required"
+														name="hotelQuotationSchemaList[0].fixedPosition">
+														<option value="fixed">Yes</option>
+														<option value="dynamic">No</option>
+													</select>
+												</div>
+											</div>
+
+										</div>
+										<div class="package">
+										</div>
+										<a href="javascript:void(0)" class="btn btn-primary btn-sm " onclick="addlist()">Add list</a>
+						<a href='javascript:void(0)' class='btn btn-primary btn-sm remove_field'  onclick="remove_field()" disabled>Remove</a>
+									</div>
+									
+								</div>
+								 
+							</div>
+						</div>
+						<!--  support -->
+					</div>
+				</div>
+				
+				
+				<div class="form-group text-center">
+					<div class="col-xs-12 submitWrap text-center">
+						<button type="button" class="btn btn-primary btn-lg" id="buttonSubmit">Create
+							Schema</button>
+					</div>
+				</div>
+			</form>
+		</section>
+	</div>
+	<%@ include file="DashboardFooter.jsp"%>
+		<script > function addlist(){  
+		var noOfQuation = $( "#level1" ).find('.well').length;  
+		  var addQuatation = "";    
+		  $('.package').html("");  
+		  for (var i = 0; i < parseInt(noOfQuation); i++) {  
+			  var index = i+1;  
+			  var qPageNo= i+2;      
+			  addQuatation += "<div class='well' id='id"+index+"'><p class='h4'>Schema:"+qPageNo+"</p><div class='form-group' style='width: 100%'><label class='col-sm-2 control-label'>Field Name</label><div class='col-sm-8'><input type='text' class='form-control input-sm' name='hotelQuotationSchemaList["+index+"].fieldName' placeholder='Field Name' autocomplete='off' required></div></div> <div class='form-group' style='width: 100%'><label class='col-sm-2 control-label'>Input Type</label><div class='col-sm-8'> <select class='form-control input-sm'  name='hotelQuotationSchemaList["+index+"].dataType'  required><option value=''>select input type </option><option value='text'>Text</option><option value='longText'>LongText</option><option value='int'>Number</option><option value='decimal'>Decimal</option><option value='select'>Select Box</option><option value='multiSelect'>Multiple Select</option></select></div></div> <div class='form-group' style='width: 100%''><label class='col-sm-2 control-label'>Position Number</label><div class='col-sm-8'><input type='number' class='form-control input-sm'name='hotelQuotationSchemaList["+index+"].positionNumber'placeholder='Position Number' autocomplete='off' required></div></div><div class='form-group' style='width: 100%'><label class='col-sm-2 control-label'>Fixed Position</label><div class='col-sm-8'><select class='form-control input-sm' required='required' name='hotelQuotationSchemaList["+index+"].fixedPosition'> <option value='fixed'>Yes</option>  <option value='dynamic'>No</option> </select> </div></div></div>"; 
+			  }  
+	$('.package').html(addQuatation); 
+	if((noOfQuation) > 0){ 
+		$('.remove_field').removeAttr('disabled');  
+		}  else{ 
+			$('.remove_field').attr('disabled', 'disabled');  
+			} 
+	}
+	function remove_field(){ 
+		var noOfQuation = $( "#level1" ).find('.well').length; 
+		$('.well:last-child').remove();    
+		if(noOfQuation <= 1){     
+			$('.remove_field').attr('disabled', 'disabled'); 
+			}  else{ 
+				$('.remove_field').removeAttr('disabled');  
+				}   
+		noOfQuation--;  
+				}
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	jQuery.validator.addMethod("hotelTypeval",function(value) {
+        var valuehotel =  $('#hotelType').val();
+        return (valuehotel !=  'void');
+      }, "please select product type");
+	
+     $.validator.addMethod("cusValidationAlphaNum", function(value, element) {
+          return this.optional(element) || /^[a-zA-Z0-9._ ]+$/i.test(value);
+      }, "This field cannot have symbols.");
+
+      $.validator.addMethod("cusValidationAlphaName",function(value,element){
+          return this.optional(element) || /^[a-zA-Z ]+$/i.test(value);
+      },"This field cannot have numbers and symbols."); 
+      $.validator.addMethod("cusValidationforprice",function(value,element){
+          return this.optional(element) || /^[0-9.]+$/i.test(value);
+      },"This field cannot have Char and symbols.");
+
+
+$("#myform").validate({
+	 rules: {
+         
+         "email": {
+             required: true,
+             email: true
+         }
+     },
+     messages: {
+         "email": {
+             required: "Please, enter an email",
+             email: "Email is invalid"
+         }
+     },
+    submitHandler: function (form) { 
+        return false; 
+    }
+});
+
+$('#buttonSubmit').click(function() {
+	   if($("#myform").valid())
+	    	document.getElementById("myform").submit();
+	}); 
+});
+</script>  
+</body>
+</html>

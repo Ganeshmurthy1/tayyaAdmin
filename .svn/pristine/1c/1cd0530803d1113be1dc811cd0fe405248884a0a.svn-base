@@ -1,0 +1,164 @@
+
+.body{
+	background:url(../images/t-bg3.jpg)  no-repeat center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+ 	background-size: cover;
+ 	position:relative;
+ 	color: #fff;
+ }
+
+/*admin page css style goes here*/
+
+.l-form{
+  margin-top: 20%;
+  float: right;
+}
+
+#loggit{
+
+	position: relative;
+}
+
+.admin-logo{
+	width: 100%;
+}
+.admin-logo figure{
+	/*margin: 50px auto;*/
+	text-align: center;
+	width: 60%;
+
+}
+
+.login{
+
+	    /*  background: url(../images/small_steps.png) ;  */
+    /*-moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;*/
+    padding: 10px;
+    /* background-color: rgba(255,255,255, 0.3); */
+    background-color: rgba(21, 149, 211, 0.8);
+    /* border: 1px solid #D40000; */
+}
+.login > h3{
+	margin: 5%;
+  color: #555;
+}
+
+#loggit .input-group{
+	width: 80%;
+	margin: 0 auto;
+	border: 1px solid #ccc;
+}
+
+#loggit .checkbox{
+	margin-left: 15%;
+}
+
+#loggit .submitWrap{
+	
+	text-align: center;
+}
+
+#loggit .form-control{
+	background-color: rgba(0, 0, 0, 0.8);
+	border: 0px;
+	color: #fff;
+	    font-size: 16px;
+}
+
+#loggit .input-group-addon{
+	    background-color: rgba(0, 0, 0, 0.6);
+    border: 0px;
+    color: #F2F2F2;
+    font-size: 18px;}
+
+#loggit .btn-primary{
+	  background-color: #D50000;
+	  width: 50%;
+}
+#loggit .btn-lg{
+
+	padding: 5px 10px;
+}
+
+#logForm  form h3{
+  color: #fff;
+
+}
+
+/* #logForm {
+  color: #555;
+
+} */
+
+#logForm a{
+  color: #fff;
+}
+
+/*#loggit{ margin-top: 10%;}*/
+
+.to_register{
+	color: #fff;
+	font-style: italic;
+	font-size: 13px;
+}
+.formNotice p{
+	color: #fff;
+	font-size: 13px;
+}
+
+
+@media screen and (min-width: 768px) {
+
+/*#register, 
+#login{
+
+	width: 100%;
+
+}*/
+}
+
+@media screen and (min-width: 991px) {
+
+#loggit .input-group{
+	  width: 90%;
+}
+
+
+}
+@media screen and (min-width: 991px) {
+
+#loggit .input-group{
+	width: 70%;
+	
+}
+}
+@media screen and (max-width: 767px) {
+
+	
+	.admin-logo figure{
+		width: 50%;
+		 margin: 20px auto;
+	}
+
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+
+	.login{
+
+		margin: 20px 20px;
+
+	}
+}
+
+@media screen and (max-width: 480px){
+
+	.login{
+		margin: 0px 20px
+	}
+}

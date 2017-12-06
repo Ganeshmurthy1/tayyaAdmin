@@ -1,0 +1,24 @@
+package com.admin.dashboard.analysis.json.vo;
+
+import java.util.List;
+import java.util.Map;
+
+public class  WeeklySalesVO {
+	private Map<String,List<WeeklySalesDataVO>> weekDayMap;
+	 
+	public ErrorMsg getError() {
+		return error;
+	}
+	 
+	public void setError(ErrorMsg error) {
+		this.error = error;
+	}
+	public Map<String,List<WeeklySalesDataVO>> getWeekDayMap() {
+		return weekDayMap;
+	}
+
+	public void setWeekDayMap(Map<String,List<WeeklySalesDataVO>> weekDayMap) {
+		this.weekDayMap = weekDayMap;
+	}
+	private  ErrorMsg error;
+}

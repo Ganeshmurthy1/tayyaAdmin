@@ -1,0 +1,394 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="dj" uri="/struts-dojo-tags"%>
+<!DOCTYPE html>
+<html data-ng-app="app">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Register</title>
+<%-- 
+<link
+	href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+	rel="stylesheet" type="text/css" />
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+	
+</script>
+<script
+	src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js">
+	
+</script> --%>
+<link rel="stylesheet" href="css/alert.css">
+<script type="text/javascript">
+	$(function() {
+		var totUrl = $(location).attr('href');
+		var newUrl = totUrl.substr(0, totUrl.lastIndexOf('/') + 1);
+		var finalUrl = newUrl + "apiProviderList";
+		$('#success').click(function() {
+			window.location.assign(finalUrl);
+			$('#success-alert').hide();
+
+		});
+		$('#cancel').click(function() {
+			$('#error-alert').hide();
+
+		});
+	});
+</script>
+
+</head>
+<body data-ng-controller="AppCtrl">
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>Update TBO Config</h1>
+		</section>
+		<!-- Main content -->
+		<section class="content">
+			<!-- Small boxes (Stat box) -->
+			<div class="col-sm-12">
+				<h4>
+					<a href="javascript:history.back();"><span class="pull-right"><i
+							class="fa fa-angle-left"></i> Back</span></a>
+				</h4>
+			</div>
+			<s:if test="hasActionErrors()">
+				<div class="succfully-updated clearfix" id="error-alert">
+
+					<div class="col-sm-2">
+						<i class="fa fa-check fa-3x"></i>
+					</div>
+
+					<div class="col-sm-10">
+						<p>
+							<s:actionerror />
+						</p>
+
+						<button type="button" id="cancel" class="btn btn-primary">Ok</button>
+					</div>
+				</div>
+			</s:if>
+			<s:if test="hasActionMessages()">
+				<div class="sccuss-full-updated" id="success-alert">
+					<div class="succfully-updated clearfix">
+						<div class="col-sm-2">
+							<i class="fa fa-check fa-3x"></i>
+						</div>
+						<div class="col-sm-10">
+							<s:actionmessage />
+							<button type="button" id="success" class="btn btn-primary">Ok</button>
+						</div>
+					</div>
+				</div>
+			</s:if>
+			<form action="updateTboConfig" method="post"
+				class="form-horizontal" name="myForm">
+				<input type="hidden"   
+							name="id"  
+							 value="${apiProviderTboConfig.id}" />
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">Title</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="title"
+							name="title" placeholder="Title" autocomplete="off"
+							required min="10" maxlength="40"  value="${apiProviderTboConfig.title}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="last-name" class="col-sm-2 control-label">Status </label>
+					<div class="col-sm-8">
+						<select  class="form-control input-sm"
+							name="active" required="required">
+								<option value="true" selected="selected">active</option>
+							<option value="false">inactive</option>
+						 </select>
+					</div>
+ 					</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">Flight UserName</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="userName"
+							name="userName" placeholder="user Name" autocomplete="off"
+							required min="10" maxlength="30" value="${apiProviderTboConfig.userName}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">Flight PassWord</label>
+					<div class="col-sm-8">
+						<input type="password" class="form-control input-sm" id="password"
+							name="password" placeholder="password" autocomplete="off"
+							required min="10" maxlength="30" value="${apiProviderTboConfig.password}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">Hotel UserName</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="userName"
+							name="userNameHotel" placeholder="user Name" autocomplete="off"
+							required min="10" maxlength="30"  value="${apiProviderTboConfig.userNameHotel}"    required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">Hotel PassWord</label>
+					<div class="col-sm-8">
+						<input type="password" class="form-control input-sm" id="password"
+							name="passwordHotel" placeholder="password" autocomplete="off"
+							required min="10" maxlength="30"    value="${apiProviderTboConfig.passwordHotel}"       required>
+					</div>
+				</div>
+				 
+			<div class="form-group">
+					<label for="last-name" class="col-sm-2 control-label">Currency</label>
+					<div class="col-sm-8">
+						 <input type="text" class="form-control input-sm" id="apiCurrency"
+							name="apiCurrency" placeholder="api Currency" autocomplete="off"
+							 value="${apiProviderTboConfig.apiCurrency}" />
+					</div>
+ 					</div>
+				
+				<div class="form-group">
+					<label for="last-name" class="col-sm-2 control-label">Environment </label>
+					<div class="col-sm-8">
+						<select  class="form-control input-sm"
+							name="environment" required="required">
+								<option value="test" selected="selected">Test</option>
+							<option value="live">Live</option>
+						 </select>
+					</div>
+ 					</div>
+ 						<div class="form-group">
+					<label for="last-name" class="col-sm-2 control-label">Client Id</label>
+					<div class="col-sm-8">
+						 <input type="text" class="form-control input-sm" id="clientId"
+							name="clientId" placeholder="Client Id" autocomplete="off"
+							  value="${apiProviderTboConfig.clientId}" />
+					</div>
+				</div>
+ 					<div class="form-group">
+					<label for="last-name" class="col-sm-2 control-label">Provider Id</label>
+					<div class="col-sm-8">
+						 <input type="number" class="form-control input-sm" id="providerId"
+							name="providerId" placeholder="property Id" autocomplete="off"
+							  value="${apiProviderTboConfig.providerId}" />
+					</div>
+ 					</div>
+ 					
+ 					<div class="form-group">
+					<label for="last-name" class="col-sm-2 control-label">Property Id </label>
+					<div class="col-sm-8">
+						 <input type="text" class="form-control input-sm" id="propertyId"
+							name="propertyId" placeholder="property Id" autocomplete="off"
+							 value="${apiProviderTboConfig.propertyId}" />
+					</div>
+ 					</div>
+ 					
+ 					<div class="form-group">
+					<label for="last-name" class="col-sm-2 control-label">EndUser IP</label>
+					<div class="col-sm-8">
+						 <input type="text" class="form-control input-sm" id="enduserIp"
+							name="enduserIp" placeholder="192.128.1.144"  value="${apiProviderTboConfig.enduserIp}" autocomplete="off"
+							  required>
+					</div>
+ 					</div>
+ 					 
+						  <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">Flight AuthUrl</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="authUrlFlight"
+							name="authUrlFlight" placeholder="Authorization Url" autocomplete="off"  value="${apiProviderTboConfig.authUrlFlight}"
+							  required>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlSearch</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlSearch"
+							name="flightUrlSearch" placeholder="flightUrlSearch" autocomplete="off"  value="${apiProviderTboConfig.flightUrlSearch}"
+							  required>
+					</div>
+				</div>
+				
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlFarerule</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlFarerule"
+							name="flightUrlFarerule" placeholder="flightUrlFarerule" autocomplete="off"  value="${apiProviderTboConfig.flightUrlFarerule}"
+							  required>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlAirprice</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlAirprice"
+							name="flightUrlAirprice" placeholder="flightUrlAirprice" autocomplete="off"  value="${apiProviderTboConfig.flightUrlAirprice}"
+							  required>
+					</div>
+				</div>
+				 
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlSsr</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlSsr"
+							name="flightUrlSsr" placeholder="flightUrlSsr" autocomplete="off"  value="${apiProviderTboConfig.flightUrlSsr}"
+							  required>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlBook</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlBook"
+							name="flightUrlBook" placeholder="flightUrlBook" autocomplete="off"  value="${apiProviderTboConfig.flightUrlBook}"
+							  required>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlTicket</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlTicket"
+							name="flightUrlTicket" placeholder="flightUrlTicket" autocomplete="off"  value="${apiProviderTboConfig.flightUrlTicket}"
+							  required>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlGetBookingDetail</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlGetBookingDetail"
+							name="flightUrlGetBookingDetail" placeholder="flightUrlGetBookingDetail" autocomplete="off"  value="${apiProviderTboConfig.flightUrlGetBookingDetail}"
+							  required>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlReleasePnr</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlReleasePnr"
+							name="flightUrlReleasePnr" placeholder="flightUrlGetBookingDetail" autocomplete="off"  value="${apiProviderTboConfig.flightUrlReleasePnr}"
+							  required>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlCancellation</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlCancellation"
+							name="flightUrlCancellation" placeholder="flightUrlCancellation" autocomplete="off"  value="${apiProviderTboConfig.flightUrlCancellation}"
+							  required>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlCancellationStatus</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlCancellationStatus"
+							name="flightUrlCancellationStatus" placeholder="flightUrlCancellationStatus" autocomplete="off"  value="${apiProviderTboConfig.flightUrlCancellationStatus}"
+							  required>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlPriceRbd</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlPriceRbd"
+							name="flightUrlPriceRbd" placeholder="flightUrlPriceRbd" autocomplete="off"  value="${apiProviderTboConfig.flightUrlPriceRbd}"
+							  required>
+					</div>
+				</div>	
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">flightUrlCalendarSearch</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="flightUrlCalendarSearch"
+							name="flightUrlCalendarSearch" placeholder="flightUrlCalendarSearch" autocomplete="off"  value="${apiProviderTboConfig.flightUrlCalendarSearch}"
+							  required>
+					</div>
+				</div>	
+				
+				
+				
+			<hr/>	
+				 <div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">authUrlHotel</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="authUrlHotel"
+							name="authUrlHotel" placeholder="authUrlHotel" autocomplete="off"  value="${apiProviderTboConfig.authUrlHotel}"
+							  required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">hotelUrlSearchHotel</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="hotelUrlSearchHotel"
+							name="hotelUrlSearchHotel" placeholder="hotelUrlSearchHotel" autocomplete="off"  value="${apiProviderTboConfig.hotelUrlSearchHotel}"
+							  required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">hotelUrlSearchHotelInfo</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="hotelUrlSearchHotelInfo"
+							name="hotelUrlSearchHotelInfo" placeholder="hotelUrlSearchHotelInfo" autocomplete="off"  value="${apiProviderTboConfig.hotelUrlSearchHotelInfo}"
+							  required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">hotelUrlSearchRooms</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="hotelUrlSearchRooms"
+							name="hotelUrlSearchRooms" placeholder="hotelUrlSearchRooms" autocomplete="off"  value="${apiProviderTboConfig.hotelUrlSearchRooms}"
+							  required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">hotelUrlBlockRooms</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="hotelUrlBlockRooms"
+							name="hotelUrlBlockRooms" placeholder="hotelUrlBlockRooms" autocomplete="off"  value="${apiProviderTboConfig.hotelUrlBlockRooms}"
+							  required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">hotelUrlBooking</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="hotelUrlBooking"
+							name="hotelUrlBooking" placeholder="hotelUrlBooking" autocomplete="off"  value="${apiProviderTboConfig.hotelUrlBooking}"
+							  required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">hotelUrlCancel</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="hotelUrlCancel"
+							name="hotelUrlCancel" placeholder="hotelUrlCancel" autocomplete="off"  value="${apiProviderTboConfig.hotelUrlCancel}"
+							  required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">hotelUrlCancelStatus</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="hotelUrlCancelStatus"
+							name="hotelUrlCancelStatus" placeholder="hotelUrlCancelStatus" autocomplete="off"  value="${apiProviderTboConfig.hotelUrlCancelStatus}"
+							  required>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="first-name" class="col-sm-2 control-label">hotelUrlBookingSummary</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" id="hotelUrlBookingSummary"
+							name="hotelUrlBookingSummary" placeholder="hotelUrlBookingSummary" autocomplete="off"  value="${apiProviderTboConfig.hotelUrlBookingSummary}"
+							  required>
+					</div>
+				</div>
+
+				 
+				<div class="form-group text-center">
+					<div class="col-xs-12 submitWrap text-center">
+						<button type="submit" class="btn btn-primary btn-lg">Update</button>
+					</div>
+				</div>
+			</form>
+		</section>
+	</div>
+
+
+	<%@ include file="DashboardFooter.jsp"%>
+
+</body>
+
+</html>

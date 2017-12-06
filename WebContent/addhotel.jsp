@@ -1,0 +1,850 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html >
+<html>
+<head>
+<%-- 
+<link
+	href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+	rel="stylesheet" type="text/css" />
+
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/angular.js" type="text/javascript"></script> --%>
+<link rel="stylesheet" href="css/alert.css">
+     <link rel="stylesheet" href="css/fastselect.min.css">  
+<%--  <script src="js/direct_company_list.js" type="text/javascript"></script>   --%>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+ 
+
+<title><s:property value="user" /></title>
+
+ <script src="js/jquery.validate.min.js"></script> 
+ <script src="js/additional-methods.js"></script>
+ 
+ <style type="text/css">
+   .ui-autocomplete {
+              max-height: 200px;
+               width:auto;
+              overflow-y: auto;
+              /* prevent horizontal scrollbar */
+              overflow-x: auto;
+              font-family: "Trebuchet MS","Helvetica","Arial","Verdana","sans-serif";
+			font-size:1em;
+              /* add padding to account for vertical scrollbar */
+              
+      }
+      /* IE 6 doesn't support max-height
+       * we use height instead, but this forces the menu to always be this tall
+       */
+      * html .ui-autocomplete {
+          height:  200px;
+          width: auto;
+      }
+      
+      .error {
+    color:red;
+}
+.valid {
+    color:green;
+}
+ 
+ </style>
+ 
+<script type="text/javascript">
+	function numbersonly(e) {
+		var unicode = e.charCode ? e.charCode : e.keyCode
+		if (unicode != 8) { //if the key isn't the backspace key (which we should allow)
+			if (unicode<48||unicode>57) //if not a number
+				return false //disable key press
+		}
+	}
+
+	function onlyAlphabets(e, t) {
+		try {
+			if (window.event) {
+				var charCode = window.event.keyCode;
+			} else if (e) {
+				var charCode = e.which;
+			} else {
+				return true;
+			}
+			if ((charCode > 64 && charCode < 91)
+					|| (charCode > 96 && charCode < 123))
+				return true;
+			else
+				return false;
+		} catch (err) {
+			alert(err.Description);
+		}
+	}
+</script>
+ 
+</head>
+<body>
+
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>Create Hotel</h1>
+			<!-- <ol class="breadcrumb">
+				<li><a href="home"><i class="fa fa-dashboard"></i> Home</a></li>
+				<li class="active">Dashboard</li>
+			</ol> -->
+		</section>
+		<section class="content">
+			<!-- Small boxes (Stat box) -->
+			<div class="col-sm-12">
+				<h4>
+					<a href="javascript:history.back();"><span class="pull-right"><i
+							class="fa fa-angle-left"></i> Back</span></a>
+				</h4>
+			</div>
+
+
+			<s:if test="hasActionErrors()">
+				<div class="succfully-updated clearfix" id="error-alert">
+
+					<div class="col-sm-2">
+						<i class="fa fa-check fa-3x"></i>
+					</div>
+
+					<div class="col-sm-10">
+
+						<p>
+							<s:actionerror />
+						</p>
+
+						<button type="button" id="cancel" class="btn btn-primary">Ok</button>
+
+					</div>
+
+				</div>
+
+
+			</s:if>
+
+			<s:if test="hasActionMessages()">
+				<div class="sccuss-full-updated" id="success-alert">
+					<div class="succfully-updated clearfix">
+
+						<div class="col-sm-2">
+							<i class="fa fa-check fa-3x"></i>
+						</div>
+
+						<div class="col-sm-10">
+							<s:actionmessage />
+							<button type="button" id="success" class="btn btn-primary">Ok</button>
+
+						</div>
+
+					</div>
+				</div>
+			</s:if>
+
+			<div class="row" id="dash-us-hotel">
+
+
+				<div class="col-sm-12">
+
+
+					<div id="hotel-togglable-tabs">
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active"><a
+								href="#create_hotel" aria-controls="#create_hotel" role="tab"
+								data-toggle="tab">Hotel</a></li>
+							<li role="presentation"><a href="#roomtype"
+								aria-controls="roomtype" role="tab" data-toggle="tab">Hotel
+									room</a></li>
+
+						</ul>
+
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="create_hotel">
+
+								<form action="" method="post" class="form-horizontal"
+									name="myForm" id="myform1">
+									<div class="cre-hot-details">
+
+										<div class="col-sm-6">
+										<div class="form-group">
+												<label for="name" class="col-sm-4 control-label">Type Company ID
+													 </label>
+												<div class="col-sm-6">
+													<input type="text"  multiple  class="form-control input-sm multipleInputDynamic"
+														name="companyId"    data-url="<s:url action='jsonAction?jsonFile=directCompanyList.json'/>"  id="companyName"  placeholder="ALL"
+														autocomplete="on" >
+														
+														<%-- <input type="text" multiple class="form-control input-sm multipleInputDynamic" id="origin" name="origin" data-url="markupairportlist.json"  value='<s:property value="origin"/>'  placeholder="ALL"  /> --%>
+												</div>
+												 
+												<input id="cityUrl" type="hidden" value="<s:text name="global.hotelCitiesUrl" ></s:text>">
+												
+											</div>
+										
+											<div class="form-group">
+												<label for="name" class="col-sm-4 control-label">Enter
+													Name </label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm cusValidationAll"
+														name="name" id="name" placeholder="Enter Name"
+														autocomplete="off" required>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="hotelCode" class="col-sm-4 control-label">Enter
+													HotelCode</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm"
+														name="hotelCode" id="hotelCode"
+														placeholder="Enter HotelCode" autocomplete="off" required>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="hotelChain" class="col-sm-4 control-label">Enter
+													HotelChain</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm"
+														name="hotelChain" id="hotelChain"
+														placeholder="Enter HotelChain" autocomplete="off" required>
+												</div>
+											</div>
+
+
+
+											<div class="form-group">
+												<label for="rating" class="col-sm-4 control-label">Enter
+													Rating</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm"
+														name="rating" id="rating" placeholder="Enter Rating"
+														autocomplete="off" required>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="city" class="col-sm-4 control-label">Enter
+													City</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm"
+														  	name="city" id="city" placeholder="Enter city"
+														autocomplete="on" required>
+														
+														<input type="hidden" value=""
+														 id="cityId" >
+														
+														
+														
+														 
+												</div>
+											</div>
+
+
+
+
+										</div>
+
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="country" class="col-sm-4 control-label">
+													Country</label>
+												<div class="col-sm-6">
+													<select class="form-control input-sm" name="country"
+														id="country" required="required">
+														<option selected="selected" value="">select
+																country</option>
+														<s:iterator value="countyList">
+															
+															<option value="<s:property value="c_name"/>"><s:property
+																	value="c_name" /></option>
+														</s:iterator>
+
+													</select>
+
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="latitude" class="col-sm-4 control-label">Enter
+													Latitude</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm" required
+														name="latitude" id="latitude" placeholder="Enter Latitude"
+														autocomplete="off">
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="longitude" class="col-sm-4 control-label">Enter
+													Longitude</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm"
+														name="longitude" id="longitude" required
+														placeholder="Enter Longitude" autocomplete="off">
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="active" class="col-sm-4 control-label">
+													Status</label>
+												<div class="col-sm-6">
+													<select class="form-control input-sm" name="ActiveStatus"
+														id="active" required="required">
+														<option selected="selected" value="1">Active</option>
+														<option value="0">In Active</option>
+													</select>
+
+												</div>
+											</div>
+								<input type="hidden" id="hotelType" value="ALL">
+											<div style="display:none" class="form-group"  id="loadingSpin">
+												<!-- <label for="hotelType" class="col-sm-4 control-label">Hotel
+													Type</label> -->
+												<div class="col-sm-6">
+												 <img alt="" src="images/spin.gif">
+													<%-- <select class="form-control input-sm" name="hotelType"
+														id="hotelType" required="required">
+														<option selected="selected" value="void">select
+															hotel type</option>
+														<option value="small">Small</option>
+														<option value="medium">Medium</option>
+														<option value="large">Large</option>
+													</select> --%>
+												</div>
+											</div>
+
+
+										</div>
+									</div>
+
+									<div class="form-group text-right">
+										<div class="input-group pull-right ">
+											<button type="button" onclick="hoteldetails();"
+												class="btn btn-primary but">
+												Add  <i class="fa fa-arrow-circle-right"></i>
+											</button>
+										</div>
+									</div>
+
+
+								</form>
+							</div>
+
+							<div role="tabpanel" class="tab-pane" id="roomtype">
+
+								<form action="" method="post" class="form-horizontal"
+									name="myForm" id="myform2">
+									<div class="cre-hot-details">
+								<input type="hidden"  id="hotelId">
+										<div class="col-sm-6">
+										<div class="form-group">
+												<label for="name" class="col-sm-4 control-label">
+													Hotel Room Name</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm"
+														name="name" id="roomName" placeholder="Enter  Hotel Room Name"
+														autocomplete="off" required>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="basePrice" class="col-sm-4 control-label">
+													BasePrice</label>
+												<div class="col-sm-6">
+													<input type="number" class="form-control input-sm"
+														name="basePrice" id="basePrice" placeholder="Enter basePrice"
+														autocomplete="off" required>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="taxPrice" class="col-sm-4 control-label">
+													TaxPrice</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm cusValidationforprice"
+														name="taxPrice" id="taxPrice" placeholder="Enter taxPrice"
+														autocomplete="off" required>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="availability" class="col-sm-4 control-label">
+													Availability</label>
+												<div class="col-sm-6">
+													<input type="number" class="form-control input-sm"
+														name="availability" id="availability" placeholder="Enter availability"
+														autocomplete="off" required>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="availability" class="col-sm-4 control-label">
+													No of Beds</label>
+												<div class="col-sm-6">
+													<input type="number" class="form-control input-sm"
+														name="beds" id="beds" placeholder="Enter No of Beds"
+														autocomplete="off" required>
+												</div>
+											</div>
+											
+											
+											<div class="form-group">
+												<label for="availability" class="col-sm-4 control-label">
+													No of Adult(s)</label>
+												<div class="col-sm-6">
+													<input type="number" class="form-control input-sm"
+														name="adults" id="adults" placeholder="Enter No of Adults"
+														autocomplete="off" required>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="availability" class="col-sm-4 control-label">
+													No of Infant(s)</label>
+												<div class="col-sm-6">
+													<input type="number" class="form-control input-sm"
+														name="infants" id="infants" placeholder="Enter No of Infants"
+														autocomplete="off" required>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="availability" class="col-sm-4 control-label">
+													No of Child(s)</label>
+												<div class="col-sm-6">
+													<input type="number" class="form-control input-sm"
+														name="childs" id="childs" placeholder="Enter No of Childs"
+														autocomplete="off" required>
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label for="startDate" class="col-sm-4 control-label">Start Date</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm"
+														name="startDate" id="startDate"  class="startdate"     placeholder="Enter Startdate"
+														autocomplete="off" required>
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label for="endDate" class="col-sm-4 control-label">End Date</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm"
+														name="endDate" id="endDate"  class="enddate"placeholder="Enter enddate"
+														autocomplete="off" required>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-sm-6">
+										<div class="form-group">
+												<label for="extraBedPrice" class="col-sm-4 control-label">ExtraBedPrice</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm cusValidationforprice"
+														name="extraBedPrice" id="extraBedPrice" placeholder="Enter ExtraBedPrice"
+														autocomplete="off" required>
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label for="cancelBeforeDay" class="col-sm-4 control-label">CancelBeforeDay</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm"
+														name="cancelBeforeDay" id="cancelBeforeDay" placeholder="Enter cancelBeforeDay"
+														autocomplete="off" required>
+												</div>
+											</div>
+											
+												<div class="form-group">
+												<label for="cancelAmount" class="col-sm-4 control-label">CancelAmount</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm cusValidationforprice"
+														name="cancelAmount" id="cancelAmount" placeholder="Enter CancelAmount"
+														autocomplete="off" required>
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label for="amountType" class="col-sm-4 control-label">AmountType</label>
+												<div class="col-sm-6">
+												<select class="form-control input-sm" name="amountType"
+														id="amountType" required="required">
+														<option value="Percentage">Percentage</option>
+														<option value="Fixed">Fixed</option>
+													</select> 
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="condition" class="col-sm-4 control-label">Condition</label>
+												<div class="col-sm-6">
+													<input type="text" class="form-control input-sm"
+														name="condition" id="condition" placeholder="Enter condition"
+														autocomplete="off" required>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="condition" class="col-sm-4 control-label">Description</label>
+												<div class="col-sm-6">
+												<textarea rows="4" cols="4" class="form-control input-sm" name="Description" id="description" required placeholder="Enter Description"> </textarea>
+													 
+												</div>
+											</div>
+											<div class="form-group"  id="loading1" style="display: none">
+												<!-- <label for="hotelType" class="col-sm-4 control-label">Hotel
+													Type</label> -->
+												<div class="col-sm-6">
+												 <img alt="" src="images/spin.gif">
+												 
+												</div>
+											</div>
+											
+										</div>
+									</div>
+									
+									<div class="form-group text-right">
+										<div class="input-group pull-right ">
+											<button type="button" onclick="hotelroomdetails();"
+												class="btn btn-primary but">
+												Create Room <i class="fa fa-arrow-circle-right "></i>
+											</button>
+										</div>
+									</div>
+									
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</section>
+
+
+
+	</div>
+
+	<script>
+		function checkcatagory() {
+			var selectedcatagory = $('#catagory').find(":selected").text();
+			console.log(selectedcatagory);
+			if (selectedcatagory == 'Flight')
+				$('#descity').show();
+			else
+				$('#descity').hide();
+
+		}
+
+		$(document).ready(function() {
+			 $("#startDate").datepicker({
+				 dateFormat : 'yy-mm-dd',
+				 minDate: 0,
+				 onSelect : function(selectedDate) {
+					 $(this).valid();
+					 var d1 = $(this).datepicker("getDate");
+					$("#endDate").datepicker("option", "minDate", d1);
+					
+				},
+			 });
+			 
+			 $("#endDate").datepicker({
+				 dateFormat : 'yy-mm-dd',
+				 //minDate: 0,
+				 onSelect : function(selectedDate) {
+					 $(this).valid();
+				},
+			 });
+			 
+		});
+		 
+	</script>
+	<script src="js/DealUpload.js"></script>
+
+	<script>
+
+ function hoteldetails(){ 
+	 
+     if($("#myform1").valid() && document.getElementById("cityId").value!=""){
+    	 
+    	 /* if(name=="" && hotelCode=="" && hotelChain=="" && rating=="" && city=="" && country=="" && latitude=="" && longitude=="" && hotelType==""){
+ 		
+ 		alert("feilds are required");
+ 		return;
+ 	} */
+ 	var name = document.getElementById("name").value;
+ 	var hotelCode = document.getElementById("hotelCode").value;
+ 	var hotelChain = document.getElementById("hotelChain").value;	
+ 	var rating = document.getElementById("rating").value;
+ 	var city = document.getElementById("cityId").value;
+ 	var country = document.getElementById("country").value;
+ 	var latitude = document.getElementById("latitude").value;	
+ 	var longitude = document.getElementById("longitude").value;
+     var hotelType = document.getElementById("hotelType").value;
+     var active = document.getElementById("active").value;
+      var  companyUserId= document.getElementById("companyName").value;
+     //alert(companyUserId)
+    /*  var answer = hotelType.options[hotelType.selectedIndex].value; */
+ 	 var hotelObj ={
+ 			    "name": name,
+ 			    "hotelCode": hotelCode,
+ 			    "hotelChain": hotelChain,
+ 			    "rating": rating,
+ 			    "city": city,
+ 			    "country": country,
+ 			    "latitude": latitude,
+ 			    "longitude": longitude,
+ 			     "hotelType": hotelType,
+ 			     "activeStatus":  active,
+ 			     "companyUserId":companyUserId,
+ 			}
+ 	
+ 	//console.log(hotelObj);
+    
+ 	 console.log(JSON.stringify(hotelObj));   
+ 	//var geoipResponse = '?browsingObj='+browsingObj;
+ 	 $("#loadingSpin").show();
+  $.ajax({
+ 	 url: 'addHotelDetails?hotelDetailsJson='+JSON.stringify(hotelObj),	
+ 	 type: 'POST', 
+ 	 dataType: 'json',  
+ 	 success: function(response) {
+ 		 //console.log(response)
+ 		 console.log("ID------------------------------------"+response.hotelDetails.id)
+ 		 if(response.hotelDetails.id>0){
+ 			 alert("Successfully Hotel Created.") 
+ 			 $("#hotelId").val(response.hotelDetails.id);
+ 			 $(".multipleInputDynamic").val("");
+ 			 $("#loadingSpin").hide();
+ 			 $('#myform1')[0].reset(); 
+ 		 }
+ 		 else{
+ 			 alert("We found some error."); 
+ 		 }
+ 		 
+ 		 
+ 		
+ 	 },
+ 	 error:function(jqXhr, textStatus, errorThrown){
+ 		 $("#loadingSpin").hide();
+          alert("We found some error.");
+      }
+ 	 
+ 	});  
+    	 
+    	/*  document.getElementById("bookingConfirmed").submit(); */
+     }
+	if(document.getElementById("cityId").value==""){
+		$("#city").val("");
+		$("#myform1").valid()
+	}
+ } 
+</script>
+
+<script>
+
+ function hotelroomdetails(){
+	 if($("#myform2").valid()){
+		 /* if(name=="" && hotelCode=="" && hotelChain=="" && rating=="" && city=="" && country=="" && latitude=="" && longitude=="" && hotelType==""){
+			
+			alert("feilds are required");
+			return;
+		} */
+		 var basePrice = document.getElementById("basePrice").value;
+			//alert(basePrice);
+			var taxPrice = document.getElementById("taxPrice").value;
+			var availability = document.getElementById("availability").value;	
+			var startDate = document.getElementById("startDate").value;
+			var endDate = document.getElementById("endDate").value;
+			var extraBedPrice = document.getElementById("extraBedPrice").value;
+			var cancelBeforeDay = document.getElementById("cancelBeforeDay").value;	
+			var cancelAmount = document.getElementById("cancelAmount").value;
+		    var amountType = document.getElementById("amountType").value;
+		    var condition = document.getElementById("condition").value;
+		    var id = document.getElementById("hotelId").value;
+		    var beds = document.getElementById("beds").value;
+		    var adults = document.getElementById("adults").value;
+		    var infants = document.getElementById("infants").value;
+		    var childs = document.getElementById("childs").value;
+		    var description = document.getElementById("description").value;
+		    var roomName = document.getElementById("roomName").value;
+		      var hotelroomObj ={
+					    "basePrice": basePrice,
+					    "taxPrice": taxPrice,
+					    "availability": availability,
+					    "startDate": startDate,
+					    "endDate": endDate,
+					    "roomName": endDate,
+					    "description": description,
+					    "extraBedPrice": extraBedPrice,
+					    "cancelBeforeDay": cancelBeforeDay,			   
+					     "amountType": amountType,
+					     "condition":  condition,
+					     "cancelAmount":  cancelAmount,
+					     "beds":  beds,
+					     "adults":  adults,
+					     "infants":  infants,
+					     "childs":  childs,
+					     "id":  id,
+					}
+			
+			//console.log(hotelroomObj);
+			 console.log(JSON.stringify(hotelroomObj));   
+			//var geoipResponse = '?browsingObj='+browsingObj;
+			if(id==""){
+				alert("Please create Hotel...");
+			}
+			 
+			else{
+				 $("#loading1").show();
+				  $.ajax({
+						 url: 'addRoomDetails?hotelRoomDetailsJson='+JSON.stringify(hotelroomObj),	
+						 type: 'POST', 
+						 dataType: 'json',  
+						 success: function(response) {
+							 alert("Successfully  Hotel Room Created.");
+							 $("#loading1").hide();
+								 $('#myform2')[0].reset(); 
+						 },
+						 error:function(jqXhr, textStatus, errorThrown){
+							  alert("We found some error.");
+					         $("#loading1").hide();
+					     }
+						});  
+			}
+			
+		 
+	 }
+	
+ }
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	
+     $.validator.addMethod("cusValidationAlphaNum", function(value, element) {
+          return this.optional(element) || /^[a-zA-Z0-9._ ]+$/i.test(value);
+      }, "This field cannot have symbols.");
+
+      $.validator.addMethod("cusValidationAlphaName",function(value,element){
+          return this.optional(element) || /^[a-zA-Z ]+$/i.test(value);
+      },"This field cannot have numbers and symbols."); 
+      $.validator.addMethod("cusValidationforprice",function(value,element){
+          return this.optional(element) || /^[0-9.]+$/i.test(value);
+      },"This field cannot have Char and symbols.");
+
+
+$("#myform1").validate({
+	 rules: {
+         
+         "email": {
+             required: true,
+             email: true
+         },
+     },
+     
+     messages: {
+         
+         "email": {
+             required: "Please, enter an email",
+             email: "Email is invalid"
+         },
+     },
+
+    submitHandler: function (form) { 
+        return false; 
+    }
+});
+
+$("#myform2").validate({
+	 rules: {
+        
+        "email": {
+            required: true,
+            email: true
+        },
+    },
+    
+    messages: {
+        
+        "email": {
+            required: "Please, enter an email",
+            email: "Email is invalid"
+        },
+    },
+
+   submitHandler: function (form) { 
+       return false; 
+   }
+});
+
+
+});
+
+</script>
+
+
+  <script type="text/javascript">
+        $(function () {
+        	var hotelCityList =[];
+        	var cityMap =[];
+        	 
+        	 $.ajax({
+        		 url:$("#cityUrl").val(),	
+        		 type: 'GET', 
+        		 dataType: 'json',  
+        		 success: function(data) {
+        			 for (var i = 0; i < data.areas.length; i++) {
+        				 hotelCityList.push(data.areas[i].name);
+        				 var cityObj ={"key":data.areas[i].id,"value":data.areas[i].name}
+        				 cityMap.push(cityObj);
+        				}
+        		 },
+        		 error:function(jqXhr, textStatus, errorThrown){
+        			 console.log("Error---"+errorThrown+"-------Status----------"+textStatus);
+        	     }
+        		 }); 
+        	 
+        	  $("#city").autocomplete(
+      				{
+      					source : function(request, response) {
+      						var matcher = new RegExp('^'
+      								+ $.ui.autocomplete
+      								.escapeRegex(request.term),
+      						"i");
+      						response($.grep(hotelCityList, function(item) {
+      							return matcher.test(item);
+
+      						}));
+      					},
+      					 
+      					 select: function( event , ui ) {
+      			           $.map(cityMap, function(value, key) {
+          				    if(value.value==ui.item.label){
+          						console.log("value---"+value.value+"--------key----------"+value.key);
+          						$("#cityId").val(value.key);
+          					  }
+          				  
+          				});  
+      			        }
+      				});
+        });
+    </script>  
+
+ 
+<script src ="js/fastselect.standalone.js"> </script>
+    <script>
+
+                $('.multipleInputDynamic').fastselect();
+
+            </script>
+
+ 
+
+	<%@ include file="DashboardFooter.jsp"%>
+
+
+
+</body>
+</html>

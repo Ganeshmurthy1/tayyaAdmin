@@ -1,0 +1,793 @@
+var app = angular.module('NotifyAPP', ['ui-notification']);
+//create by basha for getting popup box in dashboard it was a plugin for popup
+app.config(function(NotificationProvider) {
+	NotificationProvider.setOptions({ 
+		//added by basha for applying the properties for the popups
+		delay:40000, 
+		startTop: 30,
+		startRight: 10,
+		verticalSpacing: 10,
+		horizontalSpacing: 10,
+		positionX: 'right',
+		positionY: 'top',
+		maxCount:2
+
+	});
+}); 
+
+app.directive('checkImage', function($http) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            attrs.$observe('ngSrc', function(ngSrc) {
+                $http.get(ngSrc).success(function(){
+                	
+     
+                }).error(function(){
+                    element.attr('src', 'images/default.png'); 
+                });
+            });
+        }
+    };
+});
+
+app.controller('headerController',function($scope,$http,$window,$filter,Notification,$timeout,$location,$element) {
+	//added by basha for initiating the getCustom notification with in the time intervel and countermore for enabling the custom notification popup box
+	
+	$scope.init = function(){
+		
+		$scope.getCustomNotification();
+//		setInterval($scope.getCustomNotification, 60000);
+		$scope.CounterMore = false;
+		var status =  $element.find('#status').val();
+		console.log("status",status);
+		$scope.pnr =  $element.find('#pnr').val();
+		$scope.orderid =  $element.find('#orderid').val();
+		$scope.ticketprocessloader = false;
+		$scope.bookingstatus = status;	
+		console.log($scope.bookingstatus);
+	}
+
+	var DEFAULT = 0;
+	var USER = 1;
+	var USER_WALLET = 2;
+	var COMPANY = 3;
+	var COMPANY_CONFIG = 4;
+	var PASSENGER = 5;
+	var HOTEL_ORDER = 6;
+	var HOTEL_ROOM_DETAILS = 7 ;	
+	var HOTEL_QUOATATION = 8;
+	var FLIGHT_ORDER = 9;
+	var FLIGHT_QUOATATION = 10;
+	var CMS = 11;
+	var PAYMENT_PENDING = 12;
+	var B2CUSER = 13;	
+	var COMPANY_APPROVAL = 14;
+	var FLIGHT_MARKUP = 15;
+	var HOTEL_MARKUP = 16;
+	var HOTEL_BOOKREQUEST = 17;
+	var  NEW_NOTIFICATION = 18;
+
+
+	var FLIGHT_MARKUPCREATE = 'Flight markup created';
+	var FLIGHT_MARKUPUPDATE = 'Flight markup updated';
+	var HOTEL_MARKUPCREATE = 'Hotel markup created';
+	var HOTEL_MARKUPUPDATE = 'Hotel markup updated';
+	var COMPANY_CREATE = 'Company Registered';
+	var COMPANY_UPDATE = 'Company details updated';
+	var COMPANY_CONFIG_CREATE = 'Company Configuration Created';
+	var COMPANY_CONFIG_UPDATE = 'Company Configuration Updated';
+	var USER_WALLET_CREDIT = 'Wallet balance Credited';
+	var USER_WALLET_DEBIT = 'Wallet balance Debited';
+	var USER_CREATE = 'Employee created';
+	var USER_UPDATE = 'Employee updated';
+	var FLIGHT_BOOK = 'Flight Ticket Booking';
+	var FLIGHT_HOLD = 'Flight Ticket Hold';	
+	var FLIGHT_CANCEL = 'Flight Ticket Cancel';
+	var FLIGHT_RELEASE = 'Flight Ticket Release';
+	var HOTEL_BOOK = 'Hotel Booking';
+	var HOTEL_CANCEL = 'Hotel Cancel';
+	var CREATE_NEW_NOTIFICATION = 'New Notification ';
+
+	var currentUrl=$(location).attr('href');
+	var baseUrl=currentUrl.substr(0,currentUrl.lastIndexOf('/')+1);
+	//added by basha for getting the userid and company id for sending the params for api url
+	var userId=$("#notiCreatedUserId").val();
+	var companyId=$("#notiCreatedCompanyId").val();
+	//var notiid=currentUrl.substr(0,currentUrl.lastIndexOf('=')+1);
+	/*$scope.notfyid=currentUrl.substring(currentUrl.indexOf("=")+1 );*/
+//added by basha for access the system notifications from api call using userid and companyid
+
+	$scope.getSystemNotification = function()
+	
+	{
+		$http.get('resources/Apicredential.properties').then(function (response) {
+			var ApiURL = response.data.ApiURL;
+			console.log(ApiURL);
+			var finalUrl = ApiURL+"notification/getPendingNotification";
+			$http.get(finalUrl,{params: {companyId: companyId,userId: userId}}).then(function(response) {
+				//console.log("response",response);
+				$scope.notificationcount = response.data.notifications.count;
+				$scope.notifylist =  response.data.notifications.notifications; 
+
+			});
+		});
+	}
+
+//added by basha getting the custom notifications from api url 
+	/*$scope.getCustomNotification=function (){
+		
+		$http.get('resources/Apicredential.properties').then(function (response) {
+			var ApiURL = response.data.ApiURL;
+			var finalUrl = ApiURL+"notification/getCustomNotifications";
+			
+			$http.get(finalUrl,{params: {companyId: companyId,userId: userId}},{headers:{'Content-Type' : 'application/json'}}).
+			then(function(response) {		
+				if(response.data.count>0)
+				{
+					$scope.customnotifylist =  response.data.notications;
+					$scope.customnotifyactionlink =  response.data.notications.actionlink;
+					$scope.customnotifystatus = response.data.status;
+					$scope.customnotificationcount = response.data.count;
+					//if the custom notification count is more then zero custom notification box will show otherwise it will hide automatically
+					//
+					if($scope.customnotificationcount > 0){
+						$scope.CounterMore = true;
+						angular.forEach($scope.customnotifylist, function(value, index) {
+							//added by basha for getting 2 notification popups top most recently created 
+							if(index < 2){
+								//added by basha this notification.success is the div for that popups and dynamically fetch the data from url 
+								Notification.success({title:'<a> <div> <b>'+value.details[0].title+'</b></a> <span class="pull-right">X</span></b>', message:'<p>'+value.details[0].comments+'</p><p><small>'+$scope.convertMS(value.createdAt)+'</small><span  class="pull-right">Created By:'+value.createdby+'</span><small></p><\div><\a> ', onClose: function(element) {
+								}});
+							}
+						});					
+			  }
+			}
+			});	
+			//added by basha setting timeout function for the scope after a perticular time
+			
+			Notification.clearAll("")
+		});
+	}	
+	$timeout($scope.getCustomNotification, 57000);*/
+//added by basha this is expirecount is used for to expire the perticular notification after view using nootificationId
+	/*$scope.expireCount = function(id){
+		var notifyId = id;
+
+		$http.get('resources/Apicredential.properties').then(function (response) {
+			var ApiURL = response.data.ApiURL;
+			var finalUrl = ApiURL+"notification/updateCustomNotification?notificationId=";
+			$http.get(finalUrl+notifyId,{headers:{'Content-Type' : 'application/json'}})
+			.success(function(data, status, headers, config){
+				if(status == 200){
+
+				}
+			})
+			.error(function(data, status, headers, config){});
+
+		});
+	}*/
+	/*$(document).click(function(){
+		//added by basha this model is will disappear user will click outside of the popup box 
+		$('#qnimate').removeClass('popup-box-on ');	
+		}); */
+	//added by basha this is the ng-click function for open the custom notification popup box
+	/*$scope.openNotiffy = function(){
+		//this custom notification array is getting from the getCustomNotification() scope at top side 
+		$scope.customnotificationArray = $scope.customnotifylist;		
+		$('#qnimate').addClass('popup-box-on'); 
+		 
+	}*/
+//added by basha this remove notification is the close function for popup notification box
+	/*$scope.removeNotification=function(){
+		$('#qnimate').removeClass('popup-box-on');	
+	}*/
+	//added by basha for notifybyid is the function for populated dynamic data for edit the notification 
+/*	$scope.noftifybyid=function(notifydetail){
+
+		$scope.notificationId = notifydetail.notificationId
+		$scope.title = notifydetail.details[0].title
+		$scope.createdby = notifydetail.createdby
+		$scope.comments = notifydetail.details[0].comments
+		$scope.createdat=notifydetail.createdAt
+		$scope.actionlnk1=notifydetail.actionlink
+		$scope.actionlnk=baseUrl+notifydetail.actionlink;
+		//angular.element(document.getElementById('#myFormReset')).val();
+		//jQuery('#detnotifydetail').modal();
+		
+		//added by basha this model will used for populate the custom notification for edit .prevent from clicking the outside of popup edit box
+		var url = baseUrl+notifydetail.actionlink;
+		var last = str.substring(url.lastIndexOf("/") + 1, url.length);
+		alert(last);
+		if(notifydetail.actionlink != '' && notifydetail.actionlink!= null && notifydetail.actionlink != undefined ){
+			$('#detnotifydetail').modal({
+				backdrop: 'static',
+				keyboard: false
+			});
+			var notificationview = baseUrl+"notification?Id="+notifydetail.notificationId;
+			var notificationview = baseUrl+notifydetail.actionlink;
+			
+			$window.location.href = notificationview;
+			
+			
+			var notificationview = baseUrl;
+	
+			$window.location.href = notificationview;
+			$window.location.href = notificationview+"tripView?id=2";
+		}		
+		else{
+			$('#detnotifydetail').modal({
+				backdrop: 'static',
+				keyboard: false
+			});
+
+		}
+		
+	}*/
+	/*$scope.customnotifyDetailView=function(notifydetail){
+		
+		$scope.notificationId = notifydetail.notificationId
+		$scope.actionlnk=notifydetail.actionlink
+		$scope.actionlnk=baseUrl+notifydetail.actionlink;
+		var actionlink=notifydetail.actionlink;
+		
+		
+		//added by basha this model will used for populate the custom notification for edit .prevent from clicking the outside of popup edit box
+		var url = baseUrl+actionlink;
+		if(actionlink != '' && actionlink!= null && actionlink != undefined){
+		
+		var url = baseUrl+notifydetail.actionlink;
+		if(notifydetail.actionlink != '' && notifydetail.actionlink!= null && notifydetail.actionlink != undefined){
+			
+			$window.location.href = url;
+		}		
+		else{
+			
+		}
+		
+	}
+	*/
+	//added by basha if we want  popup msgs  also want to be editable then we use popupopen()
+	//now it was disabled by basha for future instructions
+	/*$scope.popupopen=function(){
+		$scope.notificationId = some.notificationId
+		$scope.title = some.details[0].title
+		$scope.createdby = some.createdby
+		$scope.comments = some.details[0].comments
+		$scope.createdat=some.createdAt
+		$scope.popupmodeldata = some;
+		//console.log($scope.popupmodeldata)
+		//console.log(some);
+		$('#popupdetnotifydetail').modal({
+			backdrop: 'static',
+			keyboard: false
+		});
+
+	}*/
+//added by basha this notificationEditClick is used for redirect the ng click into a jsp page with dynamic url values from the notification
+	
+	/*$scope.notificationEditClick = function(){
+		var comments =   $('#comments').val();
+		var not_id =   $('#Notif_id').val();
+		var title =   $('#title').val();
+		var notificationeditcustom=baseUrl+"customnotificationedit?tTl="+encodeURIComponent(title)+"&ntId="+not_id+"&cmnt="+encodeURIComponent(comments);
+		$window.location.href = notificationeditcustom;
+
+	}*/
+	//added by basha this notificationEditClick is used for redirect the ng click into a jsp page with dynamic url values from the notification
+
+	/*$scope.notificationEditClickpopup = function(notifydetails){
+		var notificationeditcustom=baseUrl+"customnotificationedit?tTl="+encodeURIComponent(notifydetails.details[0].title)+"&ntId="+notifydetails.notificationId+"&cmnt="+encodeURIComponent(notifydetails.details[0].comments);
+		$window.location.href = notificationeditcustom;
+
+	}*/
+//added by basha for system generated  for system notifications to expire the notifications after he view
+	/*$scope.showdetail = function(notification)
+	{
+		var notificationId=notification.notificationId;
+		
+		$http.get('resources/Apicredential.properties').then(function (response) {
+			var ApiURL = response.data.ApiURL;
+			var finalUrl = ApiURL+"notification/updateNotification";
+			$http.get(finalUrl,{params: {notificationId:notificationId}},{headers:{'Content-Type' : 'application/json'}}).
+			success(function(data, status, headers, config){
+				//console.log("data system",data);
+				var url = baseUrl+notification.actionlink;
+				if(notification.actionlink != '' && notification.actionlink!= null && notification.actionlink != undefined){
+					$window.location.href = url;
+				}		
+				else{
+
+				}
+			}).error(function(data, status, headers, config){ 
+
+			});
+		});
+
+	}*/
+	/*$scope.markallasreadcustomnotifications= function()
+	{		
+		$http.get('resources/Apicredential.properties').then(function (response) {
+			var ApiURL = response.data.ApiURL;
+		var notifyarray = [];
+		angular.forEach($scope.customnotifylist, function(value, key){		
+			notifyarray.push({'id':JSON.stringify(value.notificationId)});
+		});
+
+		var finalUrl = ApiURL+"/notification/updateAllCustomNotification";
+
+		$http.get(finalUrl,{params: {companyId: companyId,userId: userId}},{headers:{'Content-Type' : 'application/json'}}).
+		success(function(data, status, headers, config){
+			//$scope.getnotification();
+
+		}).error(function(data, status, headers, config){ 
+
+		});
+		});
+		
+	}
+	*/
+	
+	
+
+	/*$scope.markallasread = function()
+	{		
+		var notifyarray = [];
+		angular.forEach($scope.notifylist, function(value, key){		
+			notifyarray.push({'id':JSON.stringify(value.notificationId)});
+		});
+
+		var finalUrl = baseUrl+"updateAllNotifications";
+
+		$http({method:'POST',url:finalUrl,data:'notificationJson='+JSON.stringify(notifyarray),headers:{'Content-Type' : 'application/x-www-form-urlencoded'}}).		
+		success(function(data, status, headers, config){
+			$scope.getnotification();
+
+		}).error(function(data, status, headers, config){ 
+
+		});
+	}*/
+
+	$scope.getImageUrl = function(notification)
+	{		
+		var url = baseUrl+'images/'+notification.imageid;	
+		return url;
+	}
+
+	$scope.getdetailsinfo = function(notification){
+
+		var orderinfo = "";
+
+		if(notification.details[0].type == FLIGHT_ORDER){
+			if(notification.details[0].description == FLIGHT_BOOK)
+				orderinfo = "Booked Flight Ticket. Reference id is  ";
+			if(notification.details[0].description == FLIGHT_HOLD)
+				orderinfo = "Hold Flight Ticket. Reference id is ";
+			if(notification.details[0].description == FLIGHT_CANCEL)
+				orderinfo = "Cancelled Flight Ticket. Reference id is ";
+			if(notification.details[0].description == FLIGHT_RELEASE)
+				orderinfo = "Released Flight PNR. Reference id is ";
+		}		
+		if(notification.details[0].type == HOTEL_ORDER){
+			if(notification.details[0].description == HOTEL_BOOK)
+				orderinfo = "Booked Hotel. Reference id is ";
+			if(notification.details[0].description == HOTEL_CANCEL)
+				orderinfo = "Cancelled Hotel. Reference id is ";
+		}			
+		if(notification.details[0].type == USER_WALLET){
+			if(notification.details[0].description == USER_WALLET_CREDIT)
+				orderinfo = "Wallet balance is credited. Reference id is ";
+			if(notification.details[0].description == USER_WALLET_DEBIT)
+				orderinfo = "Wallet balance is debited. Reference id is ";
+		}			
+		if(notification.details[0].type == COMPANY){
+			if(notification.details[0].description == COMPANY_CREATE)
+				orderinfo = "Created a company. Reference id is ";
+			if(notification.details[0].description == COMPANY_UPDATE)
+				orderinfo = "Updated company details. Reference id is ";
+		}
+		if(notification.details[0].type == COMPANY_CONFIG){
+			if(notification.details[0].description == COMPANY_CONFIG_CREATE)
+				orderinfo = "Created a company configuration. Reference id is ";
+			if(notification.details[0].description == COMPANY_CONFIG_UPDATE)
+				orderinfo = "Updated company configuration details. Reference id is ";
+		}		
+		if(notification.details[0].type == B2CUSER)
+			orderinfo = "B2C user is regsitered. Reference id is ";
+		if(notification.details[0].type == USER){
+			if(notification.details[0].description == USER_CREATE)
+				orderinfo = "Created a employee. Reference id is ";
+			if(notification.details[0].description == USER_UPDATE)
+				orderinfo = "Updated employee details. Reference id is ";
+		}	
+		if(notification.details[0].type == FLIGHT_MARKUP){
+			if(notification.details[0].description == FLIGHT_MARKUPCREATE)
+				orderinfo = "Created new flight markup. Reference id is ";
+			if(notification.details[0].description == FLIGHT_MARKUPUPDATE)
+				orderinfo = "Updated flight markup. Reference id is ";
+		}
+		if(notification.details[0].type == HOTEL_MARKUP){
+			if(notification.details[0].description == HOTEL_MARKUPCREATE)
+				orderinfo = "Created a hotel markup. Reference id is ";
+			if(notification.details[0].description == HOTEL_MARKUPUPDATE)
+				orderinfo = "Updated hotel markup. Reference id is ";
+		}
+		if(notification.details[0].type == HOTEL_QUOATATION)
+			orderinfo = "New hotel quotation. quotation id is";
+		if(notification.details[0].type == CMS)
+			orderinfo = "New deal is added.";
+		if(notification.details[0].type == COMPANY_APPROVAL)
+			orderinfo = "Approve a company. Reference id is ";
+
+		return orderinfo;
+	}
+
+	$scope.convertMS = function(ms) {
+
+		var result = "";
+		var date_now = new Date();
+		var date_future = new Date(ms);
+
+		// get total seconds between the times
+		var delta = Math.abs(date_future - date_now) / 1000;
+
+		// calculate (and subtract) whole days
+		var days = Math.floor(delta / 86400);
+		delta -= days * 86400;
+
+		// calculate (and subtract) whole hours
+		var hours = Math.floor(delta / 3600) % 24;
+		delta -= hours * 3600;
+
+		// calculate (and subtract) whole minutes
+		var minutes = Math.floor(delta / 60) % 60;
+		delta -= minutes * 60;
+
+		// what's left is seconds
+		var seconds = delta % 60;  // in theory the modulus is not required
+
+		if(days == 0 && hours != 0)
+			result = hours + " hours ago";
+		if(days == 0 && hours == 0)
+			result = minutes + " minutes ago";
+		if(days == 1)
+			result = "Yesterday at " + $filter('date')(date_future, 'h:mm a');
+		if(days > 1)
+			result = $filter('date')(date_future, 'MMMM dd') + " at " + $filter('date')(date_future, 'h:mm a');
+
+		if (days != 0)
+			result = days + " days ago ";
+		return result;
+	}
+
+
+	//Created by basha for edit the system notifications .but presently is was disabled by vimal sir instructions
+
+	/*$scope.notificationEdit = function(notification)
+	{		
+		//console.log("notification.notificationId--------------",notification.notificationId)
+
+		//console.log("notification.inventoryId--------------",notification.details[0].inventoryId)
+		var notificationCalenderReminderUrl = baseUrl+"editNotificationPage?notificationId="+notification.notificationId;
+		$window.location.href = notificationCalenderReminderUrl;
+
+	} 
+	
+	
+	$scope.init();
+	*/
+	
+
+	//cancellation the ticket in online  for flight added by basha 
+	
+	$scope.bookingcomments = "";
+	
+	
+	$scope.showmodel = function(requesttype){
+		$scope.orderUrl=$location.$$absUrl;
+		if(requesttype == 'Release'){
+			$scope.modeltitle = "Confirm Ticket";
+			$scope.modelcontent = "Do you want to confirm your PNR ";
+		}
+		if(requesttype == 'BusCancel'){
+			$scope.modeltitle = "Cancel Bus Ticket";
+			$scope.modelcontent = "Do you want to cancel your Ticket ";
+		}
+		if(requesttype == 'Cancel'){
+			$scope.modeltitle = "Cancel Ticket";
+			$scope.modelcontent = "Do you want to cancel your PNR ";
+			}
+		if(requesttype == 'Proceed'){
+			if($scope.modeltitle == 'Confirm Ticket'){
+				
+				$scope.ticketprocessloader = true;
+				$scope.processcomments = "Please wait while we are confirm your PNR :    "      + $scope.pnr;
+				$scope.confirmticket();
+			}
+			if($scope.modeltitle == 'Cancel Ticket'){
+				
+				$scope.ticketprocessloader = true;
+				$scope.processcomments = "Please wait while we are cancel your PNR :    "    + $scope.pnr;
+				$scope.cancelorreleaseticket();
+				
+			}
+			if($scope.modeltitle == 'Cancel Bus Ticket'){
+				
+				$scope.ticketprocessloader = true;
+				$scope.processcomments = "Please wait while we are cancel your Ticket :    " ;
+				$scope.cancelbusticket();
+				
+			}
+		}
+	}
+
+	$scope.confirmticket = function(){
+		$scope.ticketprocessloader = true;
+		var userid =  $element.find('#userid').val();
+		var username =  $element.find('#username').val();	
+		var appkey =  $element.find('#appkey').val();
+		var transkey =  $element.find('#transkey').val();
+		var pricekey =  $element.find('#pricekey').val();
+		var orderid =  $element.find('#orderid').val();
+		var paymode =  $element.find('#paymode').val();
+		$http.get('resources/Apicredential.properties').then(function (response) {
+			$scope.ApiURL = response.data.ApiURL;
+			//added by basha  this  confirm data for   release the ticket   request type is =0 // Confirm Flight Ticket
+			//added by basha  this  confirm data for   release the ticket   request type is =1  get Get Hold Ticket Details
+			var confirmdata = {userid:userid,username:decodeURIComponent(username),paymode:paymode,transactionkey:transkey,price_key:pricekey,app_key:decodeURIComponent(appkey),orderid:orderid,requesttype:0};
+			
+			$http({method:'POST',url:$scope.ApiURL+'confirmticket/details',data: confirmdata,headers:{'Content-Type': 'application/json'}}).
+			//$http.get('confirmticket.json').
+			success(function(data, status, headers, config){
+				//console.log(data); 			
+				if( data.bookingComments == 'Confirmed'){
+					$scope.bookingComments = data.bookstatus;
+					$window.location.reload();
+				}else{
+					$scope.bookingComments = "Your PNR Not Confirmed. Please Try Again";
+				}
+			}).error(function(data, status, headers, config){ 
+				$scope.bookingComments = "Your PNR Not Confirmed. Please Try Again";			
+				$scope.ticketprocessloader = false;
+			});
+
+		});
+
+	}
+	$('#loading').show();
+	$scope.cancelbusticket  = function(){
+		$scope.ticketprocessloader = true;
+		var appkey =  $element.find('#appkey').val();
+		var transkey =  $element.find('#transkey').val();
+		var searchkey =  $element.find('#searchkey').val();
+		var orderid =  $element.find('#orderid').val();
+		var seatNo =  $element.find('#seatNoList').val();
+		var seatarray = seatNo.split(",");
+		console.log("seatarray", seatarray);
+		var buscanceldata = {app_key:decodeURIComponent(appkey),transactionkey:transkey,searchkey:searchkey,orderid:orderid,seatNbr:seatarray}
+		console.log("canceldata", buscanceldata);
+		$http.get('resources/Apicredential.properties').then(function (response) {
+			var ApiURL = response.data.ApiURL;
+			var finalUrl = ApiURL+"bus/cancel/cancelticket";
+			console.log("finalUrl", finalUrl);
+		    $http.post(finalUrl,buscanceldata,{headers:{'Content-Type' : 'application/json'}})
+			.success(function(data, status, headers, config){
+				$('#loading').show();
+				if(status == 200 && data.status.message =='Success'){
+				$scope.processcomments=data.status.message;
+				
+				$scope.ticketprocessloader = false;
+				$('#loading').hide();
+				 $window.location.reload();
+			}
+		})
+		.error(function(data, status, headers, config){
+			
+			if(status != 200 && data.statusmessage!='Success'){
+				$scope.processcomments = "Something Went Wrong Please.....Try Again";
+				$scope.ticketprocessloader = false;
+				$('#loading').hide();
+				
+			}
+			
+		});
+	});
+	}
+	
+	
+	
+	
+	$('#loading').show();
+	$scope.cancelorreleaseticket = function(){
+		$scope.ticketprocessloader = true;
+		var userid =  $element.find('#userid').val();
+		var username =  $element.find('#username').val();	
+		var appkey =  $element.find('#appkey').val();
+		var transkey =  $element.find('#transkey').val();
+		var pricekey =  $element.find('#pricekey').val();
+		var orderid =  $element.find('#orderid').val();
+		var password =  $element.find('#password').val();
+		var paymode =  $element.find('#paymode').val();
+		var remarks= $element.find('#remarks').val();
+		
+		//added by basha  this  cancel data for   realese the ticket  methodtype:"0" id for  RELEASE PNR
+		//added by basha  this  cancel data for   realese the ticket  requesttype:"0" id for  RELEASE PNR
+		
+		
+		//added by basha  this  cancel data for   cancelation the ticket  methodtype:"1" id for  CANCEL  TICKET
+		//added by basha  this  cancel data for   cancelation the ticket  requesttype:"1" id for  full CANCEL  TICKET
+		
+		var canceldata = {userId:userid,password:password,appKey:decodeURIComponent(appkey),orderId:orderid,remarks:remarks,methodtype:"1",requesttype:"1",cancellationtype:"3"}
+		console.log("canceldata", canceldata);
+		
+		//added by basha  this  cancel data for   release the ticket
+		//var canceldata = {userId:userid,password:password,appKey:decodeURIComponent(appkey),orderId:orderid,remarks:"Test",methodtype:"1",requesttype:"1",cancellationtype:"3"}
+		
+		
+		
+		
+		$http.get('resources/Apicredential.properties').then(function (response) {
+			var ApiURL = response.data.ApiURL;
+			var finalUrl = ApiURL+"cancelticket/response";
+			 
+		    $http.post(finalUrl,canceldata,{headers:{'Content-Type' : 'application/json'}})
+			.success(function(data, status, headers, config){
+				$('#loading').show();
+				if(status == 200 && data.statusmessage!=''){
+				$scope.processcomments=data.statusmessage;
+				
+				$scope.ticketprocessloader = false;
+				$('#loading').hide();
+				 $window.location.reload();
+			}
+		})
+		.error(function(data, status, headers, config){
+			
+			if(status != 200 && data.statusmessage!='Success'){
+				$scope.processcomments = "Something Went Wrong Please.....Try Again";
+				$scope.ticketprocessloader = false;
+				$('#loading').hide();
+				
+			}
+			
+		});
+	});
+	
+}
+	
+	
+	//cancellation the room  in online  for hotel added by basha 
+	
+	
+	$scope.bookingcommentsforhotel = "";
+	
+	
+	$scope.showmodelforhotel = function(requesttype){
+		$scope.orderUrl=$location.$$absUrl;
+		
+		
+		if(requesttype == 'Cancel'){
+			$scope.modeltitle = "Cancel Booking";
+			$scope.modelcontent = "Do you want to cancel your Hotel Booking ";
+			}
+		if(requesttype == 'Status'){
+			$scope.modeltitle = "Cancel Booking Status";
+			$scope.modelcontent = "Do you want to cancel your Hotel Booking Status";
+			}
+		if(requesttype == 'Proceed'){
+			
+			if($scope.modeltitle == 'Cancel Booking'){
+				$scope.ticketprocessloader = true;
+				$scope.processcomments = "Please wait while we are cancel your Hotel Booking :    "    + $scope.orderid;
+				$scope.cancelhotelbooking();
+				
+			}
+			if($scope.modeltitle == 'Cancel Booking Status'){
+				$scope.ticketprocessloader = true;
+				$scope.processcomments = "Please wait while we are cancel your Hotel Booking Status :    "    + $scope.orderid;
+				$scope.cancelhotelbookingstatus();
+				
+			}
+		}
+	}
+	
+	$('#loading').show();
+	$scope.cancelhotelbooking = function(){
+		$scope.ticketprocessloader = true;
+		var userid =  $element.find('#userid').val();
+		var password =  $element.find('#password').val();
+		var appkey =  $element.find('#appkey').val();
+		var orderid =  $element.find('#orderid').val();
+		var remarks= $element.find('#remarks').val();
+		var methodType="0";
+		var hotelcanceldata = {userId:userid,password:password,appKey:decodeURIComponent(appkey),orderId:orderid,remarks:remarks,methodType:methodType}
+		console.log("hotelcanceldata", hotelcanceldata);
+		$http.get('resources/Apicredential.properties').then(function (response) {
+			var ApiURL = response.data.ApiURL;
+			var finalUrl = ApiURL+"hotel/cancel";
+			 
+		    $http.post(finalUrl,hotelcanceldata,{headers:{'Content-Type' : 'application/json'}})
+			.success(function(data, status, headers, config){
+				$('#loading').show();
+				if(status == 200 && data.statusmessage!=''){
+				$scope.processcomments=data.statusmessage;
+				
+				$scope.ticketprocessloader = false;
+				$('#loading').hide();
+				 $window.location.reload();
+			}
+		})
+		.error(function(data, status, headers, config){
+			
+			if(status != 200 && data.statusmessage!='Success'){
+				$scope.processcomments = "Something Went Wrong Please.....Try Again";
+				$scope.ticketprocessloader = false;
+				$('#loading').hide();
+				
+			}
+			
+		});
+	});
+		
+		
+		
+		
+	}
+	
+	$('#loading').show();
+	$scope.cancelhotelbookingstatus = function(){
+		$scope.ticketprocessloader = true;
+		var userid =  $element.find('#userid').val();
+		var password =  $element.find('#password').val();
+		var appkey =  $element.find('#appkey').val();
+		var orderid =  $element.find('#orderid').val();
+		//var remarks= $element.find('#remarks').val();
+		var methodType="1";
+		var hotelcancelstatusdata = {userId:userid,password:password,appKey:decodeURIComponent(appkey),orderId:orderid,remarks:"Test",methodType:methodType}
+		console.log("hotelcancelstatusdata", hotelcancelstatusdata);
+		$http.get('resources/Apicredential.properties').then(function (response) {
+			var ApiURL = response.data.ApiURL;
+			var finalUrl = ApiURL+"hotel/cancel";
+			console.log("finalUrl",finalUrl);
+			 
+		    $http.post(finalUrl,hotelcancelstatusdata,{headers:{'Content-Type' : 'application/json'}})
+			.success(function(data, status, headers, config){
+				$('#loading').show();
+				if(status == 200 && data.statusmessage!=''){
+				$scope.processcomments=data.statusmessage;
+				
+				$scope.ticketprocessloader = false;
+				$('#loading').hide();
+				 $window.location.reload();
+			}
+		})
+		.error(function(data, status, headers, config){
+			
+			if(status != 200 && data.statusmessage!='Success'){
+				$scope.processcomments = "Something Went Wrong Please.....Try Again";
+				$scope.ticketprocessloader = false;
+				$('#loading').hide();
+				
+			}
+			
+		});
+	});
+		
+		
+		
+		
+	}
+	
+	
+
+});
+				
+				
+				
+				
+				
+		
+		
+		
+		
+		

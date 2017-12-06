@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//WebContent/BusInvoice.jsp=UTF-8
+encoding//WebContent/carInvoice.jsp=UTF-8
+encoding//WebContent/trainInvoice.jsp=UTF-8
+encoding//WebContent/visaInvoice.jsp=UTF-8

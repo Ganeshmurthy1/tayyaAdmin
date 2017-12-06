@@ -1,0 +1,356 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="dj" uri="/struts-dojo-tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html data-ng-app="app">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Register</title>
+
+<link rel="stylesheet" href="css/alert.css">
+<script src="js/jquery.validate.min.js"></script> 
+ <script src="js/additional-methods.js"></script>
+<script src="js/techsupport_emplist.js"></script>
+
+<script type="text/javascript">
+	$(function() {
+		var totUrl = $(location).attr('href');
+		var newUrl = totUrl.substr(0, totUrl.lastIndexOf('/') + 1);
+		var finalUrl = newUrl + "editBugTracker?bugTrackerId=${param['bugtrackerId']}";
+		console.log("finalUrl",finalUrl);
+		$('#success').click(function() {
+			window.location.assign(finalUrl);
+			$('#success-alert').hide();
+
+		});
+		$('#cancel').click(function() {
+			$('#error-alert').hide();
+
+		});
+	});
+</script>
+</head>
+<body data-ng-controller="AppCtrl">
+
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>Update Bug Tracker History</h1>
+		</section>
+		<!-- Main content -->
+		<section class="content">
+			<!-- Small boxes (Stat box) -->
+			<div class="col-sm-12">
+				<h4>
+					<a href="javascript:history.back();"><span class="pull-right"><i
+							class="fa fa-angle-left"></i> Back</span></a>
+				</h4>
+				</div>
+			<s:if test="hasActionErrors()">
+				<div class="succfully-updated clearfix" id="error-alert">
+
+					<div class="col-sm-2">
+						<i class="fa fa-check fa-3x"></i>
+					</div>
+
+					<div class="col-sm-10">
+						<p>
+							<s:actionerror />
+						</p>
+
+						<button type="button" id="cancel" class="btn btn-primary">Ok</button>
+					</div>
+				</div>
+			</s:if>
+			<s:if test="hasActionMessages()">
+				<div class="sccuss-full-updated" id="success-alert">
+					<div class="succfully-updated clearfix">
+						<div class="col-sm-2">
+							<i class="fa fa-check fa-3x"></i>
+						</div>
+						<div class="col-sm-10">
+							<s:actionmessage />
+							<button type="button" id="success" class="btn btn-primary">Ok</button>
+						</div>
+					</div>
+				</div>
+			</s:if>
+			<%
+   				 String trackerId = request.getParameter("bugtrackerId");
+			
+     %>
+			<form action="createNewBugHistory" method="post"
+				class="form-horizontal" name="myForm" id="myForm"  enctype="multipart/form-data">
+				<input type="hidden" name="bugTrackerHistory.id"
+					value="<s:property value="bugTrackerHistory.id"/>">
+					<input type="hidden" name="id" id="bugTrackerId"
+					value="<s:property value="bugTrackerHistory.bugTracker.id"/>">
+					
+				<div class="form-group">
+					<label class="col-sm-2 control-label"> </label>
+					<div class="col-sm-8">
+ <s:if  test="%{(#session.Company.companyRole.isSuperUser()) ||(#session.User.userrole_id.isTechHead())}">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Assigned To</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control input-sm" 
+									id="assignTo" placeholder="assigned to" autocomplete="off"  required
+									value="<s:property value="bugTrackerHistory.assignedToName"/>">
+									<input type="hidden"  id="techSupportId"    name="assignTo" value="<s:property value="bugTrackerHistory.assignTo"/>">
+							</div>
+						</div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">Assigned By</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control input-sm" required
+							 		placeholder="assigned by" autocomplete="off"
+									id="assignby" value="<s:property value="bugTrackerHistory.assignedByName"/>">
+									<input type="hidden"  name="assignedBy"  id="techHeadId"        value="<s:property value="bugTrackerHistory.assignedBy"/>">
+							</div>
+						</div>  
+						</s:if> 
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Description</label>
+							<div class="col-sm-8">
+								<textarea cols="3" rows="3" class="form-control input-sm"
+									name="bugTrackerHistory.bugTracker.description" placeholder="description"><s:property value="bugTrackerHistory.bugTracker.description"/></textarea>
+							</div>
+						</div> 
+						<div class="form-group">
+							<label class="col-sm-2 control-label">comments</label>
+							<div class="col-sm-8">
+								<textarea cols="3" rows="3" class="form-control input-sm" required
+									name="comments" placeholder="comments"><s:property value="bugTrackerHistory.comments"/></textarea>
+							</div>
+						</div>
+
+						 <div class="form-group">
+							<label class="col-sm-2 control-label">Bug Type</label>
+							<div class="col-sm-8">
+								<select class="form-control input-sm" id="level"
+									name="bugTrackerHistory.bugType" required>
+									<%-- <option value="${bugTrackerHistory.bugType}" selected="selected">${bugTrackerHistory.bugType}</option> --%>
+									<c:forEach var="statusItem"
+										items="${bugTrackerUtility.bugType}">
+										<c:choose>
+											<c:when test="${statusItem==bugTrackerHistory.bugType}">
+												<option value="${statusItem}" selected="selected">${statusItem}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${statusItem}">${statusItem}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+  
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">Bug Priority</label>
+							<div class="col-sm-8">
+								<select class="form-control input-sm" id="level"
+									name="bugTrackerHistory.level" required>
+									<c:forEach var="statusItem"
+										items="${bugTrackerUtility.bugPriority}">
+										<c:choose>
+											<c:when test="${statusItem==bugTrackerHistory.level}">
+												<option value="${statusItem}" selected="selected">${statusItem}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${statusItem}">${statusItem}</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+ 
+						  <div class="form-group">
+							<label class="col-sm-2 control-label">status</label>
+							<div class="col-sm-8">
+								<select class="form-control input-sm" id="status"
+									name="bugTrackerHistory.status" required>
+									<c:forEach var="statusItem"
+										items="${bugTrackerUtility.bugStatus}">
+										<c:choose>
+											<c:when test="${statusItem==bugTrackerHistory.status}">
+												<option value="${statusItem}" selected="selected">${statusItem}</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${statusItem}">${statusItem}</option>
+											</c:otherwise>
+										</c:choose>
+
+									</c:forEach>
+
+								</select>
+							</div>
+						</div>  
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">AssignedDate</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control input-sm" required
+									name="bugTrackerHistory.transAssignedDate" placeholder="Assigned Date"
+									value="<s:property value="bugTrackerHistory.transAssignedDate"/>" autocomplete="off" id="asssignDateedit">
+							</div>
+						</div>
+							<div class="form-group">
+							<label class="col-sm-2 control-label">StartToWorkDate</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control input-sm" required
+									name="bugTrackerHistory.transStartToWorkDate" value="<s:property value="bugTrackerHistory.transStartToWorkDate"/>" 
+									placeholder="Start To Work Date" autocomplete="off" id="startToWorkDateedit">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">WorkFinishDate</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control input-sm" required
+									name="bugTrackerHistory.transWorkFinishDate" placeholder="Work Finish Date"
+									autocomplete="off" id="workFinishDateedit"  value="<s:property value="bugTrackerHistory.transWorkFinishDate"/>">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">EstimatedHours</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control input-sm" required
+									name="bugTrackerHistory.estimatedHours" placeholder="Estimated Hours"
+									autocomplete="off"  value="<s:property value="bugTrackerHistory.estimatedHours"/>">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Developer EstimatedHours</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control input-sm" required
+									name="bugTrackerHistory.developerEstimatedHours" placeholder="developer Estimated Hours" value="<s:property value="bugTrackerHistory.developerEstimatedHours"/>"
+									autocomplete="off">
+							</div>
+						</div>
+						
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label">WorkingHours</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control input-sm" required
+									name="bugTrackerHistory.workingHours" placeholder="working hours"
+									autocomplete="off"  value="<s:property value="bugTrackerHistory.workingHours"/>" >
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">ExtraHours</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control input-sm"
+									name="bugTrackerHistory.extraHours" placeholder="Extra Hours"
+									autocomplete="off">
+							</div>
+						</div>
+						
+						
+						 <div class="form-group">
+							<label for="uploadimage" class="col-sm-2 control-label">Upload
+								File </label>
+							<div class="col-sm-8">
+								<div class="row">
+									<div class="col-sm-6 file-upload">
+
+										<input type="file" id="filePath"
+											accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,image/*"
+											ng-file-select="onFileSelect($files)" name="filePath">
+									</div>
+									<div class="col-sm-6 ">
+										<div id="fileinfo">
+											<div id="fileError"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>  
+				<div class="form-group text-center">
+					<div class="col-xs-12 submitWrap text-center">
+						<button type="button" id="save" class="btn btn-primary btn-lg">Add</button>
+					</div>
+				</div>
+			</form>
+		</section>
+	</div>
+	<%@ include file="DashboardFooter.jsp"%>
+	<script type="text/javascript">
+$(function(){
+	  $('myForm').on('keypress', function(event){
+	    if(event.which === 13 && $(event.target).is(':input')){
+	        event.preventDefault();
+	        $('#save').trigger('click');
+	    }
+	  });
+	});
+</script>
+	<script type="text/javascript">
+	
+	$(document).ready(function(){		
+		
+		 $("#formSubmit").validate({
+	    	 ignore: false,  
+	    	rules: {
+	            "email": {
+	                required: true,
+	                email: true
+	            },
+	        },
+	        
+	        messages: {
+	            "email": {
+	                required: "Please, enter an email",
+	                email: "Email is invalid"
+	            },
+	        },
+	        submitHandler: function (form) { 
+	            return false; 
+	        }, 
+	        highlight: function(element, errorClass, validClass) { 
+	            $(element).nextAll('.form-control-feedback').show().removeClass('glyphicon-ok').addClass('glyphicon-remove');
+	            $(element).addClass(errorClass).removeClass(validClass);
+	            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+	          },
+	          success: function(element) {
+	            $(element).nextAll('.form-control-feedback').show().removeClass('glyphicon-remove').addClass('glyphicon-ok');
+	         element.closest('.form-group').removeClass('has-error').addClass('has-success');
+	            $(element).remove();
+	          }
+	    });
+	    
+		
+		
+	$('#save').click(function() {
+		 $("#myForm").valid();
+		 if($("#myForm").valid()){ 
+			 document.getElementById("myForm").submit();
+	     }
+	})
+	
+	})
+	
+	
+	
+	
+	
+	 $(document).ready(function() 
+			 { 
+				 $("#asssignDateedit , #startToWorkDateedit ,#workFinishDateedit ").datepicker({
+					 dateFormat: "dd-mm-yy"  
+					 
+				 });
+				 
+			 });
+	</script>
+
+</body>
+
+
+</html>

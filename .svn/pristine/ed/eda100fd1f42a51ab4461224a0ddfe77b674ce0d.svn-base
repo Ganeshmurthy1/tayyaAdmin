@@ -1,0 +1,869 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
+<html data-ng-app="app">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Update</title>
+<%-- <link
+	href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css"
+	rel="stylesheet" type="text/css" />
+<script src="js/angular.js" type="text/javascript"></script>
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> --%>
+	 
+	 
+<link rel="stylesheet" href="css/alert.css">
+ <style type="text/css">
+   .ui-autocomplete {
+              max-height: 200px;
+               width:auto;
+              overflow-y: auto;
+              /* prevent horizontal scrollbar */
+              overflow-x: auto;
+              font-family: "Trebuchet MS","Helvetica","Arial","Verdana","sans-serif";
+			font-size:1em;
+              /* add padding to account for vertical scrollbar */
+              
+      }
+      /* IE 6 doesn't support max-height
+       * we use height instead, but this forces the menu to always be this tall
+       */
+      * html .ui-autocomplete {
+          height:  200px;
+          width: auto;
+      }
+#sss .input-group-addon, .input-group-btn {
+	width: 20%;
+}
+
+#sss .input-group-addon, .input-group-btn select {
+	padding: 10px;
+}
+ 
+ </style>
+<script type="text/javascript">
+$(function() {
+	var totUrl=$(location).attr('href');
+	var newUrl=totUrl.substr(0,totUrl.lastIndexOf('/')+1);
+	var companyid = $('#currentcompanyid').val();
+	  var finalUrl = newUrl+"companyDetails?companyid="+companyid+"";
+	$('#success').click(function() {
+	 window.location.assign(finalUrl); 
+		$('#success-alert').hide();
+		
+	});
+	  $('#cancel').click(function() {
+		   $('#error-alert').hide();
+			
+		});  
+ });
+ 
+function isNumberKey(evt,obj){
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57))   
+    
+        return false;
+ }
+ </script>
+ 
+</head>
+<body data-ng-controller="AppCtrl">
+
+	<!-- Content Wrapper. Contains page content -->
+	<s:if test='CurrentCompany !=null'>
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<h1>
+					Edit Company Profile <s:if test="%{#session.Company.companyRole.isSuperUser() && companyUserProfile.userrole_id.isDemoUser()}">(<small  style="color:red"> Demo Account</small>)</s:if>
+					<!-- <small>Control panel</small> -->
+				</h1>
+				<!-- <ol class="breadcrumb">
+					<li><a href="home"><i class="fa fa-dashboard"></i> Home</a></li>
+					<li class="active">Dashboard</li>
+				</ol> -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="col-sm-12">
+					<h4>
+						<a href="javascript:history.back();"><span class="pull-right"><i
+								class="fa fa-angle-left"></i> Back</span></a>
+					</h4>
+				</div>
+
+				<div class="row">
+					<s:if test="hasActionErrors()">
+
+							<div class="succfully-updated clearfix" id="error-alert">
+
+								<div class="col-sm-2">
+									<i class="fa fa-check fa-3x"></i>
+								</div>
+
+								<div class="col-sm-10">
+
+									<p>
+										<s:actionerror />
+									</p>
+
+									<button type="button" id="cancel" class="btn btn-primary">Ok</button>
+
+								</div>
+
+							</div>
+
+						</s:if>
+
+						<s:if test="hasActionMessages()">
+							<div class="sccuss-full-updated" id="success-alert">
+								<div class="succfully-updated clearfix">
+
+									<div class="col-sm-2">
+										<i class="fa fa-check fa-3x"></i>
+									</div>
+
+									<div class="col-sm-10">
+										<s:actionmessage />
+										<button type="button" id="success" class="btn btn-primary">Ok</button>
+
+									</div>
+
+								</div>
+							</div>
+						</s:if>
+					<!-- left column -->
+					 
+					<div class=" col-sm-12  personal-info">
+
+						<input type="hidden" id="currentcompanyid" value="<s:property value="CurrentCompany.Companyid"/>">
+
+						<h3>Change Info   <a href="resetCompanyProfilePassword?companyid=<s:property value="CurrentCompany.Companyid"/>&Email=<s:property value="%{CurrentCompany.Email}"/>"
+															class="btn btn-success btn-xs" data-toggle="modal">
+														Reset password
+														</a>  </h3>
+										
+														
+						<form class="form-horizontal" role="form"
+							action="superUserCompanyProfileUpdate" method="post" enctype="multipart/form-data">
+								<div class="row">
+							<div class="col-sm-4">
+							<input type="hidden"
+					value="<s:property value="%{#session.User.id}"/>"
+					id="createdUserId">
+					
+							
+							<div class="form-group">
+					<div class=" col-sm-12 col-xs-12" ng-cloak>
+						<div class="text-center">
+
+ 					<s:if test="%{CurrentCompany.Imagepath == null}"> 
+                  <img  src="images/default.png" class="user-image avatar img-circle" alt="No Image" />
+				  </s:if> 
+						<s:else>
+							<img
+								src="<s:url action='ImageAction?imageId=%{CurrentCompany.Imagepath}'/>"
+								class="avatar img-circle img-thumbnail" alt="profile image" />
+							</s:else> 
+							<h6>Upload a different photo...</h6>
+							<div class="col-sm-6 ">
+								<div id="fileinfo"> 
+									<div id="fileError"></div> 
+								</div>              
+							</div>
+							<input type="file" id="uploadimage" accept="image/*"
+								  ng-file-select="onFileSelect($files)"
+								class="text-center center-block well well-sm"  name="Imagepath" >
+						</div>
+					</div>
+					</div>
+			  				<%-- <div class="form-group">
+			  				
+								<label for="Company" class="col-sm-12 control-label">Agreement ExpiryDate</label>
+								<div class="col-sm-12">
+								<input type="hidden"   id="agreementExpiryDts" name="agreementExpiryDate"
+										value="<s:property value="CurrentCompany.agreementExpiryDate"/>" > 
+									<input type="text" class="form-control input-sm" id="agreementExpiryDt"
+										name="agreementExpiryDate"
+										value="<s:property value="CurrentCompany.agreementExpiryDate"/>"
+										placeholder="Company Name" autocomplete="off" required> 
+								</div>
+							</div>    --%>
+					<!-- %{#session.Company.companyRole.is_corporate()} %{CurrentCompany.companyRole.is_corporate()-->
+					<s:if test="%{CurrentCompany.companyRole.isCorporate()}">  
+					<div class="form-group">
+								<label for="Company" class="col-sm-12 control-label">Agreement ExpiryDate</label>
+								<div class="col-sm-12">
+									<input type="text" class="form-control input-sm" id="agreementExpiryDt"
+										name="agreementTranExpiryDate"
+										value='<s:property value="CurrentCompany.agreementTranExpiryDate"/>'
+										placeholder="dd-MM-yyyy"   required> 
+								</div>
+							</div>
+					</s:if> 
+					</div>
+					<div class="col-sm-8">
+					 <div class="form-group">
+								<label for="Company" class="col-sm-2 control-label">Company</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control input-sm" id="company"
+										name="Companyname"
+										value="<s:property value="CurrentCompany.Companyname"/>"
+										placeholder="Company Name" autocomplete="off" required>
+
+									<input type="hidden" name="Imagepath" ng-model="Imagepath"
+										value="{{Imagepath}}">
+
+
+								</div>
+							</div>
+										  <div class="form-group">
+								<label for="Website" class="col-sm-2 control-label">KKKP Number</label>
+								<div class="col-sm-8">
+									<input class="form-control input-sm" type="text" name="registerNumber"
+										value="<s:property value="CurrentCompany.registerNumber"/>"
+										placeholder="register number" />
+								</div>
+							</div>
+ 						<div class="form-group">
+								<label for="Website" class="col-sm-2 control-label">GST In</label>
+								<div class="col-sm-8">
+									<input class="form-control input-sm" type="text" name="companyGstIn"
+										value="<s:property value="CurrentCompany.companyGstIn"/>"
+										placeholder="register number" />
+								</div>
+							</div>
+ 
+ 
+                          <div class="form-group">
+								<label for="WalletType" class="col-sm-2 control-label">Wallet Type</label>
+								<div class="col-sm-8">
+								<input type="hidden" id="walletType" value="<s:property value="%{companyUserProfile.agentWallet.walletType}"/>">
+										<input type="hidden"  name="Companyid" value="<s:property value="%{currentCompany.Companyid}"/>">
+								 <input type="hidden" id="walletBalanceRange"  value="<s:property value="%{companyUserProfile.agentWallet.walletBalanceRange}"/>">
+																	
+								 <s:if test="%{#session.User.userrole_id.isSuperuser()||#session.Company.companyRole.isDistributor()}">
+							 <select class="form-control input-sm" name="typeOfWallet"
+								id="typeOfWallet" autocomplete="off"   required>
+								<s:if test="%{companyUserProfile.agentWallet.walletType == 'Prepaid'}">
+								<option  value="Prepaid" selected>Prepaid</option>
+								</s:if>
+								<s:else>
+									<option value="Postpaid">Postpaid</option>
+								 </s:else>
+								</select>
+								</s:if>
+								<s:else>
+								<select class="form-control input-sm" name="typeOfWallet"
+								id="typeOfWallet" autocomplete="off"   required>
+								<s:if test="%{companyUserProfile.agentWallet.walletType == 'Prepaid'}">
+								<option  value="Prepaid" selected>Prepaid</option>
+								</s:if>
+								<s:else>
+									<option value="Postpaid">Postpaid</option>
+								 </s:else>
+								 </select>
+								 </s:else>
+								 <%-- <input class="form-control input-sm" type="text" name="typeOfWallet"
+										value="<s:property value="%{#session.User.agentWallet.walletType}"/>"
+										placeholder="Wallet Type" /> --%>
+								</div>
+							</div>
+							
+							<div class="form-group" id="Wallet-type-div" style="display: none">
+							
+								<label for="Username" class="col-sm-2 control-label">Postpaid Amount Range</label>
+								<div class="col-sm-8">
+								<input type="hidden" id="minus"  value="<s:property value="companyUserProfile.agentWallet.walletBalanceRange"/>">
+									<input class="form-control input-sm"   onkeypress="return isNumberKey(event,this)"  type="text" name="postAmount"
+										value="<s:property value="companyUserProfile.walletRange"/>"
+										placeholder="amount"  id='range'/>
+								</div>
+							
+							
+						<%-- <label for="Username" class="col-sm-2 control-label">Postpaid Amount Range</label>
+						<div class="col-sm-8">
+						<input   type="text"   onkeypress="return isNumberKey(event,this)" class="form-control input-sm" id="postAmount"
+								name="postAmount"     value="<s:property value="CurrentCompany.Email"/>"
+								placeholder="Amount" autocomplete="off" >
+						
+							 value="<s:property value="%{CompanyUserProfile.agentWallet.walletBalanceRange}"/>"
+						</div> --%>
+					</div>
+							
+							
+							
+							
+							
+							
+							
+						 <%-- <div class="form-group">
+								<label for="Website" class="col-sm-2 control-label"> New
+									password </label>
+								<div class="col-sm-8">
+									<input type="password" class="form-control input-sm"
+										name="Password" id="password" placeholder="Password"
+										autocomplete="off" required>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="Website" class="col-sm-2 control-label">Confirm
+									password </label>
+
+								<div class="col-sm-8">
+
+									<span style="color: red" id="error"> </span> <input
+										type="password" class="form-control input-sm"
+										name="conformPassword" id="confirmPwd" placeholder="Password"
+										autocomplete="off" required>
+								</div>
+							</div>  
+
+ --%>
+ 
+ 
+ 					<s:if test="%{#session.Company.companyRole.isSuperUser() && companyUserProfile.userrole_id.isDemoUser()}">
+						<div class="col-sm-12">
+							<div class="col-sm-2">
+								<div class="form-group">
+									<div class="checkbox">
+										<label style="color:red">
+										<input type="checkbox" class="checkMyBox" name="demoUser"  
+										<s:if test="companyUserProfile.userrole_id.isDemoUser()">checked value="true" </s:if>  id="demoUser" >
+											
+										Is Demo Account</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</s:if>
+
+
+					<div class="border-common">
+
+						<p class="h4">
+							<b> Account Manager Details</b>
+						</p>
+
+					</div>
+					<input type="hidden" name="salesPersonUserId"   id="salesPerssonUserId">
+					<input type="hidden" name="salesLeadGeneration.id"   value="${CurrentCompany.salesLeadGeneration.id}">
+					<div class="form-group" >
+						<label for="Username" class="col-sm-2 control-label">Sales Person Name</label>
+						<div class="col-sm-8">
+						
+						<s:if test="CurrentCompany.salesLeadGeneration.user.username!=null">
+						<input   type="text"  class="form-control input-sm" id="sales_person_name"
+								 placeholder="Sales Person Name" autocomplete="on"value="${CurrentCompany.salesLeadGeneration.user.username}(${CurrentCompany.salesLeadGeneration.user.email})">
+						</s:if>
+						<s:else>
+						<input   type="text"  class="form-control input-sm" id="sales_person_name"
+								 placeholder="Sales Person Name" autocomplete="on"value="">
+						 </s:else>
+						
+						
+						
+						
+						
+						</div>
+					</div>
+					
+					<div class="form-group" >
+						<label for="Username" class="col-sm-2 control-label">Lead Type</label>
+						<div class="col-sm-8">
+						<select class="form-control input-sm" id="leadType" name="salesLeadGeneration.leadType" required="required" >
+						 <s:if test="CurrentCompany.salesLeadGeneration.leadType=='Media'">
+						 <option  value="Media" selected="selected">Media</option>
+						<option value="Online">Online</option>
+						<option value="Brochure">Brochure</option>
+						 </s:if>
+						 <s:elseif test="CurrentCompany.salesLeadGeneration.leadType=='Online'">
+						 <option  value="Media" >Media</option>
+						<option value="Online" selected="selected">Online</option>
+						<option value="Brochure">Brochure</option>
+						 </s:elseif>
+						 <s:elseif test="CurrentCompany.salesLeadGeneration.leadType=='Brochure'">
+						 <option  value="Media" >Media</option>
+						<option value="Online" >Online</option>
+						<option value="Brochure" selected="selected">Brochure</option>
+						 </s:elseif>
+						 <s:else>
+						 <option  value="Media" >Media</option>
+						<option value="Online" >Online</option>
+						<option value="Brochure">Brochure</option>
+						 </s:else>
+						 
+						</select>
+							 
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="Address" class="col-sm-2 control-label">Sales Person Remarks</label>
+						<div class="col-sm-8">
+							<textarea class="form-control input-sm" id="salesPersonRemarks"
+								name="salesLeadGeneration.salesPersonRemarks"   placeholder="Sales Person Remarks" required> ${CurrentCompany.salesLeadGeneration.salesPersonRemarks} </textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="salesLeadGeneration.companyRemarks" class="col-sm-2 control-label">Company Remarks</label>
+						<div class="col-sm-8">
+							<textarea class="form-control input-sm" id="companyRemarks"
+								name="salesLeadGeneration.companyRemarks"   placeholder="Company Remarks" required>${CurrentCompany.salesLeadGeneration.companyRemarks}</textarea>
+						</div>
+					</div>
+				<div class="border-common">
+						<p class="h4">
+						</p>
+					</div>
+							<div class="form-group">
+								<label for="Website" class="col-sm-2 control-label">Website</label>
+								<div class="col-sm-8">
+									<input class="form-control input-sm" type="url" name="Website"
+										value="<s:property value="CurrentCompany.Website"/>"
+										placeholder="http://www.example.com" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="Email" class="col-sm-2 control-label">Email</label>
+								<div class="col-sm-8">
+									<input type="email" class="form-control input-sm" name="Email"
+										id="email" placeholder="Email"
+										value="<s:property value="CurrentCompany.Email"/>"
+										autocomplete="off" required>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="Address" class="col-sm-2 control-label">Address</label>
+								<div class="col-sm-8">
+									<textarea class="form-control input-sm" id="address"
+										name="Address" placeholder="Address"  
+										required><s:property
+											value="CurrentCompany.Address" /></textarea>
+
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="Termsandconditions" class="col-sm-2 control-label">Terms and Conditions</label>
+								<c:choose>
+								<c:when test="${CurrentCompany.temsandcondtions!=null}">
+								<div class="col-sm-8">
+									<textarea class="form-control input-sm" id="temsandconditions"
+										name="temsandcondtions" placeholder="Terms and Conditions"  
+										required><s:property
+											value="CurrentCompany.temsandcondtions" /></textarea>
+
+								
+							</div>
+								</c:when>
+								<c:otherwise>
+								
+								<div class="col-sm-8">
+									<textarea class="form-control input-sm" id="temsandconditions"
+										name="temsandcondtions" placeholder="Terms and Conditions"  
+										required><s:property
+											value="termsAndConditions"/></textarea>
+
+								
+							</div>
+								</c:otherwise>
+								
+								</c:choose>
+								</div>
+								
+
+							<div class="form-group">
+								<label for="Country" class="col-sm-2 control-label">Country</label>
+								<div class="col-sm-8">
+									<select class="form-control input-sm" name="Countryname"
+										id="country" autocomplete="off" required>
+										<option
+											value="<s:property value="CurrentCompany.Countryname"/>"><s:property
+												value="CurrentCompany.Countryname" /></option>
+										<s:iterator value="CountryList">
+											<option value="<s:property value="c_name"/>"><s:property
+													value="c_name"></s:property></option>
+										</s:iterator>
+
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="Country" class="col-sm-2 control-label">State</label>
+								<div class="col-sm-8">
+									<select class="form-control input-sm" name="Billingstate"
+										id="state" autocomplete="off" required>
+										<option
+											value="<s:property value="CurrentCompany.Billingstate"/>"><s:property
+												value="CurrentCompany.Billingstate" /></option>
+										<s:iterator value="StateList">
+											<option value="<s:property value="stateName"/>"><s:property
+													value="stateName"></s:property></option>
+										</s:iterator>
+
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="City" class="col-sm-2 control-label">Language</label>
+								<div class="col-sm-8">
+									<select class="form-control input-sm" name="Language"
+										id="language_id" autocomplete="off" required>
+										<option
+											value="<s:property value="CurrentCompany.Language"/>"><s:property
+												value="CurrentCompany.Language"></s:property></option>
+										<s:iterator value="LanguageList">
+											<option value="<s:property value="language"/>"><s:property
+													value="language"></s:property></option>
+
+										</s:iterator>
+
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="City" class="col-sm-2 control-label">City</label>
+								<div class="col-sm-8">
+									<select class="form-control input-sm" name="City" id="city"
+										autocomplete="off" required>
+										<option
+											value="<s:property value="CurrentCompany.City"/>"><s:property
+												value="CurrentCompany.City" /></option>
+
+									</select>
+								</div>
+							</div>
+								<div class="form-group" id="sss">
+									<label class="col-sm-2 control-label" for="Username">phone</label>
+									<div class="col-sm-8">
+										<select id="ccc" name="countryCode" required>
+												<s:iterator value="CountryList">
+													<s:if test="c_name=='India'">
+														<option selected="selected"><s:property
+																value="isd_code"></s:property></option>
+													</s:if>
+													<s:if test="c_name !='India'">
+														<option>
+															<s:property value="isd_code"></s:property></option>
+													</s:if>
+												</s:iterator>
+											</select>
+											<input type="tel" class="form-control input-sm" name="Phone"
+										id="telphone" value="<s:property value="CurrentCompany.Phone"/>"
+										placeholder="8105979291" autocomplete="off" required>
+										</div>
+										
+									
+							</div>
+							<%-- <div class="form-group">
+								<label for="telphone" class="col-sm-2 control-label">Phone</label>
+								<div class="col-sm-8">
+									<input type="tel" class="form-control input-sm" name="Phone"
+										id="telphone"
+										value="<s:property value="CurrentCompany.Phone"/>"
+										placeholder="8105979291" autocomplete="off" required>
+								</div>
+							</div> --%>
+							<div class="border-common">
+
+								<p class="h4">
+									<b>State/City</b>
+								</p>
+
+							</div>
+
+
+							<div class="form-group">
+								<label for="Company-type" class="col-sm-2 control-label">Location
+								</label>
+								<div class="col-sm-8">
+								<input type="tel" class="form-control input-sm" name="location"
+										id="telphone"
+										value="<s:property value="CurrentCompany.location"/>"
+										  autocomplete="off" required>
+								
+								
+								
+									<%-- <select class="form-control input-sm" name="location"
+										id="company-type" autocomplete="off" required>
+										<option
+											value="<s:property value="CurrentCompany.location"/>"><s:property
+												value="CurrentCompany.location" /></option>
+
+									</select> --%>
+
+									<!-- <div class="row">
+										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+											<div class="radio">
+												<label> <input type="radio" name="Service"
+													id="optionsRadios1" value="Airways" checked>
+													Airways
+												</label>
+											</div>
+											<div class="radio">
+												<label> <input type="radio" name="Service"
+													id="optionsRadios2" value="Car"> Car
+												</label>
+											</div>
+										</div>
+
+										<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+											<div class="radio">
+												<label> <input type="radio" name="Service"
+													id="optionsRadios1" value="Hotel"> Hotel
+												</label>
+											</div>
+											<div class="radio">
+												<label> <input type="radio" name="Service"
+													id="optionsRadios2" value="other"> other
+												</label>
+											</div>
+										</div>
+									</div> -->
+								</div>
+
+
+							</div>
+
+							<!-- <div class="border-common">
+
+								<p class="h4">
+									<b>Description</b>
+								</p>
+
+							</div> -->
+
+							<%-- <div class="form-group">
+								<label for="Description" class="col-sm-2 control-label">Description</label>
+								<div class="col-sm-8">
+									<textarea class="form-control input-sm" id="Description"
+										name="Companydescription" placeholder="Description"
+										  required><s:property
+											value="%{#session.superUserCompanyProfile.Companydescription}" /></textarea>
+								</div>
+							</div>
+ --%>
+
+
+							<div class="border-common">
+
+								<p class="h4">
+									<b>Billing Address</b>
+								</p>
+
+							</div>
+
+							<div class="form-group">
+								<label for="Company" class="col-sm-2 control-label">Company</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control input-sm" id="company"
+										name="Billingcompany"
+										value="<s:property value="CurrentCompany.Billingcompany"/>"
+										placeholder="Company Name" autocomplete="off" required>
+								</div>
+							</div>
+<%-- 
+							<div class="form-group">
+								<label for="Reference" class="col-sm-2 control-label">Reference</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control input-sm" id="Reference"
+										name="Billingreference"
+										value="<s:property value="%{#session.superUserCompanyProfile.Billingreference}"/>"
+										placeholder="Your Reference" autocomplete="off" required>
+								</div>
+							</div> --%>
+
+							<div class="form-group">
+								<label for="Address" class="col-sm-2 control-label">Address</label>
+								<div class="col-sm-8">
+									<textarea class="form-control input-sm" id="address"
+										name="Billingaddress" placeholder="Address" autocomplete="off"
+										required><s:property
+											value="CurrentCompany.Billingaddress" /></textarea>
+								</div>
+							</div>
+							<div class="form-group ">
+								<label for="Country" class="col-sm-2 control-label">Country</label>
+								<div class="col-sm-8">
+									<select class="form-control input-sm" name="Billingcountry"
+										id="country" autocomplete="off" required>
+										<option
+											value="<s:property value="CurrentCompany.Billingcountry"/>"><s:property
+												value="CurrentCompany.Billingcountry" /></option>
+										<s:iterator value="CountryList">
+											<option value="<s:property value="c_name"/>"><s:property
+													value="c_name"></s:property></option>
+										</s:iterator>
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-group ">
+								<label for="State" class="col-sm-2 control-label">State</label>
+								<div class="col-sm-8">
+									<select class="form-control input-sm" name="state"
+										id="state" autocomplete="off" required>
+										<option
+											value="<s:property value="CurrentCompany.Billingstate"/>"><s:property
+												value="CurrentCompany.Billingstate" /></option>
+										<s:iterator value="StateList">
+											<option value="<s:property value="stateName"/>"><s:property
+													value="stateName"></s:property></option>
+										</s:iterator>
+									</select>
+								</div>
+							</div>
+
+							<!-- <div class="border-common clearfix">
+
+								<p class="h4">
+									<b>Security</b>
+								</p>
+
+
+							</div> -->
+							<%-- <div class="form-group">
+								<label for="Country" class="col-sm-2 control-label">Question</label>
+								<div class="col-sm-8">
+									<select class="form-control input-sm" id="Question"
+										name="Securityquestion" required>
+										<option selected="selected"><s:property
+												value="%{#session.superUserCompanyProfile.Securityquestion}" /></option>
+										<option>What was your childhood nickname?</option>
+										<option>What is the name of your favorite childhood
+											friend ?</option>
+										<option>What street did you live on in third grade?</option>
+										<option>What is your oldest sibling's birthday month
+											and year?</option>
+										<option>What is the middle name of your oldest child?</option>
+										<option>What is your oldest sibling's middle name?</option>
+										<option>What school did you attend for sixth grade?</option>
+										<option>What was the name of your first stuffed
+											animal?</option>
+										<option>What is your maternal grandmother's maiden
+											name?</option>
+										<option>In what town was your first job?</option>
+									</select>
+								</div>
+							</div> --%>
+
+							<%-- <div class="form-group">
+								<label for="Question" class="col-sm-2 control-label">Answer</label>
+
+								<div class="col-sm-8">
+									<input type="text" class="form-control input-sm" id="Answer"
+										name="Securityanswer" placeholder="Answer" autocomplete="off"
+										required
+										value="<s:property value="%{#session.superUserCompanyProfile.Securityanswer}"/>">
+								</div>
+							</div> --%>
+
+							<div class="form-group">
+								<label class="col-md-3 control-label"></label>
+								<div class="col-md-8 text-right">
+									<input class="btn btn-primary" id="" value="Save Changes"
+										type="submit">
+									<%-- <span></span> <input class="btn btn-default" value="Cancel"
+								type="reset"> --%>
+								</div>
+								
+							</div>
+							</div>
+							</div>
+							 
+						</form>
+					</div>
+				 </div>
+				<!-- /.row -->
+			</section>
+			<!-- /.content -->
+		</div>
+	</s:if>
+
+	<!-- /.content-wrapper -->
+
+	<%@ include file="DashboardFooter.jsp"%>
+		<script src="js/app.js" type="text/javascript"></script>
+	<script src="js/sales_person_names.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	function checkPasswordMatch() {
+	    var password = $("#password").val();
+	    var confirmPassword = $("#confirmPwd").val();
+
+	    if (password !=confirmPassword){ 
+	        $("#error").html("Passwords do not match");
+	    }
+	    else{
+	    	 
+	    	 $("#error").html("");
+	     
+	  }
+	}
+
+	$(document).ready(function () {
+	   $("#confirmPwd").keyup(checkPasswordMatch);
+	   $( "#agreementExpiryDt" ).datepicker({ 
+		    dateFormat: "dd-mm-yy", 
+		    });
+	});
+ 
+	</script>
+	
+	<script type="text/javascript">
+$(function() {
+	 
+   	 if($('#typeOfWallet').val()== 'Postpaid') {
+           $('#Wallet-type-div').show();
+           $('#postAmount').val("");
+        } 
+    });
+  
+ </script>
+	<script type="text/javascript">
+	
+	
+	
+	$(function() {
+		 
+		 $( "#agreementExpiryDt" ).datepicker({
+			    changeMonth: true,  
+			    changeYear:true,
+			    dateFormat: "dd-mm-yy",
+			    minDate:0,
+			    });
+	});
+		 
+$(function() {
+	var str = document.getElementById("minus").value;
+	  if(str.startsWith("-")){
+		var minus = str.substr(1);
+		  $("#range").val(minus)
+	}
+ });
+ 
+$('#sales_person_name').focus(function() {
+	   $(this).val('');
+	   $('#salesPerssonUserId').val('');
+	   
+	  });
+$('.checkMyBox').change(function(){ 
+    if($(this).is(':checked')){
+          $(this).val('true'); 
+          $(this).attr('checked','checked');
+     }else{
+    	  $(this).removeAttr('checked');
+          $(this).val('false');
+     }
+});
+ </script>
+ 
+</body>
+</html>

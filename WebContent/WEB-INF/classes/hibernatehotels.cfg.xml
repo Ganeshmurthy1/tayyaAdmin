@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="connection.pool_size">10</property>
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="hibernate.cache.use_second_level_cache">false</property>
+		<property name="hibernate.cache.use_query_cache">false</property>
+		<property name="hibernate.connection.isolation">2</property>
+		<property name="hibernate.jdbc.batch_size">100</property>
+	 
+  		<property name="connection.url">jdbc:mysql://localhost:3306/tayyarah_hotels</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">root</property> 
+		 
+		<mapping class="com.lintas.admin.common.model.Hoteloverview" /> -->
+		  
+		 
+	</session-factory>
+</hibernate-configuration>

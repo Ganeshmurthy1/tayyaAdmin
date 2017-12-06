@@ -1,0 +1,171 @@
+/* Charts */
+.chart-dot-list {
+  display: block;
+  list-style: none;
+}
+.chart-dot-list li {
+      margin-bottom: 4px;
+    float: left;
+    margin-right: 22px;
+}
+.chart-dot-list li:before {
+  content: '';
+  height: 12px;
+  width: 12px;
+  margin-right: 6px;
+  display: inline-block;
+  background: #222;
+  border-radius: 50%;
+}
+.chart-dot-list li.air:before {
+  background: #0082bc;
+}
+.chart-dot-list li.hotel:before {
+  background: #bc0007;
+}
+.chart-dot-list li.car:before {
+  background: #1dbc00;
+}
+.chart-doughnut {
+  padding: 34px 0;
+}
+/*NOTIFICATION*/
+.notification-collapse button {
+  background: transparent;
+  border: none;
+}
+.notification-collapse button .dropdown-menu {
+  color: #000;
+}
+
+
+.pnl {
+  margin-top: 30px;
+  border: 1px solid #eee;
+}
+.pnl.nobdr {
+  border: none;
+}
+.pnl .hd {
+  background: #f0f0f0;
+}
+.pnl .hd h5 {
+  padding: 10px;
+  margin: 0;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 700;
+}
+.pnl .hd h5.small {
+  font-size: 16px;
+}
+.pnl .hd .set {
+  padding: 10px;
+}
+.pnl .hd .set button.fa {
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  padding: 4px;
+  height: 25px;
+  width: 25px;
+}
+.pnl .hd .set .dropdown {
+  display: inline-block;
+}
+.pnl .hd-tabs {
+  float: right;
+  margin-right: 15px;
+  margin-top: 15px;
+}
+.pnl .hd-tabs li {
+  text-transform: uppercase;
+  background: #e8e8e8;
+  padding: 5px 10px;
+  display: inline-block;
+}
+.pnl .hd-tabs li.active {
+  background: #fff;
+}
+.pnl .cnt {
+  background: #fff;
+  padding: 10px;
+}
+.pnl .cnt-tabs {
+  margin: -10px;
+  margin-bottom: 10px;
+  display: flex;
+}
+.pnl .cnt-tabs li {
+  text-transform: uppercase;
+  background: #e8e8e8;
+  padding: 5px 10px;
+  display: inline-block;
+  flex: 2 1 auto;
+  justify-content: space-between;
+}
+.pnl .cnt-tabs li a {
+  display: block;
+}
+.pnl .cnt-tabs li.active {
+  background: #fff;
+}
+.pnl .cnt-form {
+  padding: 20px;
+}
+.pnl .cnt-table {
+  padding: 0;
+}
+.pnl-full {
+  z-index: 10060;
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+
+.caption-subject h4{
+  font-size: 15px;
+  text-transform: uppercase;
+  font-weight: 700 !important;
+      border-bottom: 1px solid #eee;
+      color: #666;
+      padding-bottom: 5px;
+}
+
+#chart-bar{
+
+  box-shadow: 1px -1px #79a300, 2px -2px #79a300, 3px -3px #79a300,   4px -4px #79a300, 5px -5px #79a300, 6px -6px #79a300, 7px -7px   #79a300, 8px -8px #79a300, 9px -9px #79a300, 10px -10px #79a300;
+
+}
+
+					    	
+.chart-dot-list li.dot-flight::before {
+    background: rgb(139,107,216);
+}
+.chart-dot-list li.dot-hotel::before {
+    background: rgb(0,171,237);
+}
+.chart-dot-list li.dot-bus::before {
+    background: rgb(255,67,83);
+}
+.chart-dot-list li.dot-car::before {
+    background: rgb(142,202,54);
+}
+.chart-dot-list li.dot-train::before {
+    background: rgb(0,45,86);
+}
+.chart-dot-list li.dot-visa::before {
+    background: rgb(0,77,86);
+}
+.chart-dot-list li.dot-ins::before {
+    background: rgb(29, 79, 29);
+}
+.chart-dot-list li.dot-misc::before {
+    background: rgb(167, 105, 0);
+}

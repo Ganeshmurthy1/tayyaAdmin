@@ -1,0 +1,96 @@
+body {
+	margin: 10px;
+	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#HDropdown-orange-classic {
+	margin: 0px;
+padding: 0px;
+list-style: outside none none;
+background: transparent url("images/horizontal_d_orange_classic_bg.gif") repeat-x scroll center top;
+height: 28px;
+/* border-style: solid; */
+border-color: #C93300;
+-moz-border-top-colors: none;
+-moz-border-right-colors: none;
+-moz-border-bottom-colors: none;
+-moz-border-left-colors: none;
+border-image: none;
+/* border-width: 1px 1px 1px 0px; */
+}
+
+#HDropdown-orange-classic li {
+	display: inline;
+	position: relative;
+	float: left;
+}
+
+#HDropdown-orange-classic li a {
+	display: block;
+float: left;
+height: 29px;
+line-height: 29px;
+padding: 0px 25px;
+text-decoration: none;
+color: #000;
+font-weight: normal;
+font-size: 12px;
+border: 1px solid #63605F;
+}
+
+#HDropdown-orange-classic li a:hover {
+	color: #a9401b;
+	background: #FFFFFF;
+}
+
+#HDropdown-orange-classic li ul {
+	margin: 0;
+	padding: 0 5px;
+	line-height: none;
+	position: absolute;
+	top: 29px;
+	left: 0;
+	border: solid 1px #c93300;
+	border-width: 0px 1px 1px 1px;
+	width: 180px;
+	display: none;
+	background: #FFFFFF;
+}
+
+#HDropdown-orange-classic li:hover ul {
+	display: block;
+}
+
+#HDropdown-orange-classic li:hover a {
+	color: #a9401b;
+	background: #FFFFFF;
+}
+
+#HDropdown-orange-classic li ul li {
+	display: block;
+	border-bottom: solid 1px #dbdcd9;
+	width: 100%;
+	background: url(images/d_horizontal_red_classic_menu_arrow.gif)
+		no-repeat 3px 12px;
+	padding: 0 0 0 10px;
+}
+
+#HDropdown-orange-classic li ul li:last-child {
+	border-bottom: 0px;
+}
+
+#HDropdown-orange-classic li ul a {
+	border-width: 0px;
+	color: #909090;
+	padding: 0 5px 0 0;
+	background-color: transparent;
+}
+
+#HDropdown-orange-classic li:hover ul li a {
+	color: #909090
+}
+
+#HDropdown-orange-classic li ul li a:hover {
+	color: #a9401b
+}

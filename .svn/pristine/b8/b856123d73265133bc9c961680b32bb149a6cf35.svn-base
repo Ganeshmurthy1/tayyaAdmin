@@ -1,0 +1,191 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Mail Config</title>
+<%-- <script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> --%>
+
+<link rel="stylesheet" href="css/alert.css">
+
+<script type="text/javascript">
+	$(function() {
+		var totUrl = $(location).attr('href');
+		var newUrl = totUrl.substr(0, totUrl.lastIndexOf('/') + 1);
+		var finalUrl = newUrl + "mailConfigList";
+		$('#success').click(function() {
+			window.location.assign(finalUrl);
+			$('#success-alert').hide();
+
+		});
+		$('#cancel').click(function() {
+			$('#error-alert').hide();
+
+		});
+	});
+</script>
+
+</head>
+<body>
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>
+				Add Mail Configuration
+				<%-- <small>Control panel</small> --%>
+			</h1>
+			<!-- <ol class="breadcrumb">
+				<li><a href="home"><i class="fa fa-dashboard"></i> Home</a></li>
+				<li class="active">Dashboard</li>
+			</ol> -->
+		</section>
+
+
+		<!-- Main content -->
+		<section class="content">
+
+			<div class="col-sm-12">
+				<h4>
+					<a href="javascript:history.back();"><span class="pull-right"><i
+							class="fa fa-angle-left"></i> Back</span></a>
+				</h4>
+			</div>
+			<!-- Small boxes (Stat box) -->
+			<s:if test="hasActionErrors()">
+				<div class="succfully-updated clearfix" id="error-alert">
+
+					<div class="col-sm-2">
+						<i class="fa fa-check fa-3x"></i>
+					</div>
+
+					<div class="col-sm-10">
+
+						<p>
+							<s:actionerror />
+						</p>
+
+						<button type="button" id="cancel" class="btn btn-primary">Ok</button>
+
+					</div>
+
+				</div>
+
+
+			</s:if>
+
+			<s:if test="hasActionMessages()">
+				<div class="sccuss-full-updated" id="success-alert">
+					<div class="succfully-updated clearfix">
+
+						<div class="col-sm-2">
+							<i class="fa fa-check fa-3x"></i>
+						</div>
+
+						<div class="col-sm-10">
+							<s:actionmessage />
+							<button type="button" id="success" class="btn btn-primary">Ok</button>
+
+						</div>
+
+					</div>
+				</div>
+			</s:if>
+			<div class="row" id="dash-us-register">
+
+				<form action="addApiMailConfig" method="post"
+					class="form-horizontal">
+					
+					<div class="form-group">
+						<label for="Username" class="col-sm-2 control-label">Api Company</label>
+						<div class="col-sm-8">
+						<select class="form-control input-sm" name="apiCompany" required="required">
+						<option value="">select api company</option>
+						<s:iterator value="apiCompanies">
+						<option value="<s:property value="companyid"/>/<s:property value="Companyname"/>/<s:property value="company_userid"/>"><s:property value="Companyname"/>(<s:property value="company_userid"/>)</option>
+						 </s:iterator>
+						</select>
+						</div>
+					</div>
+					
+					
+					
+					<div class="form-group">
+						<label for="Username" class="col-sm-2 control-label">MailConfig
+							Name</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control input-sm"
+								id="mail_config_name" name="mail_config_name"
+								value="<s:property value="mail_config_name"/>"
+								placeholder="mail_config_name" autocomplete="off" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="Username" class="col-sm-2 control-label">Server
+							Host</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control input-sm" id="username"
+								name="mail_server_host"
+								value="<s:property value="mail_server_host"/>"
+								placeholder="Server Host" autocomplete="off" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="first-name" class="col-sm-2 control-label">Server
+							User</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control input-sm" id="first-name"
+								name="mail_server_user"
+								value="<s:property value="mail_server_user"/>"
+								placeholder="Server User" autocomplete="off" required>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label for="Password" class="col-sm-2 control-label">User
+							Password</label>
+						<div class="col-sm-8">
+							<input type="password" ng-model="password"
+								class="form-control input-sm" name="mail_server_password"
+								value="<s:property value="mail_server_password"/>"
+								id="Server Password" placeholder="Password" autocomplete="off"
+								required>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label for="telphone" class="col-sm-2 control-label">Server
+							Port</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control input-sm"
+								name="mailServerPort"
+								value="<s:property value="mailServerPort"/>" id="telphone"
+								placeholder="Server Port" autocomplete="off" required>
+						</div>
+					</div>
+
+					<div class="form-group text-center">
+						<div class="col-xs-12 submitWrap text-center">
+							<button type="submit" class="btn btn-primary btn-lg">Add
+								Confg</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- /.row -->
+			<!-- Main row -->
+		</section>
+		<!-- /.content -->
+	</div>
+	<!-- /.content-wrapper -->
+	
+	<%@ include file="DashboardFooter.jsp"%>
+	<script type="text/javascript" src="js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,780 @@
+package com.admin.miscellaneous.action;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import org.apache.struts2.dispatcher.SessionMap;
+import org.apache.struts2.interceptor.SessionAware;
+
+import com.admin.api.provider.dao.ApiProviderDao;
+import com.admin.api.provider.model.ApiProvider;
+import com.admin.common.util.CommonUtilSession;
+import com.admin.enums.utility.CommonBookingStatusEnum;
+import com.admin.enums.utility.IndianUnionTerritories;
+import com.admin.hotel.fin.sheet.Dao.TripRequestDao;
+import com.admin.hotel.fin.sheet.model.TravelRequestStatusEnum;
+import com.admin.hotel.fin.sheet.model.TripRequest;
+import com.admin.miscellaneous.dao.MiscellaneousOrderDao;
+import com.admin.miscellaneous.model.MiscellaneousGstTaxConfig;
+import com.admin.miscellaneous.model.MiscellaneousOrderRow;
+import com.admin.miscellaneous.model.MiscellaneousOrderRowGstTax;
+import com.admin.miscellaneous.model.MiscellaneousTravelRequest;
+import com.lintas.admin.DAO.CompanyConfigDao;
+import com.lintas.admin.DAO.CompanyDAO;
+import com.lintas.admin.DAO.CountryDao;
+import com.lintas.admin.DAO.FlightOrderDao;
+import com.lintas.admin.DAO.RmConfigDao;
+import com.lintas.admin.DAO.UserDAO;
+import com.lintas.admin.common.model.OrderCustomer;
+import com.lintas.admin.model.Company;
+import com.lintas.admin.model.CompanyConfig;
+import com.lintas.admin.model.CompanyEntity;
+import com.lintas.admin.model.Country;
+import com.lintas.admin.model.Email;
+import com.lintas.admin.model.RmConfigModel;
+import com.lintas.admin.model.RmConfigTripDetailsModel;
+import com.lintas.admin.model.User;
+import com.lintas.admin.model.UserWallet;
+import com.lintas.admin.vo.CutandPayModel;
+import com.lintas.config.RandomConfigurationNumber;
+import com.lintas.utility.CommonUtil;
+import com.lintas.utility.DateConversion;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+import com.tayyarah.admin.orderrow.rm.structure.MiscellaneousOrderRowRmConfigStruct;
+import com.tayyarah.gst.model.FlightGstTax;
+import com.tayyarah.miscellaneous.model.MiscellaneousOrderCustomer;
+import com.tayyarah.notification.NotificationInventoryTypeEnum;
+import com.tayyarah.notification.action.NotificationAction;
+
+public class MiscellaneousRequestAction extends ActionSupport implements ModelDriven<MiscellaneousTravelRequest>, SessionAware {
+
+	private static final long serialVersionUID = 1L;
+	SessionMap<String, Object> sessionMap; 
+	MiscellaneousOrderRow miscellaneousOrderRow=new MiscellaneousOrderRow();
+	MiscellaneousOrderDao miscellaneousOrderDao=new MiscellaneousOrderDao();
+	RmConfigModel rmConfigModel = new RmConfigModel();
+	List<String> fieldName = new ArrayList<String>();
+	private Long tripId;
+	private Long orderId;
+	private List<MiscellaneousOrderCustomer> miscellaneousOrderCustomerList= new ArrayList<>();
+	RmConfigTripDetailsModel configTripDetailsModel=new RmConfigTripDetailsModel();
+	private UserWallet userWallet=new UserWallet();
+	TripRequestDao tripRequestDao=new TripRequestDao();
+	private Long idtosend;
+	private String confirmationNo="";
+	UserDAO userDao=new UserDAO();
+	RmConfigDao rmConfigDao=new RmConfigDao();
+	MiscellaneousTravelRequest miscellaneousTravelRequest=new MiscellaneousTravelRequest();
+	private List<Country> countryList=new ArrayList<Country>();
+	private List<MiscellaneousTravelRequest> miscellaneousTravelRequestList=new ArrayList<MiscellaneousTravelRequest>();
+	private List<ApiProvider> apiProviders;
+	ApiProviderDao apiProviderDao =new ApiProviderDao();
+	private MiscellaneousGstTaxConfig miscellaneousGstTaxConfig = new MiscellaneousGstTaxConfig();
+	private String taxType;
+	BigDecimal totalGstAmount = new BigDecimal("0.00");
+	BigDecimal managementFee = new BigDecimal("0.00");
+	BigDecimal totalGstTaxPer = new BigDecimal("0.00");
+	
+	public String goMiscellaneousRequest(){
+		BigDecimal CGST = new BigDecimal("0.00");
+		BigDecimal SGST = new BigDecimal("0.00");
+		BigDecimal UGST = new BigDecimal("0.00");
+		BigDecimal IGST = new BigDecimal("0.00");
+
+		countryList = new CountryDao().getCountryList();
+		User sessionUser = (User) sessionMap.get("User");
+		Company sessionCompany = (Company) sessionMap.get("Company");
+		List<ApiProvider> list = apiProviderDao.fetchApiProviderList();
+		setApiProviders(list);
+		RmConfigDao rmConfigDao = new RmConfigDao();
+		try {
+			setRmConfigModel(rmConfigDao.getConfigDetailsByCompanyId(sessionCompany.getCompanyid()));
+			String manualStringFields[] = rmConfigModel.getDynamicFieldsData()!=null && !rmConfigModel.getDynamicFieldsData().trim().equalsIgnoreCase("") ?rmConfigModel.getDynamicFieldsData().split(","):null;
+			if(manualStringFields!=null && manualStringFields.length>0){
+				for (String oneField : manualStringFields) {
+					if(!oneField.trim().equalsIgnoreCase("")){
+						String fieldsName[]=oneField.split(":");
+						fieldName.add(fieldsName[0]);
+					}
+				}
+			}
+		} catch (Exception e) {
+		}
+		if(tripId != null){
+			TripRequest tripRequest = tripRequestDao.getTripRequestById(tripId);
+			configTripDetailsModel = rmConfigDao.getTripConfigDetails(tripRequest.getTripId());
+		}
+		CompanyConfig companyConfig = new CompanyConfigDao().getConfigByComnpanyId(sessionCompany.getCompanyid());
+		Company parentCompany = new CompanyDAO().getParentCompanyByParentCompanyUserid(sessionCompany.getParent_company_userid());
+		if(companyConfig.getTaxtype()!=null && companyConfig.getTaxtype().equalsIgnoreCase("GST")){
+			boolean territiryStatus = IndianUnionTerritories.isUnionter(parentCompany.getBillingstate().trim());
+			if(companyConfig.getMiscellaneousGstTaxConfig()!=null){
+				managementFee = companyConfig.getMiscellaneousGstTaxConfig().getManagementFee().setScale(0, RoundingMode.UP);
+				if(managementFee==null){
+					managementFee=new BigDecimal("0.00");
+				}
+				CGST = managementFee.divide(new BigDecimal("100.0")).multiply(companyConfig.getMiscellaneousGstTaxConfig().getCGST());
+				totalGstTaxPer = totalGstTaxPer.add(companyConfig.getMiscellaneousGstTaxConfig().getCGST());
+				if (sessionCompany.getBillingstate().trim().equalsIgnoreCase(parentCompany.getBillingstate().trim())) {
+					SGST = managementFee.divide(new BigDecimal("100.0")).multiply(companyConfig.getMiscellaneousGstTaxConfig().getSGST());
+					totalGstTaxPer = totalGstTaxPer.add(companyConfig.getMiscellaneousGstTaxConfig().getSGST());
+				}
+				if (!sessionCompany.getBillingstate().trim().equalsIgnoreCase(parentCompany.getBillingstate().trim()) && !territiryStatus) {
+					IGST = managementFee.divide(new BigDecimal("100.0")) .multiply(companyConfig.getMiscellaneousGstTaxConfig().getIGST());
+					CGST= new BigDecimal("0.00");
+					 totalGstTaxPer =companyConfig.getMiscellaneousGstTaxConfig().getIGST();
+				}
+				if (!sessionCompany.getBillingstate().trim().equalsIgnoreCase(parentCompany.getBillingstate().trim()) && territiryStatus) {
+					UGST = managementFee.divide(new BigDecimal("100.0")) .multiply(companyConfig.getMiscellaneousGstTaxConfig().getUGST());
+					totalGstTaxPer = totalGstTaxPer.add(companyConfig.getMiscellaneousGstTaxConfig().getUGST());
+				}
+				totalGstAmount = CGST.add(SGST).add(IGST).add(UGST);
+				setTaxType("GST");
+			}
+			if(companyConfig!=null && companyConfig.getMiscellaneousGstTaxConfig()!=null){
+				miscellaneousGstTaxConfig.setConvenienceFee(companyConfig.getMiscellaneousGstTaxConfig().getConvenienceFee().setScale(0,RoundingMode.HALF_UP));
+				miscellaneousGstTaxConfig.setManagementFee(companyConfig.getMiscellaneousGstTaxConfig().getManagementFee().setScale(0,RoundingMode.HALF_UP));
+
+			}
+		}
+		setTripId(tripId);
+		userWallet=new UserDAO().getParentUserWalletAmount(sessionUser.getAgentWallet().getWalletId());
+		return SUCCESS;
+	}
+
+	public String  createMiscellaneousTravelRequest(){
+		TripRequest tripRequest =new TripRequest();
+		User sessionUser=(User)sessionMap.get("User");
+		Company sessionCompany=(Company)sessionMap.get("Company");
+		Company parentCompany = new CompanyDAO().getParentCompanyByParentCompanyUserid(sessionCompany.getParent_company_userid());
+		User userNew=userDao.getUserByUserId(sessionUser.getId());
+		String orderId = miscellaneousTravelRequest.getConfirmationNumber();
+		BigDecimal finalPrice = miscellaneousOrderRow.getTotalAmount();
+		miscellaneousOrderRow.setTotalAmount(finalPrice);
+		BigDecimal serviceOrGstTax = new BigDecimal("0.00");
+		CompanyConfig newCompanyConfig=	new CompanyConfigDao().getConfigByComnpanyId(sessionCompany.getCompanyid());
+		User walletUser= userNew;
+		if(userNew != null){
+			if(sessionCompany.getCompanyRole()!=null && sessionCompany.getCompanyRole().isCorporate())
+			{
+				walletUser = userDao.getUserPasswordForLock(sessionCompany.getEmail());
+			}
+		}
+		
+		MiscellaneousTravelRequest miscellaneousTravelRequest=new MiscellaneousTravelRequest();
+		miscellaneousTravelRequest.setCreatedAt(new Timestamp(new Date().getTime()));
+		miscellaneousTravelRequest.setCompanyId(sessionUser.getCompanyid());
+		miscellaneousTravelRequest.setUserId(CommonUtilSession.checkEmulatedUser(sessionMap)?CommonUtilSession.getEmulatedUserIdInt(sessionMap):sessionUser.getId());
+		miscellaneousTravelRequest.setStatusId(TravelRequestStatusEnum.CREATED.getValue());
+		miscellaneousTravelRequest.setTotalAmount(finalPrice.add(miscellaneousOrderRow.getTotalGstTax()));
+		miscellaneousTravelRequest.setConfirmationNumber(miscellaneousOrderRow.getConfirmationNumber());
+		miscellaneousTravelRequest.setDetails1(miscellaneousOrderRow.getDetails1());
+		miscellaneousTravelRequest.setDetails2(miscellaneousOrderRow.getDetails2());
+		MiscellaneousOrderCustomer miscellaneousOrderCustomer=null;
+		if(miscellaneousOrderCustomerList!=null &&	miscellaneousOrderCustomerList.size()>0) 
+			miscellaneousOrderCustomer=	miscellaneousOrderCustomerList.get(0);
+		if(miscellaneousOrderCustomer!=null){
+			miscellaneousTravelRequest.setFirstName(miscellaneousOrderCustomer.getFirstName());
+			miscellaneousTravelRequest.setLastName(miscellaneousOrderCustomer.getLastName());
+			miscellaneousTravelRequest.setTitle(miscellaneousOrderCustomer.getTitle());
+		}
+ 
+		MiscellaneousTravelRequest miscellaneousTravelRequestnew=miscellaneousOrderDao.insertMiscellaneousTravelRequestnew(miscellaneousTravelRequest);
+		OrderCustomer orderCustomer = new OrderCustomer();
+		orderCustomer.setFirstName(miscellaneousTravelRequestnew.getFirstName());
+		orderCustomer.setLastName(miscellaneousTravelRequestnew.getLastName());
+		orderCustomer.setTitle(miscellaneousTravelRequestnew.getTitle());
+		//addd by basha
+		orderCustomer.setCreatedByUserId(CommonUtilSession.checkEmulatedUser(sessionMap)?CommonUtilSession.getEmulatedUserIdInt(sessionMap):sessionUser.getId());
+		orderCustomer.setCompanyId(sessionCompany.getCompanyid());
+		orderCustomer.setBookingType(CommonBookingStatusEnum.MISCELLANEOUS.getMessage());
+		orderCustomer.setConfigId(newCompanyConfig.getConfig_id());
+		if(miscellaneousTravelRequestnew.getTitle().equalsIgnoreCase("Mr")){
+			orderCustomer.setGender("Male");
+		}else if(miscellaneousTravelRequestnew.getTitle().equalsIgnoreCase("Mrs") || miscellaneousTravelRequestnew.getTitle().equalsIgnoreCase("Miss")  || miscellaneousTravelRequestnew.getTitle().equalsIgnoreCase("Ms")){
+			orderCustomer.setGender("Female");
+		}
+		else{
+			orderCustomer.setGender("Male");
+		}
+		orderCustomer.setEmail(sessionUser.getEmail());
+		orderCustomer.setCreatedAt(new Timestamp(new Date().getTime()));
+		miscellaneousOrderRow.setDetails1(miscellaneousTravelRequestnew.getDetails1());
+		miscellaneousOrderRow.setDetails2(miscellaneousTravelRequestnew.getDetails2());
+		miscellaneousOrderRow.setOrderCustomer(orderCustomer);
+		miscellaneousOrderRow.setApiToBaseExchangeRate(new BigDecimal(1));
+		miscellaneousOrderRow.setBaseToBookingExchangeRate(new BigDecimal(1));
+		miscellaneousOrderRow.setSupplierPrice(miscellaneousOrderRow.getSupplierPrice().setScale(2, BigDecimal.ROUND_UP));
+		miscellaneousOrderRow.setCreatedBy(sessionUser.getUsername());
+		miscellaneousOrderRow.setUpdatedBy(sessionUser.getUsername());
+		miscellaneousOrderRow.setStatusAction("Confirmed");
+		miscellaneousOrderRow.setPaymentStatus("Success");
+		miscellaneousOrderRow.setBookingMode(CommonBookingStatusEnum.BOOKING_MODE_OFFLINE.getMessage());
+		miscellaneousOrderRow.setBookingDate(DateConversion.StringToDate(miscellaneousOrderRow.getMiscBookingDate()));
+		miscellaneousOrderRow.setCreatedAt(new Timestamp(new Date().getTime()));
+		miscellaneousOrderRow.setCompanyId(sessionUser.getCompanyid());
+		miscellaneousOrderRow.setUserId(CommonUtilSession.checkEmulatedUser(sessionMap)?CommonUtilSession.getEmulatedUserIdInt(sessionMap):sessionUser.getId());
+		miscellaneousOrderRow.setStatusId(TravelRequestStatusEnum.CREATED.getValue());
+		FlightGstTax miscellaneousGstTax=null;
+		MiscellaneousOrderRowGstTax miscellaneousOrderRowGstTax = null;
+
+		if(newCompanyConfig!=null && newCompanyConfig.getTaxtype()!=null && newCompanyConfig.getTaxtype().equalsIgnoreCase("GST")){
+			if(newCompanyConfig.getCarGstTaxConfig()!=null){
+				miscellaneousOrderRowGstTax=new MiscellaneousOrderRowGstTax();
+				miscellaneousOrderRowGstTax.setIGST(newCompanyConfig.getCarGstTaxConfig().getIGST().setScale(2,RoundingMode.HALF_UP));
+				miscellaneousOrderRowGstTax.setSGST(newCompanyConfig.getCarGstTaxConfig().getSGST().setScale(2,RoundingMode.HALF_UP));
+				miscellaneousOrderRowGstTax.setUGST(newCompanyConfig.getCarGstTaxConfig().getUGST().setScale(2,RoundingMode.HALF_UP));
+				miscellaneousOrderRowGstTax.setCGST(newCompanyConfig.getCarGstTaxConfig().getCGST().setScale(2,RoundingMode.HALF_UP));
+				miscellaneousOrderRowGstTax.setApplicableFare(newCompanyConfig.getCarGstTaxConfig().getApplicableFare());
+				miscellaneousOrderRowGstTax.setCreatedAt(new Timestamp(new Date().getTime()));
+				miscellaneousOrderRowGstTax.setConvenienceFee(newCompanyConfig.getMiscellaneousGstTaxConfig().getConvenienceFee().setScale(0,RoundingMode.HALF_UP));
+				miscellaneousOrderRowGstTax.setManagementFee(newCompanyConfig.getMiscellaneousGstTaxConfig().getManagementFee().setScale(0,RoundingMode.HALF_UP));
+				miscellaneousGstTax=getFlightGSTTax(miscellaneousOrderRowGstTax, sessionCompany, parentCompany,miscellaneousOrderRow);
+				miscellaneousOrderRowGstTax.setTotalGst(miscellaneousGstTax.getTotalTax());
+				miscellaneousOrderRow.setTotalGstTax(miscellaneousGstTax.getTotalGstAmount());
+				miscellaneousOrderRow.setMiscellaneousOrderRowGstTax(miscellaneousOrderRowGstTax);
+				serviceOrGstTax=miscellaneousGstTax.getTotalGstAmount();
+			}
+
+		}
+		RmConfigModel  rmConfigModel=rmConfigDao.getConfigDetailsByCompanyId(sessionCompany.getCompanyid());
+		   if(rmConfigModel!=null){
+			   MiscellaneousOrderRowRmConfigStruct miscellaneousOrderRowRmConfigStruct=new MiscellaneousOrderRowRmConfigStruct();
+			   miscellaneousOrderRowRmConfigStruct.setRmDynamicData(rmConfigModel.getDynamicFieldsData());
+		   miscellaneousOrderRow.setMiscellaneousOrderRowRmConfigStruct(miscellaneousOrderRowRmConfigStruct);
+		   }
+		MiscellaneousOrderRow miscellaneousOrderRowNew= miscellaneousOrderDao.insertMiscellaneousOrderRow(miscellaneousOrderRow);
+		if(miscellaneousOrderRowNew!=null){
+			miscellaneousOrderRowNew.setInvoiceNo(RandomConfigurationNumber.generateMisslaniousInvoiceNumber(miscellaneousOrderRowNew.getId()));
+			Long orderIdTemp = miscellaneousOrderRowNew.getId()+1000;
+			orderId =RandomConfigurationNumber.generateMisslaniousInvoiceNumber(orderIdTemp);
+			miscellaneousOrderRowNew.setOrderId(orderId);
+			miscellaneousOrderRowNew=miscellaneousOrderDao.updateMiscellaneousOrderRowDetail(miscellaneousOrderRowNew);
+
+
+		}
+
+		CompanyDAO companyDAO = new CompanyDAO();
+		Map<String, BigDecimal> markups =  new LinkedHashMap<>();
+		if(miscellaneousOrderRowNew!=null)
+		{
+			if(sessionCompany.getCompanyRole().isSuperUser())
+			{
+				//						markups.put(String.valueOf(sessionCompany.getCompanyid()), visaOrderRowNew.getMarkUp());
+				markups.put(String.valueOf(sessionCompany.getCompanyid()), new BigDecimal(0));
+			}
+			else
+			{
+				Company companyParent= companyDAO.getParentCompany(sessionCompany);
+				markups.put(String.valueOf(companyParent.getCompanyid()),miscellaneousOrderRowNew.getMarkUpamount());
+				markups.put(String.valueOf(sessionCompany.getCompanyid()), new BigDecimal(0));
+			}
+		}
+
+		List<Company> companyListBottomToTop= new LinkedList<>();
+		List<User> userListBottomToTop= new LinkedList<>();
+		Map<Integer, CutandPayModel> cutAndPayUserMap = new LinkedHashMap<>();
+		FlightOrderDao  flightOrderDao = new FlightOrderDao();
+
+		BigDecimal finalPriceAfterTax = finalPrice.add(serviceOrGstTax!= null ?serviceOrGstTax : new BigDecimal(0));
+		boolean bookTicket=false;
+		if(true)
+		{
+			try {
+				companyListBottomToTop = CommonUtil.getParentCompanyBottomToTop(sessionCompany.getCompanyid(),companyDAO);
+				if(companyListBottomToTop!=null && companyListBottomToTop.size()>0)
+				{
+					userListBottomToTop = CommonUtil.getUsersAllWithUserModeBottomToTop(companyListBottomToTop,companyDAO,walletUser);
+				}
+				cutAndPayUserMap = CommonUtil.getCutandPayModelUsersHotel(userListBottomToTop,markups,finalPriceAfterTax,walletUser);
+
+				boolean checkBookingAmountEligibility= false;
+				if(userListBottomToTop!=null && userListBottomToTop.size()>0)
+				{
+					for(User userInner : userListBottomToTop)
+					{
+						if(userInner.getAgentWallet()!=null)
+						{
+							if(cutAndPayUserMap!=null && cutAndPayUserMap.get(userInner.getId())!=null)
+							{
+								BigDecimal totalPayableAmount = cutAndPayUserMap.get(userInner.getId()).getPayableAmount();
+								if(!flightOrderDao.checkWalletAmount(userInner.getId(), totalPayableAmount,new BigDecimal(0), new BigDecimal(0))){
+									bookTicket = false;
+									checkBookingAmountEligibility = false;
+									break;
+								}else{
+									checkBookingAmountEligibility = true;
+								}
+
+							}
+						}
+					}
+				}	
+
+				if(checkBookingAmountEligibility)
+				{
+					Map<Integer,Boolean> userMapBottomToTop= new LinkedHashMap<>();
+					if(userListBottomToTop!=null && userListBottomToTop.size()>0)
+					{
+						for(User userInner : userListBottomToTop)
+						{
+							if(userInner.getAgentWallet()!=null)
+							{
+								if(cutAndPayUserMap!=null && cutAndPayUserMap.get(userInner.getId())!=null)
+								{
+									BigDecimal totalPayableAmount = cutAndPayUserMap.get(userInner.getId()).getPayableAmount();
+									if(flightOrderDao.checkWalletAmount(userInner.getId(), totalPayableAmount,new BigDecimal(0), new BigDecimal(0)))
+									{		
+										FlightOrderDao.deductUserWallet(totalPayableAmount,userInner,userDao,CommonBookingStatusEnum.MISCELLANEOUS_REMARKS.getMessage(),orderId,miscellaneousOrderRowNew.getInvoiceNo());
+										userMapBottomToTop.put(userInner.getId(),true);
+									}
+									else{
+										if(userMapBottomToTop!=null && userMapBottomToTop.size()>0)
+										{
+											for(Entry<Integer,Boolean>  userMap :userMapBottomToTop.entrySet())
+											{
+												if(userMap.getValue())
+												{
+													totalPayableAmount = cutAndPayUserMap.get(userMap.getKey()).getPayableAmount();
+													flightOrderDao.creditUserWalletAmountForBookingFailed(totalPayableAmount,userInner,userDao,CommonBookingStatusEnum.MISCELLANEOUS_FAILEDREMARKS.getMessage(),orderId,miscellaneousOrderRowNew.getInvoiceNo());
+												}
+											}
+										}
+										bookTicket = false;
+										break;
+									}
+								}
+								else{
+									bookTicket = false;
+								}
+							}
+						}
+						bookTicket = true;
+					}	
+				}else{
+					bookTicket = false;
+				}
+			}
+			catch (Exception e) {
+			}
+		}
+
+		if(!bookTicket){
+			miscellaneousOrderRowNew.setPaymentStatus("Failed");
+			miscellaneousOrderRowNew=miscellaneousOrderDao.updateMiscellaneousOrderRowDetailPaymentStatus(miscellaneousOrderRowNew);
+			addActionMessage(CommonBookingStatusEnum.WALLET_ERROR.getMessage());
+			return ERROR;
+		}else{
+			miscellaneousOrderRowNew.setPaymentStatus("Success");
+			miscellaneousOrderRowNew=miscellaneousOrderDao.updateMiscellaneousOrderRowDetailPaymentStatus(miscellaneousOrderRowNew);
+		}
+
+
+		if(miscellaneousOrderRowNew!=null)
+		{
+			new CompanyDAO().insertEmail(miscellaneousOrderRowNew.getOrderId(), 0, Email.EMAIL_TYPE_MISC_INVOICE);
+			addActionMessage("Successfully Miscellaneous Booking Done.");
+
+		}
+		if(tripId!=null)
+		{
+			tripRequest.setId(tripId);
+			tripRequest.setMiscellaneousTravelRequest(miscellaneousTravelRequestnew);
+			tripRequest.setCompanyId(sessionUser.getCompanyid());
+			tripRequest.setTripId(RandomConfigurationNumber.generateTripId(tripRequest.getId()));
+			tripRequest.setUserId(CommonUtilSession.checkEmulatedUser(sessionMap)?CommonUtilSession.getEmulatedUserIdInt(sessionMap):sessionUser.getId());
+			tripRequest = tripRequestDao.updateTripRequestById(tripRequest);
+			if(tripRequest!=null && tripRequest.getId()>0){
+				addActionMessage("Successfully created");
+			}
+		}
+		else{
+			tripRequest.setMiscellaneousTravelRequest(miscellaneousTravelRequestnew);
+			tripRequest.setCreatedAt(new Timestamp(new Date().getTime()));
+			//tripRequest.setTripId(RandomConfigurationNumber.generateTripId(visaTravelRequestnew.getId()));
+			tripRequest.setCompanyId(sessionUser.getCompanyid());
+			tripRequest.setUserId(CommonUtilSession.checkEmulatedUser(sessionMap)?CommonUtilSession.getEmulatedUserIdInt(sessionMap):sessionUser.getId());
+			tripRequest=tripRequestDao.insertTripRequest(tripRequest);
+			if(tripRequest!=null && tripRequest.getId()>0){
+				tripRequest.setTripId(RandomConfigurationNumber.generateTripId(tripRequest.getId()));
+				if(tripRequestDao.updateTripRequestNumber(tripRequest))
+					addActionMessage("Successfully created");
+				else
+					addActionMessage("Something went wrong.Please wait.");	
+			}
+
+			 
+		}
+		 
+		if(miscellaneousOrderCustomerList!=null && miscellaneousOrderCustomerList.size()>0){
+			for(MiscellaneousOrderCustomer miscellaneousOrderCustomerNew:miscellaneousOrderCustomerList){
+				miscellaneousOrderCustomerNew.setEmail(sessionUser.getEmail());
+				miscellaneousOrderCustomerNew.setAge("");
+				miscellaneousOrderCustomerNew.setCreatedAt(new Timestamp(new Date().getTime()));
+				miscellaneousOrderCustomerNew.setGender(miscellaneousOrderCustomerNew.getTitle().equalsIgnoreCase("Mr")
+						|| miscellaneousOrderCustomerNew.getTitle().equalsIgnoreCase("Master") ? "M" : "F");
+				miscellaneousOrderCustomerNew.setMiscellaneousOrderRow(miscellaneousOrderRowNew);
+				RmConfigTripDetailsModel configTripDetailsModel=miscellaneousOrderCustomerNew.getRmConfigTripDetailsModel();
+				if(configTripDetailsModel!=null){
+					configTripDetailsModel.setOrderId(miscellaneousOrderRowNew.getOrderId());
+					configTripDetailsModel.setOrdertype("Miscellaneous");
+					miscellaneousOrderCustomerNew.setRmConfigTripDetailsModel(configTripDetailsModel);
+				}
+				miscellaneousOrderCustomerNew.setPaxId(RandomConfigurationNumber.generateRandomPaxID());
+				miscellaneousOrderDao.insertMiscellaneousOrderCustomer(miscellaneousOrderCustomerNew);
+			}
+			new NotificationAction().insertNotificationOneandAll(sessionUser,String.valueOf(miscellaneousTravelRequestnew.getId()),"miscellaneous book Request created","miscellaneous book Request notification",NotificationInventoryTypeEnum.HOTEL_BOOKREQUEST.getId(),false,false,false,true,false,false);
+		}
+
+		return SUCCESS;
+	}
+
+	public String getMiscellaneousOrderRequestDetails()
+	{
+		miscellaneousTravelRequest=miscellaneousOrderDao.getMiscellaneousTravelRequestById(miscellaneousTravelRequest.getId());
+		miscellaneousOrderRow=miscellaneousOrderDao.getMiscellaneousOrderRowByConfirmationNumber(miscellaneousTravelRequest.getConfirmationNumber());
+		countryList=new CountryDao().getCountryList();
+
+		return SUCCESS;
+	}
+
+	public String generateMiscellaneousInvoice(){
+		/* long dummyId= 9;*/
+		MiscellaneousOrderRow miscellaneousOrderRow=miscellaneousOrderDao.getMiscellaneousOrderRowById(orderId);
+		if(miscellaneousOrderRow!=null)
+			setMiscellaneousOrderRow(miscellaneousOrderRow);
+
+		return SUCCESS;
+	}
+
+	public String getMiscellaneousTravelRequestLists(){
+		User sessionUser=(User)sessionMap.get("User");
+		List<MiscellaneousTravelRequest> list=miscellaneousOrderDao.loadMiscellaneousTravelRequestList(sessionUser);
+		if(list!=null && list.size()>0){
+			miscellaneousTravelRequestList=list;
+		}
+		return SUCCESS;
+	}
+
+	public String  editMiscellaneousOrderRowDetails(){
+		miscellaneousOrderRow=miscellaneousOrderDao.getMiscellaneousOrderRowByConfirmationNumber(confirmationNo);
+		miscellaneousOrderRow.setTotalAmount(miscellaneousOrderRow.getTotalAmount().setScale(2, BigDecimal.ROUND_UP));
+		miscellaneousOrderRow.setBaseToBookingExchangeRate(miscellaneousOrderRow.getBaseToBookingExchangeRate().setScale(2, BigDecimal.ROUND_UP));
+		miscellaneousOrderRow.setApiToBaseExchangeRate(miscellaneousOrderRow.getApiToBaseExchangeRate().setScale(2, BigDecimal.ROUND_UP));
+		setMiscellaneousOrderRow(miscellaneousOrderRow);
+		return SUCCESS;
+	}
+
+	public String  editMiscellaneousTravelDetails(){
+		miscellaneousTravelRequest=miscellaneousOrderDao.getMiscellaneousTravelRequestById(idtosend);
+		miscellaneousTravelRequest.setTotalAmount(miscellaneousTravelRequest.getTotalAmount().setScale(2, BigDecimal.ROUND_UP));
+		setMiscellaneousTravelRequest(miscellaneousTravelRequest);
+		return SUCCESS;
+	}
+
+	public String updateMiscellaneousOrderRowDetail(){
+		Boolean status=miscellaneousOrderDao.updateMiscellaneousOrderRowDetailFromEditPage(miscellaneousOrderRow);
+		if(status)
+			return SUCCESS;
+		return ERROR;
+	}
+
+	public String updateMiscellaneousTravelDetail(){
+		Boolean status=miscellaneousOrderDao.updateMiscellaneousTravelDetailFromEditPage(miscellaneousTravelRequest);
+		if(status)
+			return SUCCESS;
+		return ERROR;
+	}
+
+	public static FlightGstTax getFlightGSTTax(MiscellaneousOrderRowGstTax miscellaneousOrderRowGstTax,Company childCompany,Company parentCompany, MiscellaneousOrderRow miscellaneousOrderRow){
+
+		CompanyEntity  companyEntity=new CompanyEntity();
+		String entityState=null;
+		if(miscellaneousOrderRow.getCompanyEntityId()!=null) 
+			companyEntity = new CompanyDAO().companyEntityProfile(miscellaneousOrderRow.getCompanyEntityId().intValue());
+		if(companyEntity!=null && companyEntity.getState()!=null) 
+			entityState=companyEntity.getState(); 
+
+
+		BigDecimal managementFee  =miscellaneousOrderRowGstTax.getManagementFee()!=null?miscellaneousOrderRowGstTax.getManagementFee():new BigDecimal("0.0");
+		BigDecimal CGSTAmount = new BigDecimal("0.0");
+		BigDecimal CGSTPer = new BigDecimal("0.0");
+		BigDecimal CommonGSTPer = new BigDecimal("0.0");
+		BigDecimal CommonGSTAmount = new BigDecimal("0.0");
+		BigDecimal totalGstAmount = new BigDecimal("0.0");
+		BigDecimal totalGstPer = new BigDecimal("0.0");
+		boolean isParentCompanyUT=IndianUnionTerritories.isUnionter(parentCompany.getBillingstate().trim());
+
+		CGSTAmount = managementFee.divide(new BigDecimal("100.0")).multiply(miscellaneousOrderRowGstTax.getCGST());
+		CGSTPer  = miscellaneousOrderRowGstTax.getCGST();
+
+
+		if(entityState!=null){ 
+			boolean isBillingCompanyUT=IndianUnionTerritories.isUnionter(entityState.trim());
+
+			if(isParentCompanyUT && isBillingCompanyUT){
+				CommonGSTPer =miscellaneousOrderRowGstTax.getUGST();
+				CommonGSTAmount =  managementFee.divide(new BigDecimal("100.0")).multiply(miscellaneousOrderRowGstTax.getUGST());
+				miscellaneousOrderRowGstTax.setIGST(new BigDecimal("0.0"));
+				miscellaneousOrderRowGstTax.setSGST(new BigDecimal("0.0"));
+
+			}
+			if(!isParentCompanyUT && !isBillingCompanyUT){
+				if(entityState.trim().equalsIgnoreCase(parentCompany.getBillingstate().trim())){
+					CommonGSTPer =miscellaneousOrderRowGstTax.getSGST();
+					CommonGSTAmount =  managementFee.divide(new BigDecimal("100.0")).multiply(miscellaneousOrderRowGstTax.getSGST());    
+					miscellaneousOrderRowGstTax.setIGST(new BigDecimal("0.0"));
+					miscellaneousOrderRowGstTax.setUGST(new BigDecimal("0.0"));
+				}
+				if(!entityState.trim().equalsIgnoreCase(parentCompany.getBillingstate().trim())){
+					CommonGSTPer =miscellaneousOrderRowGstTax.getIGST();
+					CommonGSTAmount =  managementFee.divide(new BigDecimal("100.0")).multiply(miscellaneousOrderRowGstTax.getIGST());    
+					CGSTPer = new BigDecimal(0);
+					CGSTAmount = new BigDecimal(0);
+					miscellaneousOrderRowGstTax.setSGST(new BigDecimal("0.0"));
+					miscellaneousOrderRowGstTax.setUGST(new BigDecimal("0.0"));
+					miscellaneousOrderRowGstTax.setCGST(CGSTPer);
+				}
+			}
+
+			if(!entityState.trim().equalsIgnoreCase(parentCompany.getBillingstate().trim()) && IndianUnionTerritories.isUnionter(entityState.trim())){
+				CommonGSTPer =miscellaneousOrderRowGstTax.getUGST();
+				CommonGSTAmount =  managementFee.divide(new BigDecimal("100.0")).multiply(miscellaneousOrderRowGstTax.getUGST());
+				miscellaneousOrderRowGstTax.setIGST(new BigDecimal("0.0"));
+				miscellaneousOrderRowGstTax.setSGST(new BigDecimal("0.0"));
+			}
+
+			if(isParentCompanyUT && !isBillingCompanyUT){
+				if(!entityState.trim().equalsIgnoreCase(parentCompany.getBillingstate().trim()) && !IndianUnionTerritories.isUnionter(entityState.trim())){
+					CommonGSTPer =miscellaneousOrderRowGstTax.getIGST();
+					CommonGSTAmount =  managementFee.divide(new BigDecimal("100.0")).multiply(miscellaneousOrderRowGstTax.getIGST()); 
+					CGSTPer = new BigDecimal(0);
+					CGSTAmount = new BigDecimal(0);
+					miscellaneousOrderRowGstTax.setSGST(new BigDecimal("0.0"));
+					miscellaneousOrderRowGstTax.setUGST(new BigDecimal("0.0"));
+					miscellaneousOrderRowGstTax.setCGST(CGSTPer);
+				}
+			}
+		}else{
+			boolean isBillingCompanyUT=IndianUnionTerritories.isUnionter(childCompany.getBillingstate().trim());
+
+			if(isParentCompanyUT && isBillingCompanyUT){
+				CommonGSTPer =miscellaneousOrderRowGstTax.getUGST();
+				CommonGSTAmount =  managementFee.divide(new BigDecimal("100.0")).multiply(miscellaneousOrderRowGstTax.getUGST());
+				miscellaneousOrderRowGstTax.setIGST(new BigDecimal("0.0"));
+				miscellaneousOrderRowGstTax.setSGST(new BigDecimal("0.0"));
+
+			}
+			if(!isParentCompanyUT && !isBillingCompanyUT){
+				if(childCompany.getBillingstate().trim().equalsIgnoreCase(parentCompany.getBillingstate().trim())){
+					CommonGSTPer =miscellaneousOrderRowGstTax.getSGST();
+					CommonGSTAmount =  managementFee.divide(new BigDecimal("100.0")).multiply(miscellaneousOrderRowGstTax.getSGST());    
+					miscellaneousOrderRowGstTax.setIGST(new BigDecimal("0.0"));
+					miscellaneousOrderRowGstTax.setUGST(new BigDecimal("0.0"));
+				}
+				if(!childCompany.getBillingstate().trim().equalsIgnoreCase(parentCompany.getBillingstate().trim())){
+					CommonGSTPer =miscellaneousOrderRowGstTax.getIGST();
+					CommonGSTAmount =  managementFee.divide(new BigDecimal("100.0")).multiply(miscellaneousOrderRowGstTax.getIGST());  
+					CGSTPer = new BigDecimal(0);
+					CGSTAmount = new BigDecimal(0);
+					miscellaneousOrderRowGstTax.setSGST(new BigDecimal("0.0"));
+					miscellaneousOrderRowGstTax.setUGST(new BigDecimal("0.0"));
+					miscellaneousOrderRowGstTax.setCGST(CGSTPer);
+				}
+			}
+
+			if(!childCompany.getBillingstate().trim().equalsIgnoreCase(parentCompany.getBillingstate().trim()) && IndianUnionTerritories.isUnionter(childCompany.getBillingstate().trim())){
+				CommonGSTPer =miscellaneousOrderRowGstTax.getUGST();
+				CommonGSTAmount =  managementFee.divide(new BigDecimal("100.0")).multiply(miscellaneousOrderRowGstTax.getUGST());
+				miscellaneousOrderRowGstTax.setIGST(new BigDecimal("0.0"));
+				miscellaneousOrderRowGstTax.setSGST(new BigDecimal("0.0"));
+			}
+
+			if(isParentCompanyUT && !isBillingCompanyUT){
+				if(!childCompany.getBillingstate().trim().equalsIgnoreCase(parentCompany.getBillingstate().trim()) && !IndianUnionTerritories.isUnionter(childCompany.getBillingstate().trim())){
+					CommonGSTPer =miscellaneousOrderRowGstTax.getIGST();
+					CommonGSTAmount =  managementFee.divide(new BigDecimal("100.0")).multiply(miscellaneousOrderRowGstTax.getIGST());   
+					CGSTPer = new BigDecimal(0);
+					CGSTAmount = new BigDecimal(0);
+					miscellaneousOrderRowGstTax.setSGST(new BigDecimal("0.0"));
+					miscellaneousOrderRowGstTax.setUGST(new BigDecimal("0.0"));
+					miscellaneousOrderRowGstTax.setCGST(CGSTPer);
+				}
+			}
+
+
+
+		}
+
+		totalGstPer=CGSTPer.add(CommonGSTPer);
+		totalGstAmount = CGSTAmount.add(CommonGSTAmount); 
+		FlightGstTax flightServiceTax = new FlightGstTax();
+		flightServiceTax.setTotalTax(totalGstPer);
+		flightServiceTax.setTotalGstAmount(totalGstAmount);
+		return flightServiceTax;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> map) {
+		sessionMap=(SessionMap<String, Object>) map;
+	}
+
+	@Override
+	public MiscellaneousTravelRequest getModel() {
+		return miscellaneousTravelRequest;
+	}
+
+	public MiscellaneousOrderRow getMiscellaneousOrderRow() {
+		return miscellaneousOrderRow;
+	}
+
+	public void setMiscellaneousOrderRow(MiscellaneousOrderRow miscellaneousOrderRow) {
+		this.miscellaneousOrderRow = miscellaneousOrderRow;
+	}
+
+	public RmConfigModel getRmConfigModel() {
+		return rmConfigModel;
+	}
+
+	public void setRmConfigModel(RmConfigModel rmConfigModel) {
+		this.rmConfigModel = rmConfigModel;
+	}
+
+	public List<String> getFieldName() {
+		return fieldName;
+	}
+
+	public void setFieldName(List<String> fieldName) {
+		this.fieldName = fieldName;
+	}
+
+	public Long getTripId() {
+		return tripId;
+	}
+
+	public RmConfigTripDetailsModel getConfigTripDetailsModel() {
+		return configTripDetailsModel;
+	}
+
+	public UserWallet getUserWallet() {
+		return userWallet;
+	}
+
+	public void setTripId(Long tripId) {
+		this.tripId = tripId;
+	}
+
+	public void setConfigTripDetailsModel(RmConfigTripDetailsModel configTripDetailsModel) {
+		this.configTripDetailsModel = configTripDetailsModel;
+	}
+
+	public void setUserWallet(UserWallet userWallet) {
+		this.userWallet = userWallet;
+	}
+
+	public List<Country> getCountryList() {
+		return countryList;
+	}
+
+	public void setCountryList(List<Country> countryList) {
+		this.countryList = countryList;
+	}
+
+	public MiscellaneousTravelRequest getMiscellaneousTravelRequest() {
+		return miscellaneousTravelRequest;
+	}
+
+	public void setMiscellaneousTravelRequest(MiscellaneousTravelRequest miscellaneousTravelRequest) {
+		this.miscellaneousTravelRequest = miscellaneousTravelRequest;
+	}
+
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public void setMiscellaneousTravelRequestList(List<MiscellaneousTravelRequest> miscellaneousTravelRequestList) {
+		this.miscellaneousTravelRequestList = miscellaneousTravelRequestList;
+	}
+
+	public List<MiscellaneousTravelRequest> getMiscellaneousTravelRequestList() {
+		return miscellaneousTravelRequestList;
+	}
+
+	public Long getIdtosend() {
+		return idtosend;
+	}
+
+	public void setIdtosend(Long idtosend) {
+		this.idtosend = idtosend;
+	}
+
+	public String getConfirmationNo() {
+		return confirmationNo;
+	}
+
+	public void setConfirmationNo(String confirmationNo) {
+		this.confirmationNo = confirmationNo;
+	}
+
+	public String getTaxType() {
+		return taxType;
+	}
+
+	public BigDecimal getTotalGstAmount() {
+		return totalGstAmount;
+	}
+
+	public void setTaxType(String taxType) {
+		this.taxType = taxType;
+	}
+
+	public void setTotalGstAmount(BigDecimal totalGstAmount) {
+		this.totalGstAmount = totalGstAmount;
+	}
+	public List<ApiProvider> getApiProviders() {
+		return apiProviders;
+	}
+
+	public void setApiProviders(List<ApiProvider> apiProviders) {
+		this.apiProviders = apiProviders;
+	}
+
+	public MiscellaneousGstTaxConfig getMiscellaneousGstTaxConfig() {
+		return miscellaneousGstTaxConfig;
+	}
+
+	public void setMiscellaneousGstTaxConfig(MiscellaneousGstTaxConfig miscellaneousGstTaxConfig) {
+		this.miscellaneousGstTaxConfig = miscellaneousGstTaxConfig;
+	}
+
+	public BigDecimal getTotalGstTaxPer() {
+		return totalGstTaxPer;
+	}
+
+	public void setTotalGstTaxPer(BigDecimal totalGstTaxPer) {
+		this.totalGstTaxPer = totalGstTaxPer;
+	}
+
+	public List<MiscellaneousOrderCustomer> getMiscellaneousOrderCustomerList() {
+		return miscellaneousOrderCustomerList;
+	}
+
+	public void setMiscellaneousOrderCustomerList(List<MiscellaneousOrderCustomer> miscellaneousOrderCustomerList) {
+		this.miscellaneousOrderCustomerList = miscellaneousOrderCustomerList;
+	}
+
+
+}

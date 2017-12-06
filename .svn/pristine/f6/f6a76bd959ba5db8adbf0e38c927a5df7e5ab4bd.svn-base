@@ -1,0 +1,472 @@
+package com.lintas.utility;
+
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+public class DateConversion {
+
+	public static final org.apache.log4j.Logger logger=org.apache.log4j.Logger.getLogger(DateConversion.class);
+
+	
+	public static String getBluestarDate(String dateInString){
+		SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+
+		try {
+
+			Date date = formatter1.parse(dateInString);
+			SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+			dateInString=formatter2.format(date);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+		}
+		return dateInString;
+	}
+	public static String getBluestarDateddMMyyyy(String dateInString){
+		SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+
+		try {
+
+			Date date = formatter1.parse(dateInString);
+			SimpleDateFormat formatter2 = new SimpleDateFormat("dd-MM-yyyy");
+			dateInString=formatter2.format(date);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+		}
+		return dateInString;
+	}
+	 
+	public static String convertDDMMYYtoYYMMDD(String dateInString){
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+
+		try {
+
+			Date date = formatter1.parse(dateInString);
+			SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+			dateInString=formatter2.format(date);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+		}
+		return dateInString;
+	}
+	
+	public static String  convertDateToStringToDate(Date date){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+
+			SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+			stringDate=formatter1.format(date);
+			//logger.info("stringDate----"+stringDate);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+	
+	public static String  convertDateToStringToDate(Date date,String format){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+
+			SimpleDateFormat formatter1 = new SimpleDateFormat(format);
+			stringDate=formatter1.format(date);
+			//logger.info("stringDate----"+stringDate);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+	
+	
+	
+	
+	public static String  convertDateToStringDatewirhDDMonthYear(Date date){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+
+			SimpleDateFormat formatter1 = new SimpleDateFormat("dd MMM yyyy");
+			stringDate=formatter1.format(date);
+			//logger.info("stringDate----"+stringDate);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+	 
+	public static String  convertTimestampToString(Date date){
+		//logger.info("date--"+date);
+		String stringDate=null;
+
+		try {
+
+			SimpleDateFormat formatter1 = new SimpleDateFormat("HH:mm");
+			stringDate=formatter1.format(date);
+			//logger.info("stringDate----"+stringDate);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+	public static String  convertTimestampToStringWithTime(Date date){
+		//logger.info("date--"+date);
+		String stringDate=null;
+
+		try {
+
+			SimpleDateFormat formatter1 = new SimpleDateFormat("HH:mm");
+			stringDate=formatter1.format(date);
+			//logger.info("stringDate----"+stringDate);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+	public static String  convertDateToStringDate(Date date){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+
+			SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+			stringDate=formatter1.format(date);
+			//logger.info("stringDate----"+stringDate);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+	
+	public static String  convertDateToStringDateddMMyyyy(Date date){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+
+			SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy");
+			stringDate=formatter1.format(date);
+			//logger.info("stringDate----"+stringDate);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+	
+	public static String  convertDateToStringDateWithTimeDefault(Date date){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+
+			SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+			stringDate=formatter1.format(date);
+			//logger.info("stringDate----"+stringDate);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+	
+	
+	public static String  convertDateToStringToDateWithTIME(Date date){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+
+			SimpleDateFormat sdf = new SimpleDateFormat();
+			//sdf.setTimeZone(new SimpleTimeZone(0, "GMT"));
+			sdf.applyPattern("dd-MM-yyyy HH:mm");
+			stringDate=sdf.format(date);
+			//logger.info("stringDate----"+stringDate);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+	
+	
+	
+	public static String  convertDateToStringToDateWithTIMETEST(Date date){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+
+			SimpleDateFormat sdf = new SimpleDateFormat();
+			//sdf.setTimeZone(new SimpleTimeZone(0, "GMT"));
+			sdf.applyPattern("yyyy-MM-dd HH:mm");
+			stringDate=sdf.format(date);
+			//logger.info("stringDate----"+stringDate);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+ public static String  convertTimestampToString(Timestamp timeStamp){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+			stringDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(timeStamp);
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+ public static String  convertTimestampToStringWithoutAM(Timestamp timeStamp){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+			stringDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(timeStamp);
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+ 
+ public static String  convertTimestampToStringwithoutseconds(Timestamp timeStamp){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+			stringDate = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(timeStamp);
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+		
+	}
+
+
+	/*Compare Two Time Stamp and get Mintutes diff*/
+
+	public static long compareTwoTimeStamps(java.sql.Timestamp currentTime, java.sql.Timestamp oldTime)
+	{
+		long milliseconds1 = oldTime.getTime();
+		long milliseconds2 = currentTime.getTime();
+
+		long diff = milliseconds2 - milliseconds1;
+		long diffSeconds = diff / 1000;
+		long diffMinutes = diff / (60 * 1000);
+		long diffHours = diff / (60 * 60 * 1000);
+		long diffDays = diff / (24 * 60 * 60 * 1000);
+
+		return diffMinutes;
+	}
+	
+	public static Date StringToDate(String date){
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+	    Date convertedCurrentDate=null;;
+		try {
+			convertedCurrentDate = sdf.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		 
+		return convertedCurrentDate;	 
+	}
+	public static Date StringToDateHHMM(String date ){
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+	    Date convertedCurrentDate=null;;
+		try {
+			convertedCurrentDate = sdf.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		 
+		return convertedCurrentDate;	 
+	}
+	public static Date StringToDateTest(String date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	    Date convertedCurrentDate=null;;
+		try {
+			convertedCurrentDate = sdf.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		 
+		return convertedCurrentDate;	 
+	}
+	
+	public static Date StringToDateIndiaFormat(String date ){
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	    Date convertedCurrentDate=null;;
+		try {
+			convertedCurrentDate = sdf.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		 
+		return convertedCurrentDate;	 
+	}
+	 
+	
+	public static Date StringToDateDBFormat(String date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    Date convertedCurrentDate=null;;
+		try {
+			convertedCurrentDate = sdf.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		 
+		return convertedCurrentDate;	 
+	}
+	
+	public static String  convertDateToStringDateDefault(Date date){
+		//logger.info("date--"+date);
+
+		String stringDate=null;
+
+		try {
+
+			SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+			stringDate=formatter1.format(date);
+			//logger.info("stringDate----"+stringDate);
+
+		} catch (Exception e) {
+			logger.error("Exception",e);
+
+		}
+		return stringDate;
+	}
+	
+	public static Date StringDateTimeToDateTime(String date ){
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+	    Date convertedCurrentDate=null;;
+		try {
+			convertedCurrentDate = sdf.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return convertedCurrentDate;	 
+	}
+	public static Date StringTimeToDateTime(String time ){
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+	    Date convertedCurrentDate=null;;
+		try {
+			convertedCurrentDate = sdf.parse(time);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return convertedCurrentDate;	 
+	}
+	 public static Date StringToDateIndiaFormatWithDash(String date ){
+		  SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); 
+		  Date convertedCurrentDate=null;;
+		  try {
+		   convertedCurrentDate = sdf.parse(date);   
+		  } catch (ParseException e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+		  }    
+		  return convertedCurrentDate;  
+		 }
+	 
+	public static Date getPrevDateFromCurDate(int days)
+	 {
+	  Calendar cal = Calendar.getInstance();
+	  cal.setTime(new Date());
+	  cal.add(Calendar.DATE, -days);
+	  Date dateBefore30Days = cal.getTime();
+	  //logger.info(dateBefore30Days);
+	  return dateBefore30Days;
+	 }
+	
+	//added by basha  we pass string dates  and it will return   days between list of dates in string format dd-MM-yyyy
+	
+	public static List<String> getDaysBetweenDates(String fromDate,String toDate) 
+	{
+		 List<Date> dates = new ArrayList<Date>();
+		 List<String> stringdates = new ArrayList<String>();
+		try{
+		DateFormat originalFormat = new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat targetFormat = new SimpleDateFormat("dd-MM-yyyy");
+		Date startDate = originalFormat.parse(fromDate);
+		Date enddate = originalFormat.parse(toDate);
+		long interval = 1000 * 60 * 60 * 24; // 1 hour in millis
+		long endtime = enddate.getTime(); // create your endtime here, possibly using Calendar or Date
+		long curTime = startDate.getTime();
+		while (curTime <= endtime) {
+		  dates.add(new Date(curTime));
+		  curTime += interval;
+		}
+		for(Date formatedDates:dates){
+			String formattedNewDate = targetFormat.format(formatedDates);
+			stringdates.add(formattedNewDate);
+		}
+		
+		}catch (ParseException e) {
+			System.out.println("ParseException"+e.toString());
+			// TODO: handle exception
+		}
+		// System.out.println("dates"+dates.size());
+		    return stringdates;
+	   }
+	
+ }

@@ -1,0 +1,623 @@
+package com.admin.api.analytics.dao;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+
+import com.admin.api.analytics.pojo.FlightPojo;
+import com.admin.api.analytics.service.FlightAnalysisService;
+import com.admin.dashboard.Vo.DashBoardJsonVo;
+import com.admin.miscellaneous.model.MiscellaneousOrderRow;
+import com.lintas.admin.bus.model.BusOrderRow;
+import com.lintas.admin.car.model.CarOrderRow;
+import com.lintas.admin.flight.model.FlightOrderRow;
+import com.lintas.admin.hotel.model.HotelOrderRow;
+import com.lintas.admin.insurance.model.InsuranceOrderRow;
+import com.lintas.admin.model.Company;
+import com.lintas.admin.model.User;
+import com.lintas.admin.train.model.TrainOrderRow;
+import com.lintas.admin.visa.model.VisaOrderRow;
+import com.lintas.config.HibernateUtil;
+
+/**
+ * @author MANISH
+ *
+ */
+public class FlightAnalysisDao {
+
+	public static final Logger logger = Logger.getLogger(FlightAnalysisDao.class);
+	SessionFactory sessionfactory;
+	Session session = null;
+	Transaction transaction = null;
+
+	public DashBoardJsonVo getFlightOrdersCount(User userSessionObj, Company companySessionObj, List<String> userIdList, String type,
+			String pstatus, String bstatus) {
+		Long count = new Long(0);
+		BigDecimal totalAmount=new BigDecimal(0);
+		Criteria criteria = null;
+		DashBoardJsonVo  dashBoardJsonVo=new DashBoardJsonVo();
+
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			criteria = session.createCriteria(FlightOrderRow.class);
+			Conjunction conjunction = Restrictions.conjunction();
+			Disjunction disjunction= Restrictions.disjunction();
+
+			if (userSessionObj != null && companySessionObj != null) {
+				if (userSessionObj.getUserrole_id().isSuperuser()) {
+
+					if (userIdList != null) {
+						conjunction.add(Restrictions.in("userId", userIdList));
+					}
+				}
+				else if (userSessionObj.getUserrole_id().isUsermode() || userSessionObj.getUserrole_id().isAdmin()) {
+					if (companySessionObj.getCompanyRole().isCorporate()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					} else {
+						if (userIdList != null)
+							conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else if ((userSessionObj.getUserrole_id().isOrder() || userSessionObj.getUserrole_id().isReports())
+						&& !userSessionObj.getUserrole_id().isAdmin()) {
+					if (userSessionObj.getCompanyid() == companySessionObj.getCompanyid()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else {
+					conjunction.add(Restrictions.eq("userId", userSessionObj.getId()));
+				}
+
+				if(type!=null)
+				{
+					getDayWeekMonthConjunction(type, conjunction);
+				}
+
+				if(pstatus!=null)
+				{
+					if (pstatus.equalsIgnoreCase("PF")) {
+						conjunction.add(Restrictions.eq("paymentStatus", "Failed"));
+					} 
+					if (pstatus.equalsIgnoreCase("PS")) {
+						disjunction.add(Restrictions.eq("paymentStatus", "Success"));
+						disjunction.add(Restrictions.eq("paymentStatus", "Paid"));
+						conjunction.add(disjunction);
+
+					}
+				}
+
+				if(bstatus!=null)
+				{
+					if (bstatus.equalsIgnoreCase("HK")) {
+						conjunction.add(Restrictions.eq("statusAction", "Confirmed"));
+					} 
+					if (bstatus.equalsIgnoreCase("HC")) {
+						conjunction.add(Restrictions.eq("statusAction", "Cancelled"));
+						conjunction.add(Restrictions.eq("isCreditNoteIssued", true));
+
+					} 
+					if (bstatus.equalsIgnoreCase("HF")) {
+						conjunction.add(Restrictions.eq("statusAction", "Failed"));
+					} 		
+				}
+			}
+
+			criteria.add(conjunction);
+			count= (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+			totalAmount=  (BigDecimal) criteria.setProjection(Projections.sum("finalPrice")).uniqueResult();//added by basha
+			System.out.println("count========================="+count);
+			
+			
+			dashBoardJsonVo.setCount(count);//added by basha
+			if(totalAmount!=null)
+				dashBoardJsonVo.setTotalBookingAmount(totalAmount);//added by basha
+			else
+				dashBoardJsonVo.setTotalBookingAmount(new BigDecimal(0));//added by basha
+			
+			
+
+		} catch (HibernateException e) {
+			logger.error("--------------HibernateException-----------------" + e.getMessage());
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
+		return dashBoardJsonVo;//added by basha
+	}
+	public List<FlightPojo> getFlightOrdersList(User userSessionObj, Company companySessionObj, List<String> userIdList, String type) {
+		Criteria criteria = null;
+		List<FlightOrderRow> flightOrderRowList=new ArrayList<FlightOrderRow>();
+		List<FlightPojo> responsePojoList=new ArrayList<FlightPojo>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			criteria = session.createCriteria(FlightOrderRow.class);
+			Conjunction conjunction = Restrictions.conjunction();
+
+			if (userSessionObj != null && companySessionObj != null) {
+				if (userSessionObj.getUserrole_id().isSuperuser()) {
+
+					if (userIdList != null) {
+						conjunction.add(Restrictions.in("userId", userIdList));
+					}
+				}
+				else if (userSessionObj.getUserrole_id().isUsermode() || userSessionObj.getUserrole_id().isAdmin()) {
+					if (companySessionObj.getCompanyRole().isCorporate()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					} else {
+						if (userIdList != null)
+							conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else if ((userSessionObj.getUserrole_id().isOrder() || userSessionObj.getUserrole_id().isReports())
+						&& !userSessionObj.getUserrole_id().isAdmin()) {
+					if (userSessionObj.getCompanyid() == companySessionObj.getCompanyid()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else {
+					conjunction.add(Restrictions.eq("userId", userSessionObj.getId()));
+				}
+			}
+			
+			conjunction.add(Restrictions.eq("statusAction", "Confirmed"));
+			criteria.add(conjunction);
+			criteria.addOrder(Order.desc("createdAt"));
+			criteria.setMaxResults(5);
+			flightOrderRowList=criteria.list();
+
+		} catch (HibernateException e) {
+			logger.error("--------------HibernateException-----------------" + e.getMessage());
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
+		
+		if(flightOrderRowList!=null && flightOrderRowList.size()>0)
+			responsePojoList=new FlightAnalysisService().setIntoFlightPojo(responsePojoList,flightOrderRowList);
+		
+		return responsePojoList;
+	}
+	public List<FlightPojo> getHotelOrdersList(User userSessionObj, Company companySessionObj, List<String> userIdList, String type) {
+		Criteria criteria = null;
+		List<HotelOrderRow> hotelOrderRowList=new ArrayList<HotelOrderRow>();
+		List<FlightPojo> responsePojoList=new ArrayList<FlightPojo>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			criteria = session.createCriteria(HotelOrderRow.class);
+			Conjunction conjunction = Restrictions.conjunction();
+
+			if (userSessionObj != null && companySessionObj != null) {
+				if (userSessionObj.getUserrole_id().isSuperuser()) {
+
+					if (userIdList != null) {
+						conjunction.add(Restrictions.in("userId", userIdList));
+					}
+				}
+				else if (userSessionObj.getUserrole_id().isUsermode() || userSessionObj.getUserrole_id().isAdmin()) {
+					if (companySessionObj.getCompanyRole().isCorporate()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					} else {
+						if (userIdList != null)
+							conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else if ((userSessionObj.getUserrole_id().isOrder() || userSessionObj.getUserrole_id().isReports())
+						&& !userSessionObj.getUserrole_id().isAdmin()) {
+					if (userSessionObj.getCompanyid() == companySessionObj.getCompanyid()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else {
+					conjunction.add(Restrictions.eq("userId", userSessionObj.getId()));
+				}
+			}
+			
+			conjunction.add(Restrictions.eq("statusAction", "Confirmed"));
+			criteria.add(conjunction);
+			criteria.addOrder(Order.desc("createdAt"));
+			criteria.setMaxResults(5);
+			hotelOrderRowList=criteria.list();
+
+		} catch (HibernateException e) {
+			logger.error("--------------HibernateException-----------------" + e.getMessage());
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
+		
+		if(hotelOrderRowList!=null && hotelOrderRowList.size()>0)
+			responsePojoList=new FlightAnalysisService().setIntoHotelPojo(responsePojoList,hotelOrderRowList);
+		
+		return responsePojoList;
+	}
+	
+	public List<FlightPojo> getCarOrdersList(User userSessionObj, Company companySessionObj, List<String> userIdList, String type) {
+		Criteria criteria = null;
+		List<CarOrderRow> carOrderRowList=new ArrayList<CarOrderRow>();
+		List<FlightPojo> responsePojoList=new ArrayList<FlightPojo>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			criteria = session.createCriteria(CarOrderRow.class);
+			Conjunction conjunction = Restrictions.conjunction();
+
+			if (userSessionObj != null && companySessionObj != null) {
+				if (userSessionObj.getUserrole_id().isSuperuser()) {
+
+					if (userIdList != null) {
+						conjunction.add(Restrictions.in("userId", userIdList));
+					}
+				}
+				else if (userSessionObj.getUserrole_id().isUsermode() || userSessionObj.getUserrole_id().isAdmin()) {
+					if (companySessionObj.getCompanyRole().isCorporate()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					} else {
+						if (userIdList != null)
+							conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else if ((userSessionObj.getUserrole_id().isOrder() || userSessionObj.getUserrole_id().isReports())
+						&& !userSessionObj.getUserrole_id().isAdmin()) {
+					if (userSessionObj.getCompanyid() == companySessionObj.getCompanyid()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else {
+					conjunction.add(Restrictions.eq("userId", userSessionObj.getId()));
+				}
+			}
+			
+			conjunction.add(Restrictions.eq("statusAction", "Confirmed"));
+			criteria.add(conjunction);
+			criteria.addOrder(Order.desc("createdAt"));
+			criteria.setMaxResults(5);
+			carOrderRowList=criteria.list();
+
+		} catch (HibernateException e) {
+			logger.error("--------------HibernateException-----------------" + e.getMessage());
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
+		
+		if(carOrderRowList!=null && carOrderRowList.size()>0)
+			responsePojoList=new FlightAnalysisService().setIntoCarPojo(responsePojoList,carOrderRowList);
+		
+		return responsePojoList;
+	}
+	public List<FlightPojo> getBusOrdersList(User userSessionObj, Company companySessionObj, List<String> userIdList, String type) {
+		Criteria criteria = null;
+		List<BusOrderRow> busOrderRowList=new ArrayList<BusOrderRow>();
+		List<FlightPojo> responsePojoList=new ArrayList<FlightPojo>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			criteria = session.createCriteria(BusOrderRow.class);
+			Conjunction conjunction = Restrictions.conjunction();
+
+			if (userSessionObj != null && companySessionObj != null) {
+				if (userSessionObj.getUserrole_id().isSuperuser()) {
+
+					if (userIdList != null) {
+						conjunction.add(Restrictions.in("userId", userIdList));
+					}
+				}
+				else if (userSessionObj.getUserrole_id().isUsermode() || userSessionObj.getUserrole_id().isAdmin()) {
+					if (companySessionObj.getCompanyRole().isCorporate()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					} else {
+						if (userIdList != null)
+							conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else if ((userSessionObj.getUserrole_id().isOrder() || userSessionObj.getUserrole_id().isReports())
+						&& !userSessionObj.getUserrole_id().isAdmin()) {
+					if (userSessionObj.getCompanyid() == companySessionObj.getCompanyid()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else {
+					conjunction.add(Restrictions.eq("userId", userSessionObj.getId()));
+				}
+			}
+			
+			conjunction.add(Restrictions.eq("statusAction", "Confirmed"));
+			criteria.add(conjunction);
+			criteria.addOrder(Order.desc("createdAt"));
+			criteria.setMaxResults(5);
+			busOrderRowList=criteria.list();
+
+		} catch (HibernateException e) {
+			logger.error("--------------HibernateException-----------------" + e.getMessage());
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
+		
+		if(busOrderRowList!=null && busOrderRowList.size()>0)
+			responsePojoList=new FlightAnalysisService().setIntoBusPojo(responsePojoList,busOrderRowList);
+		
+		return responsePojoList;
+	}public List<FlightPojo> getVisaOrdersList(User userSessionObj, Company companySessionObj, List<String> userIdList, String type) {
+		Criteria criteria = null;
+		List<VisaOrderRow> visaOrderRowList=new ArrayList<VisaOrderRow>();
+		List<FlightPojo> responsePojoList=new ArrayList<FlightPojo>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			criteria = session.createCriteria(VisaOrderRow.class);
+			Conjunction conjunction = Restrictions.conjunction();
+
+			if (userSessionObj != null && companySessionObj != null) {
+				if (userSessionObj.getUserrole_id().isSuperuser()) {
+
+					if (userIdList != null) {
+						conjunction.add(Restrictions.in("userId", userIdList));
+					}
+				}
+				else if (userSessionObj.getUserrole_id().isUsermode() || userSessionObj.getUserrole_id().isAdmin()) {
+					if (companySessionObj.getCompanyRole().isCorporate()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					} else {
+						if (userIdList != null)
+							conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else if ((userSessionObj.getUserrole_id().isOrder() || userSessionObj.getUserrole_id().isReports())
+						&& !userSessionObj.getUserrole_id().isAdmin()) {
+					if (userSessionObj.getCompanyid() == companySessionObj.getCompanyid()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else {
+					conjunction.add(Restrictions.eq("userId", userSessionObj.getId()));
+				}
+			}
+			
+			conjunction.add(Restrictions.eq("statusAction", "Confirmed"));
+			criteria.add(conjunction);
+			criteria.addOrder(Order.desc("createdAt"));
+			criteria.setMaxResults(5);
+			visaOrderRowList=criteria.list();
+
+		} catch (HibernateException e) {
+			logger.error("--------------HibernateException-----------------" + e.getMessage());
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
+		
+		if(visaOrderRowList!=null && visaOrderRowList.size()>0)
+			responsePojoList=new FlightAnalysisService().setIntoVisaPojo(responsePojoList,visaOrderRowList);
+		
+		return responsePojoList;
+	}
+	
+	public List<FlightPojo> getTrainOrdersList(User userSessionObj, Company companySessionObj, List<String> userIdList, String type) {
+		Criteria criteria = null;
+		List<TrainOrderRow> trainOrderRowList=new ArrayList<TrainOrderRow>();
+		List<FlightPojo> responsePojoList=new ArrayList<FlightPojo>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			criteria = session.createCriteria(TrainOrderRow.class);
+			Conjunction conjunction = Restrictions.conjunction();
+
+			if (userSessionObj != null && companySessionObj != null) {
+				if (userSessionObj.getUserrole_id().isSuperuser()) {
+
+					if (userIdList != null) {
+						conjunction.add(Restrictions.in("userId", userIdList));
+					}
+				}
+				else if (userSessionObj.getUserrole_id().isUsermode() || userSessionObj.getUserrole_id().isAdmin()) {
+					if (companySessionObj.getCompanyRole().isCorporate()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					} else {
+						if (userIdList != null)
+							conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else if ((userSessionObj.getUserrole_id().isOrder() || userSessionObj.getUserrole_id().isReports())
+						&& !userSessionObj.getUserrole_id().isAdmin()) {
+					if (userSessionObj.getCompanyid() == companySessionObj.getCompanyid()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else {
+					conjunction.add(Restrictions.eq("userId", userSessionObj.getId()));
+				}
+			}
+			
+			conjunction.add(Restrictions.eq("statusAction", "Confirmed"));
+			criteria.add(conjunction);
+			criteria.addOrder(Order.desc("createdAt"));
+			criteria.setMaxResults(5);
+			trainOrderRowList=criteria.list();
+
+		} catch (HibernateException e) {
+			logger.error("--------------HibernateException-----------------" + e.getMessage());
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
+		
+		if(trainOrderRowList!=null && trainOrderRowList.size()>0)
+			responsePojoList=new FlightAnalysisService().setIntoTrainPojo(responsePojoList,trainOrderRowList);
+		
+		return responsePojoList;
+	}
+	public List<FlightPojo> getInsuranceOrdersList(User userSessionObj, Company companySessionObj, List<String> userIdList, String type) {
+		Criteria criteria = null;
+		List<InsuranceOrderRow> insuranceOrderRowList=new ArrayList<InsuranceOrderRow>();
+		List<FlightPojo> responsePojoList=new ArrayList<FlightPojo>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			criteria = session.createCriteria(InsuranceOrderRow.class);
+			Conjunction conjunction = Restrictions.conjunction();
+
+			if (userSessionObj != null && companySessionObj != null) {
+				if (userSessionObj.getUserrole_id().isSuperuser()) {
+
+					if (userIdList != null) {
+						conjunction.add(Restrictions.in("userId", userIdList));
+					}
+				}
+				else if (userSessionObj.getUserrole_id().isUsermode() || userSessionObj.getUserrole_id().isAdmin()) {
+					if (companySessionObj.getCompanyRole().isCorporate()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					} else {
+						if (userIdList != null)
+							conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else if ((userSessionObj.getUserrole_id().isOrder() || userSessionObj.getUserrole_id().isReports())
+						&& !userSessionObj.getUserrole_id().isAdmin()) {
+					if (userSessionObj.getCompanyid() == companySessionObj.getCompanyid()) {
+						conjunction.add(Restrictions.eq("companyId", String.valueOf(companySessionObj.getCompanyid())));
+					}
+				}
+
+				else {
+					conjunction.add(Restrictions.eq("userId", userSessionObj.getId()));
+				}
+			}
+			
+			conjunction.add(Restrictions.eq("statusAction", "Confirmed"));
+			criteria.add(conjunction);
+			criteria.addOrder(Order.desc("createdAt"));
+			criteria.setMaxResults(5);
+			insuranceOrderRowList=criteria.list();
+
+		} catch (HibernateException e) {
+			logger.error("--------------HibernateException-----------------" + e.getMessage());
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
+		
+		if(insuranceOrderRowList!=null && insuranceOrderRowList.size()>0)
+			responsePojoList=new FlightAnalysisService().setIntoInsurancePojo(responsePojoList,insuranceOrderRowList);
+		
+		return responsePojoList;
+	}
+	
+	public List<FlightPojo> getMiscellaneousOrdersList(User userSessionObj, Company companySessionObj, List<String> userIdList, String type) {
+		Criteria criteria = null;
+		List<MiscellaneousOrderRow> miscellaneousOrderRowList=new ArrayList<MiscellaneousOrderRow>();
+		List<FlightPojo> responsePojoList=new ArrayList<FlightPojo>();
+		List<Integer> userIdIntegerList=new ArrayList<Integer>();
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			criteria = session.createCriteria(MiscellaneousOrderRow.class);
+			Conjunction conjunction = Restrictions.conjunction();
+			
+			for(String id:userIdList){
+				userIdIntegerList.add(Integer.valueOf(id));
+			}
+			
+			if (userSessionObj != null && companySessionObj != null) {
+				if (userSessionObj.getUserrole_id().isSuperuser()) {
+
+					if (userIdList != null) {
+						conjunction.add(Restrictions.in("userId", userIdIntegerList));
+					}
+				}
+				else if (userSessionObj.getUserrole_id().isUsermode() || userSessionObj.getUserrole_id().isAdmin()) {
+					if (companySessionObj.getCompanyRole().isCorporate()) {
+						conjunction.add(Restrictions.eq("companyId", companySessionObj.getCompanyid()));
+					} else {
+						if (userIdList != null)
+							conjunction.add(Restrictions.eq("companyId", companySessionObj.getCompanyid()));
+					}
+				}
+
+				else if ((userSessionObj.getUserrole_id().isOrder() || userSessionObj.getUserrole_id().isReports())
+						&& !userSessionObj.getUserrole_id().isAdmin()) {
+					if (userSessionObj.getCompanyid() == companySessionObj.getCompanyid()) {
+						conjunction.add(Restrictions.eq("companyId", companySessionObj.getCompanyid()));
+					}
+				}
+
+				else {
+					conjunction.add(Restrictions.eq("userId", userSessionObj.getId()));
+				}
+			}
+			
+			conjunction.add(Restrictions.eq("statusAction", "Confirmed"));
+			criteria.add(conjunction);
+			criteria.addOrder(Order.desc("createdAt"));
+			criteria.setMaxResults(5);
+			miscellaneousOrderRowList=criteria.list();
+
+		} catch (HibernateException e) {
+			logger.error("--------------HibernateException-----------------" + e.getMessage());
+		} finally {
+			if (session != null && session.isOpen())
+				session.close();
+		}
+		
+		if(miscellaneousOrderRowList!=null && miscellaneousOrderRowList.size()>0)
+			responsePojoList=new FlightAnalysisService().setIntoMiscellaneousPojo(responsePojoList,miscellaneousOrderRowList);
+		
+		return responsePojoList;
+	}
+	
+	public Conjunction getDayWeekMonthConjunction(String type,Conjunction conjunction){
+		String startDate = "";
+		String weekDate = "";
+		String monthDate = "";
+		try {
+			Date date = new Date();
+			Calendar c = Calendar.getInstance();
+			c.setTime(date);
+			Date start = c.getTime();
+			c.add(Calendar.DATE, -6);
+			Date end = c.getTime();
+			c.add(Calendar.DATE, -24);
+			Date monthend = c.getTime();
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			startDate = sdf.format(start);
+			weekDate = sdf.format(end);
+			monthDate = sdf.format(monthend);
+		} catch (Exception e) {
+		}
+		if (type.equalsIgnoreCase("D")) {
+			conjunction.add(Restrictions.eq("bookingDate", startDate));
+		} else if (type.equalsIgnoreCase("W")) {
+			conjunction.add(Restrictions.le("bookingDate", startDate));
+			conjunction.add(Restrictions.ge("bookingDate", weekDate));
+		} else if (type.equalsIgnoreCase("M")) {
+			conjunction.add(Restrictions.le("bookingDate", startDate));
+			conjunction.add(Restrictions.ge("bookingDate", monthDate));
+		} 
+		return conjunction;
+	}
+}

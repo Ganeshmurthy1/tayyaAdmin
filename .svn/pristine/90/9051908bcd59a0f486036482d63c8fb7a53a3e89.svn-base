@@ -1,0 +1,14 @@
+package com.admin.dashboard.analysis.json.dao;
+
+import java.util.List;
+
+import com.lintas.admin.flight.model.FlightOrderRow;
+import com.lintas.admin.model.Company;
+
+public interface  AirlineAnalysisDao {
+	public  List<String> getAirlineBookedCount(Company company);
+	public  List<String> getAirApiProviderBookingCount(Company company);
+	public  List<String> getAirDestinationBookingCount(Company company);
+	public 	List<FlightOrderRow> getAirlineWeeklySales(Company company);
+	 
+}

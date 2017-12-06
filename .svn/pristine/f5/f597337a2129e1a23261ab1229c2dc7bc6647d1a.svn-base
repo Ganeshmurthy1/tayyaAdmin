@@ -1,0 +1,436 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<!DOCTYPE html >
+<html  >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insurance MarkUp</title>
+  <script src="js/jquery.validate.min.js"></script> 
+ <script src="js/additional-methods.js"></script>
+ 
+     <link rel="stylesheet" href="css/fastselect.min.css">
+ <script src="js/bootstrap-select.js"></script>  
+    <style>
+
+            .fstElement { font-size: 0.9em; }
+            .fstToggleBtn { min-width: 16.5em; }
+            .submitBtn { display: none; }
+            .fstMultipleMode { display: block; }
+            .fstMultipleMode .fstControls { width: 100%; }
+
+        </style>
+ <link rel="stylesheet" href="css/alert.css">
+  <link rel="stylesheet" href="css/bootstrap-select.css">
+
+<script type="text/javascript">
+$(function() {
+	var totUrl=$(location).attr('href');
+	var newUrl=totUrl.substr(0,totUrl.lastIndexOf('/')+1);
+	  var finalUrl = newUrl+"insuranceMarkupList";
+	$('#success').click(function() {
+	 window.location.assign(finalUrl); 
+		$('#success-alert').hide();
+		
+	});
+	  $('#cancel').click(function() {
+		   $('#error-alert').hide();
+			
+		});  
+ });
+ </script>
+  
+ <script>
+ $(document).ready(function() 
+ { 
+	 $("#datepicker_arr").datepicker({
+		 dateFormat: "dd-mm-yy",
+			 minDate: 0
+		/*  changeMonth: true,
+		 changeYear: true */
+	 }); 
+	 });
+	 
+ </script> 
+     <script>
+ $(document).ready(function() 
+ { 
+	 $("#datepicker_dep").datepicker({
+		 dateFormat: "dd-mm-yy",
+		 minDate: 0
+	 });
+	 }); 
+ </script>
+   <script>
+ $(document).ready(function() 
+ { 
+	 $("#datepicker_PromofareStart").datepicker({
+		 dateFormat: "dd-mm-yy",
+		 minDate: 0,
+		 onSelect : function(selectedDate) {
+			 $(this).valid();
+			 var d1 = $(this).datepicker("getDate");
+			$("#datepicker_PromofareEnd").datepicker("option", "minDate", d1);
+			
+		},
+	 });
+	 }); 
+ </script>
+   <script>
+ $(document).ready(function() 
+ { 
+	 
+	 $("#datepicker_PromofareEnd").datepicker({
+		 dateFormat: "dd-mm-yy",
+		// minDate: 0
+		 onSelect : function(selectedDate) {
+			 $(this).valid();
+		},
+	 });
+	 }); 
+
+ 
+ </script>
+ 
+  
+
+  <style type="text/css">
+   .ui-autocomplete {
+              max-height: 200px;
+               width:auto;
+              overflow-y: auto;
+              /* prevent horizontal scrollbar */
+              overflow-x: auto;
+              font-family: "Trebuchet MS","Helvetica","Arial","Verdana","sans-serif";
+			font-size:1em;
+              /* add padding to account for vertical scrollbar */
+              
+      }
+      /* IE 6 doesn't support max-height
+       * we use height instead, but this forces the menu to always be this tall
+       */
+      * html .ui-autocomplete {
+          height:  200px;
+          width: auto;
+      }
+      
+ .error {
+    color:red;
+}
+.valid {
+    color:green;
+}
+ 
+ 
+ </style>
+ 
+</head>
+<body >
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper" >
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>
+				Add Insurance Markup <%-- <small>Control panel</small> --%>
+			</h1>
+			
+		</section>
+
+		<!-- Main content -->
+		<section class="content">
+			<!-- Small boxes (Stat box) -->
+			 <div class="col-sm-12">
+						<h4  >
+							  <a href="javascript:history.back();"><span
+								class="pull-right"><i class="fa fa-angle-left"></i>
+									Back</span></a>
+						</h4>
+					</div>
+			<!-- Small boxes (Stat box) -->
+			 <s:if test="hasActionErrors()">
+						<div class="succfully-updated clearfix" id="error-alert">
+
+							<div class="col-sm-2">
+								<i class="fa fa-check fa-3x"></i>
+							</div>
+
+							<div class="col-sm-10">
+
+								<p>
+									<s:actionerror />
+								</p>
+
+								<button type="button" id="cancel" class="btn btn-primary">Ok</button>
+
+							</div>
+
+						</div>
+
+
+					</s:if>
+
+					<s:if test="hasActionMessages()">
+						<div class="sccuss-full-updated" id="success-alert">
+							<div class="succfully-updated clearfix">
+
+								<div class="col-sm-2">
+									<i class="fa fa-check fa-3x"></i>
+								</div>
+
+								<div class="col-sm-10">
+									<s:actionmessage />
+									<button type="button" id="success" class="btn btn-primary">Ok</button>
+
+								</div>
+
+							</div>
+						</div>
+					</s:if>
+			<div class="clearfix">
+				 
+				<form action="setInsuranceMarkup" method="post" class="form-horizontal" id="myfform">
+				  <input type="hidden" name="myOrigins" id="myOrigins">
+				   <input type="hidden" name="myDestinations" id="myDestinations">
+					
+				<div class="col-sm-3">	
+				  <div class="form-group">
+						<label for="City" >Config Number
+							 </label>
+						 
+							<select class="form-control input-sm" name="configData"
+								id="configData" autocomplete="off" required>
+								<option selected value="">Select Company ConfigNumber </option>
+								<s:if test="%{#session.Company.companyRole.isDistributor()}">
+								 <s:iterator value="companyConfigIdsList">
+									<option value="<s:property value="company_id"/>/<s:property value="config_id"/>/<s:property value="configname"/>/<s:property value="config_number"/>/<s:property value="companyName"/>"><s:property value="config_number"/>  - <s:property value="configname"/> (<s:property value="companyName"/>-<s:property value="companyUserId"/>)</option>
+								  </s:iterator>
+								  <s:iterator value="AgencyConfiglist">
+									<option value="<s:property value="company_id"/>/<s:property value="config_id"/>/<s:property value="configname"/>/<s:property value="config_number"/>/<s:property value="companyName"/>"><s:property value="config_number"/>  - <s:property value="configname"/> (<s:property value="companyName"/>-<s:property value="companyUserId"/>)</option>
+								  </s:iterator>
+ 						 		</s:if>
+ 						 		<s:elseif test="%{#session.Company.companyRole.isAgent()}">
+								  <s:iterator value="AgencyConfiglist">
+									<option value="<s:property value="company_id"/>/<s:property value="config_id"/>/<s:property value="configname"/>/<s:property value="config_number"/>/<s:property value="companyName"/>"><s:property value="config_number"/>  - <s:property value="configname"/> (<s:property value="companyName"/>-<s:property value="companyUserId"/>)</option>
+							  	 </s:iterator>
+ 						 		</s:elseif>
+ 						 		
+								<s:else>
+								<s:iterator value="companyConfigIdsList">
+							<option value="<s:property value="company_id"/>/<s:property value="config_id"/>/<s:property value="configname"/>/<s:property value="config_number"/>/<s:property value="companyName"/>"><s:property value="config_number"/>  - <s:property value="configname"/> (<s:property value="companyName"/>-<s:property value="companyUserId"/>)</option>
+								 </s:iterator>
+ 							</s:else>
+						 
+
+							</select>
+						</div>
+					</div>
+				<div class="col-sm-3">	
+				 		<div class="form-group">
+				      <label for="Username"  >MarkUp
+								Name</label>
+							 
+								<input type="text" class="form-control input-sm" id="username"
+									name="markupName"  value='<s:property value="markupName" />'  placeholder="markup Name" autocomplete="off"
+									required>
+							</div>
+						</div>
+						<div class="col-sm-3">	
+						<div class="form-group">
+							<label for="Country"  >isAccumulative</label>
+							 
+								<select class="form-control input-sm"   name="accumulative"
+									 required>
+									  <option value="true" selected="selected">YES</option>
+									<option value="false"  >NO</option>
+									 
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3">	
+						<div class="form-group">
+							<label for="Country"  >Type</label>
+							 
+								<select class="form-control input-sm"   name="type"
+									 required>
+									  <option value="domestic" selected="selected">Domestic</option>
+									<option value="international"  >International</option>
+									 
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3">	
+						<div class="form-group">
+							<label for="Country" >is
+								FixedAmount</label>
+							 
+								<select class="form-control input-sm" name="fixedAmount"
+									  autocomplete="off" required>
+ 									<option selected="selected" value="true">yes</option>
+									<option value="false">no</option>
+									 
+								</select>
+							</div>
+						</div>
+						
+					 <div class="col-sm-3">	
+						<div class="form-group">
+							<label for="last-name"  >MarkUp Amount</label>
+							 
+								<input type="text" class="form-control input-sm cusValidationforprice" id="last-name"
+									name="markupAmount"   value='<s:property value="markupAmount" />'   placeholder="Markup Amount" autocomplete="off" required >
+							</div>
+						</div>
+						<div class="col-sm-3">	
+							<div class="form-group">
+								<label for="Country"  >Position of MarkUp</label> 
+								 <input type="text" class="form-control input-sm" name="positionOfMarkup"
+									id="country" autocomplete="off" required onkeypress="return isNumberKey(event,this);">
+							</div>
+						</div>
+						
+					<div class="col-sm-3">	
+					<div class="form-group">
+						<label for="last-name" >Promofare StartDate
+							 </label>
+						 
+							<input type="text" id="datepicker_PromofareStart" required
+								class="form-control input-sm" name="promofareStartDate"  value='<s:property value="promofareStartDate" />'  autocomplete="off"
+								placeholder="ALL" >
+						</div>
+					</div>
+					<div class="col-sm-3">	
+						<div class="form-group">
+						<label for="last-name" >Promofare EndDate
+							 </label>
+						 
+							<input type="text" id="datepicker_PromofareEnd" required
+								class="form-control input-sm" name="promofareEndDate"  value='<s:property value="promofareEndDate" />'  autocomplete="off"
+								placeholder="ALL" >
+						</div>
+					</div> 
+					
+					
+						<div class="col-sm-3">	
+						<div class="form-group">
+							<label for="markUpPerPassenger" >isMarkUpPerPassenger</label> 
+								<select class="form-control input-sm" name="markUpPerPassenger"
+									id="markUpPerPassenger" autocomplete="off" required>
+									<option selected="selected" value="false">No</option> 
+									<option  value="true">Yes</option>
+								 
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-3">	
+						<div class="form-group">
+							<label for="markup_ontotal" >isMarkUpOnTotal</label> 
+								<select class="form-control input-sm" name="markUpOnTotal"
+									id="markUpOnTotal" autocomplete="off" required>
+									<option selected="selected" value="false">No</option> 
+									<option  value="true">Yes</option>
+									
+								</select>
+							</div>
+						</div>
+						<div class="form-group text-center">
+							<div class="col-xs-12 submitWrap text-center">
+								<button type="button" class="btn btn-primary btn-lg" id="setMarkup" >Set
+									Markup</button>
+							</div>
+						</div>
+				</form>
+			</div>
+			<!-- /.row -->
+			<!-- Main row -->
+		</section>
+		<!-- /.content -->
+	</div>
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		
+		jQuery.validator.addMethod("amountValid",function(value) {
+            var startprice = 1;
+            return startprice < parseFloat($('#payBalance').val());
+          }, "please add Amount Value");
+		
+		jQuery.validator.classRuleSettings.baseFareprice = { amountValid: true };
+		
+		jQuery.validator.addMethod("productTypeVal",function(value) {
+            var startprice =  $('#holderName').val();
+            return (startprice !=  '0');
+          }, "please select card holder name");
+		
+	     $.validator.addMethod("cusValidationAlphaNum", function(value, element) {
+	          return this.optional(element) || /^[a-zA-Z0-9._ ]+$/i.test(value);
+	      }, "This field cannot have symbols.");
+
+	      $.validator.addMethod("cusValidationAlphaName",function(value,element){
+	          return this.optional(element) || /^[a-zA-Z ]+$/i.test(value);
+	      },"This field cannot have numbers and symbols."); 
+	      $.validator.addMethod("cusValidationforprice",function(value,element){
+	          return this.optional(element) || /^[0-9.]+$/i.test(value);
+	      },"This field cannot have Char and symbols.");
+
+
+	$("#myfform").validate({
+		 rules: {
+	         
+	         "email": {
+	             required: true,
+	             email: true
+	         },
+	     },
+	     
+	     messages: {
+	         
+	         "email": {
+	             required: "Please, enter an email",
+	             email: "Email is invalid"
+	         },
+	     },
+
+	    submitHandler: function (form) { 
+	        return false; 
+	    }
+	});
+
+	});
+	
+	$('#setMarkup').click(function() {
+        if($("#myfform").valid())
+        	document.getElementById("myfform").submit();
+     	 
+    }); 
+	</script>
+	 <script>
+  
+ function isNumberKey(evt,obj){
+	 
+     evt = (evt) ? evt : window.event;
+       var charCode = (evt.which) ? evt.which : evt.keyCode;
+       if (charCode > 31 &&  (charCode < 48 || charCode > 57))  {
+    	   return false;
+       }
+      
+   }
+ 
+ </script>
+	
+	<!-- /.content-wrapper -->
+  <%-- <script type="text/javascript" src="js/app.js"></script>  --%>
+	<%--   --%>
+	    <%@ include file="DashboardFooter.jsp"%> 
+	<%--  <%@ include file="DashFooter.jsp" %>  --%>
+	<%--  <script src=js/listcomplete.js> </script> --%>
+</body>
+
+ <script src ="js/fastselect.standalone.js"> </script>
+    <script>
+
+                $('.multipleInputDynamic').fastselect();
+
+            </script>
+ 
+ 
+</html>

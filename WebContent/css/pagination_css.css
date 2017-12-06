@@ -1,0 +1,28 @@
+ #pagtable {
+	border-collapse: collapse;
+	width: auto;
+	float: right;
+}
+
+#th, #td {
+	text-align: left;
+	padding: 8px;
+}
+ .ui-autocomplete {
+              max-height: 200px;
+               width:auto;
+              overflow-y: auto;
+              /* prevent horizontal scrollbar */
+              overflow-x: auto;
+              font-family: "Trebuchet MS","Helvetica","Arial","Verdana","sans-serif";
+			font-size:1em;
+              /* add padding to account for vertical scrollbar */
+              
+      }
+      /* IE 6 doesn't support max-height
+       * we use height instead, but this forces the menu to always be this tall
+       */
+      * html .ui-autocomplete {
+          height:  200px;
+          width: auto;
+      }

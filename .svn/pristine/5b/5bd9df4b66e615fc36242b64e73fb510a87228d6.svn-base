@@ -1,0 +1,336 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib prefix="dj" uri="/struts-dojo-tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html  >
+<html data-ng-app="app">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Add Designation</title>
+<%-- 
+<script src="js/angular.js" type="text/javascript"></script>
+
+
+<script
+	src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> --%>
+<link rel="stylesheet" href="css/alert.css">
+
+<script type="text/javascript">
+	$(function() {
+		var totUrl = $(location).attr('href');
+		var newUrl = totUrl.substr(0, totUrl.lastIndexOf('/') + 1);
+		var finalUrl = newUrl + "adduserdesignation";
+		$('#success').click(function() {
+			window.location.assign(finalUrl);
+			$('#success-alert').hide();
+
+		});
+		$('#cancel').click(function() {
+			$('#error-alert').hide();
+
+		});
+	});
+</script>
+ <script src="js/jquery.validate.min.js"></script> 
+ <script src="js/additional-methods.js"></script>
+ <style type="text/css">
+/* enable absolute positioning */
+.inner-addon {
+  position: relative;
+}
+
+/* style glyph */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 5px 3px 4px 2px;
+  pointer-events: none;
+}
+
+/* align glyph */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+.error {
+    color:red;
+      border-color: #dd4b39 !important;
+    box-shadow: none;
+}
+.valid {
+    color:green;
+      border-color: green !important;
+    box-shadow: none;
+    }
+    
+.form-control-feedback{
+  display: none;
+}
+
+.form-horizontal .has-feedback .form-control-feedback {
+    right: 12px !important;
+}
+
+.has-feedback label ~.form-control-feedback {
+    top: 21px !important;
+}
+ 
+</style>
+</head>
+<body data-ng-controller="AppCtrl">
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>Add Designation</h1>
+			<!-- <ol class="breadcrumb">
+				<li><a href="home"><i class="fa fa-dashboard"></i> Home</a></li>
+				<li class="active">Dashboard</li>
+			</ol> -->
+		</section>
+
+		<!-- Main content -->
+		<section class="content">
+			<!-- Small boxes (Stat box) -->
+			<div class="col-sm-12">
+				<h4>
+					<a href="javascript:history.back();"><span class="pull-right"><i
+							class="fa fa-angle-left"></i> Back</span></a>
+				</h4>
+			</div>
+			<!-- Small boxes (Stat box) -->
+			<s:if test="hasActionErrors()">
+				<div class="succfully-updated clearfix" id="error-alert">
+
+					<div class="col-sm-2">
+						<i class="fa fa-check fa-3x"></i>
+					</div>
+
+					<div class="col-sm-10">
+
+						<p>
+							<s:actionerror />
+						</p>
+
+						<button type="button" id="cancel" class="btn btn-primary">Ok</button>
+
+					</div>
+
+				</div>
+
+
+			</s:if>
+
+			<s:if test="hasActionMessages()">
+				<div class="sccuss-full-updated" id="success-alert">
+					<div class="succfully-updated clearfix">
+
+						<div class="col-sm-2">
+							<i class="fa fa-check fa-3x"></i>
+						</div>
+
+						<div class="col-sm-10">
+							<s:actionmessage />
+							<button type="button" id="success" class="btn btn-primary">Ok</button>
+
+						</div>
+
+					</div>
+				</div>
+			</s:if>
+			<div class="row" id="dash-us-register">
+
+				<!-- <form action="adddesignation" method="post" class="form-horizontal"
+					name="myForm"> -->
+				<form action="insertDesignationName" method="post"
+					class="form-horizontal" name="myForm" id="formSubmitDesg">
+					<s:if test="hasActionErrors()">
+						<div class="success-alert" style="display: none">
+							<span class="fa fa-thumbs-o-up fa-1x"></span>
+							<s:actionerror />
+						</div>
+					</s:if>
+					<s:if test="hasActionMessages()">
+						<div class="success-alert" style="display: none">
+							<span class="fa fa-thumbs-o-up fa-1x"></span>
+							<s:actionmessage />
+						</div>
+					</s:if>
+					<!-- <div class="form-group">
+						<label for="Username" class="col-sm-2 control-label">Designation
+						</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control input-sm"
+								name="Designation" autocomplete="off" required>
+
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="City" class="col-sm-2 control-label">Description</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control input-sm"
+								name="description" autocomplete="off" required>
+						</div>
+					</div> -->
+
+
+					<div class="form-group">
+						<label for="newDesgName" class="col-sm-2 control-label">Designation
+							Name</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control input-sm" value=""
+								required id="newDesgName" name="newDesgName"
+								placeholder="Enter new Designation name">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="newDesgCode" class="col-sm-2 control-label">Designation
+							Code</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control input-sm" value=""
+								required id="newDesgCode" name="newDesgCode"
+								placeholder="Enter new Designation Code">
+						</div>
+					</div>
+
+					<div class="col-sm-12" id="hiddenDivforError"></div>
+					<div style="display: none;" id=addDesgBandList>
+						<div class="form-group">
+							<label for="designation" class="col-sm-2 control-label">Band
+								List (Code)</label>
+							<div class="col-sm-8">
+								<select class="form-control input-sm" name="newDesgBandid"
+									id="newDesgBandid">
+									<option value="">Select band</option>
+									<c:forEach var="band" items="${bandModelList}">
+										<c:choose>
+											<c:when test="${band.bandName!= null}">
+												<option value="${band.bandId}">${band.bandName}(
+													${band.bandCode} )</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${band.bandId}">${band.bandName}(
+													${band.bandCode} )</option>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+
+					</div>
+
+
+
+					 </form>
+
+
+
+
+					<div class=" text-center">
+						<div class="col-xs-12 submitWrap text-center">
+						<button type="button" id="addDesgButton"
+									onclick="checkNameExistingOrSaveForEmployee(document.getElementById('newDesgName').value,document.getElementById('newDesgCode').value,document.getElementById('newDesgBandid').value);"
+									class="btn btn-primary btn-lg">Add Designation</button>
+							<!-- <button type="button" class="btn btn-primary btn-lg">Add
+								Designation</button> -->
+						</div>
+					</div>
+				<!-- </form> -->
+			</div>
+			<div class="row" id="dash-us-register">
+
+		<!-- 		<form action="doExcelUpload" method="post" class="form-horizontal"
+					enctype="multipart/form-data">
+					<div class="text-center clearfix">
+						<div class="col-xs-12 ">
+							<h5>
+								<b>OR</b>
+							</h5>
+						</div>
+					</div>
+
+
+
+
+					<div class="form-group">
+						<label for="City" class="col-sm-2 control-label">Description</label>
+						<div class="col-xs-12 ">
+							<label for="City">Upload Designation Excel File</label><a
+								href="downloaddesignationexcel?fileName=Book1.xls">(Download
+								Sample)</a>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<div class="col-xs-12 ">
+							<input type="file" name="upload"
+								accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+								style="display: inline-block">
+							<div class="submitWrap text-center" style="display: inline-block">
+								<input type="submit" class="btn btn-primary btn-sm"
+									value="Upload">
+							</div>
+						</div>
+					</div>
+
+
+					 
+				</form> -->
+			</div>
+			<!-- /.row -->
+			<!-- Main row -->
+		</section>
+		<!-- /.content -->
+	</div>
+	<!-- /.content-wrapper -->
+	<%-- <script src="js/app.js" type="text/javascript"></script> --%>
+	<%@ include file="DashboardFooter.jsp"%>
+
+<script >
+
+function checkNameExistingOrSaveForEmployee(empName,empCode,newDesgBandid){
+	   $("#formSubmitDesg").valid();
+	var boolName=true;
+	var boolCode=true;
+	<c:forEach items="${employeeDesignationsList}" var="item" varStatus="status"> 
+		if("${item.desgName}".toLowerCase() === empName.toLowerCase()){
+			document.getElementById('hiddenDivforError').innerHTML = '<span style="color:red;font-size: small; "><i>Name Already Existed !   Please try another ...</i></span>';
+			boolName=false;
+		}
+		if("${item.desgCode}".toLowerCase() === empCode.toLowerCase()){
+			document.getElementById('hiddenDivforError').innerHTML = '<span style="color:red;font-size: small; "><i>Code Already Existed !   Please try another ...</i></span>';
+			boolCode=false;
+		}
+	</c:forEach>
+	if(boolName && boolCode){
+		document.getElementById('hiddenDivforError').innerHTML = '<span style="color:green;font-size: small; "><i>Name is Available !  Please Associate it with Any Band</i></span>';
+		$("#addDesgBandList").show();
+		if(newDesgBandid>0){
+			   if($("#formSubmitDesg").valid()){
+			  $("#formSubmitDesg").submit(); 
+			   }
+		}
+		else 
+			document.getElementById('hiddenDivforError').innerHTML = '<span style="color:red;font-size: small; "><i>Please select any band</i></span>';
+	}
+}
+$(document).ready(function(){
+$("#formSubmitDesg").validate({
+	   submitHandler: function (form) {  
+        
+        return false;
+    }
+})
+});
+</script>
+
+</body>
+
+</html>
